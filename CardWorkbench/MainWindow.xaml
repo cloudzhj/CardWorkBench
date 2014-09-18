@@ -1,0 +1,116 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking" x:Class="CardWorkbench.MainWindow"
+        xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+        xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+        xmlns:local="clr-namespace:CardWorkbench.Controls" 
+        xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+        Title="MainWindow" Height="600" Width="800" WindowState="Maximized">
+
+    <Grid>
+        <dxb:BarManager>
+            <dxb:BarManager.Items>
+                <dxb:BarButtonItem x:Name="biOpen" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_16x16.png" LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_32x32.png" Content="打开"/>
+                <dxb:BarButtonItem x:Name="biNew" Content="保存当前配置" LargeGlyph="{dx:DXImage Image=ExportFile_32x32.png}" Glyph="{dx:DXImage Image=ExportFile_16x16.png}"/>
+                <dxb:BarCheckItem x:Name="biCenter" Glyph="{dx:DXImage Image=ContentArrangeInColums_16x16.png}" GroupIndex="1"/>
+                <dxb:BarCheckItem x:Name="biRight" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Format/AlignRight_16x16.png" GroupIndex="1"/>
+                <dxb:BarCheckItem x:Name="biLeft" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Format/AlignLeft_16x16.png" GroupIndex="1" IsChecked="True"/>
+                <dxb:BarStaticItem x:Name="biRow" Content="Row:" ShowBorder="False"/>
+                <dxb:BarStaticItem x:Name="biRowValue" Content="1"/>
+                <dxb:BarStaticItem x:Name="biColumn" Content="Column:" ShowBorder="False"/>
+                <dxb:BarStaticItem x:Name="biColumnValue" Content="1"/>
+            </dxb:BarManager.Items>
+            <DockPanel>
+                <dxr:RibbonControl DockPanel.Dock="Top">
+                    
+                    <dxr:RibbonDefaultPageCategory>
+                        <dxr:RibbonPage Caption="配置">
+                            <dxr:RibbonPageGroup Caption="硬件设备">
+                                <dxb:BarButtonItem x:Name="barButtonItem3" Content="远程连接" LargeGlyph="{dx:DXImage Image=IDE_32x32.png}" PreviewMouseDown="barButtonItem6_PreviewMouseDown"/>
+                                <dxb:BarButtonItem x:Name="barButtonItem5" LargeGlyph="{dx:DXImage Image=Add_32x32.png}" Content="添加硬件"/>
+                                <dxb:BarButtonItem x:Name="barButtonItem1" Content="硬件识别" LargeGlyph="{dx:DXImage Image=Find_32x32.png}"/>
+                            </dxr:RibbonPageGroup>
+                            <dxr:RibbonPageGroup Caption="配置文件">
+                                <dxb:BarButtonItemLink BarItemName="biOpen"/>
+                                <dxb:BarButtonItemLink BarItemName="biNew"/>
+                            </dxr:RibbonPageGroup>
+                        </dxr:RibbonPage>
+                        <dxr:RibbonPage Caption="工具">
+                            <dxr:RibbonPageGroup Caption="状态页">
+                            	<dxb:BarButtonItem x:Name="barButtonItem2" Content="监控状态页" LargeGlyph="{dx:DXImage Image=BringToFrontOfText_32x32.png}"/>
+                            </dxr:RibbonPageGroup>
+                            <dxr:RibbonPageGroup Caption="硬件工具">
+                            	<dxb:BarButtonItem x:Name="barButtonItem4" Content="接收机波形显示" LargeGlyph="{dx:DXImage Image=Spline_32x32.png}" ItemClick="barButtonItem4_ItemClick_1"/>
+                                <dxb:BarButtonItem x:Name="barButtonItem6" Content="位同步眼图" LargeGlyph="{dx:DXImage Image=Show_32x32.png}" ItemClick="barButtonItem4_ItemClick" PreviewMouseLeftButtonDown="barButtonItem6_PreviewMouseDown"/>
+								<dxb:BarButtonItem x:Name="barButtonItem9" Content="位同步波形显示" LargeGlyph="{dx:DXImage Image=Area_32x32.png}" ItemClick="barButtonItem9_ItemClick"/>
+                                <dxb:BarButtonItem x:Name="barButtonItem10" Content="原始帧显示" LargeGlyph="{dx:DXImage Image=Grid_32x32.png}" ItemClick="barButtonItem10_ItemClick"/>
+								<dxb:BarButtonItem x:Name="barButtonItem11" Content="解码输出" LargeGlyph="{dx:DXImage Image=Edit_32x32.png}" ItemClick="barButtonItem11_ItemClick"/>
+                            </dxr:RibbonPageGroup>
+                        </dxr:RibbonPage>
+                        <dxr:RibbonPage Caption="控件">
+                        	<dxr:RibbonPageGroup Caption="{x:Null}">
+                        		<dxb:BarButtonItem x:Name="barButtonItem7" Content="文本控件" LargeGlyph="{dx:DXImage Image=ContentAutoArrange_32x32.png}"/>
+                        		<dxb:BarButtonItem x:Name="barButtonItem8" Content="二维曲线控件" LargeGlyph="{dx:DXImage Image=Spline_32x32.png}" ItemClick="barButtonItem8_ItemClick"/>
+								<dxb:BarButtonItem x:Name="barButtonItem12" Content="仪表控件" LargeGlyph="{dx:DXImage Image=GaugeStyleFullCircular_32x32.png}" ItemClick="barButtonItem12_ItemClick"/>
+								<dxb:BarButtonItem x:Name="barButtonItem13" Content="工作灯控件" LargeGlyph="{dx:DXImage Image=Bubble_32x32.png}" ItemClick="barButtonItem13_ItemClick"/>
+                                <dxb:BarButtonItem x:Name="barButtonItem14" Content="时间控件" LargeGlyph="{dx:DXImage Image=NavigationBar_32x32.png}" ItemClick="barButtonItem14_ItemClick"/>
+                        	</dxr:RibbonPageGroup>
+                        </dxr:RibbonPage>
+                    </dxr:RibbonDefaultPageCategory>
+                </dxr:RibbonControl>
+                <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
+                    <dxr:RibbonStatusBarControl.LeftItemLinks>
+                        <dxb:BarItemLink BarItemName="biRow"/>
+                        <dxb:BarItemLink BarItemName="biRowValue"/>
+                        <dxb:BarItemLink BarItemName="biColumn"/>
+                        <dxb:BarItemLink BarItemName="biColumnValue"/>
+                    </dxr:RibbonStatusBarControl.LeftItemLinks>
+                    <dxr:RibbonStatusBarControl.RightItemLinks>
+                        <dxb:BarItemLink BarItemName="biLeft"/>
+                        <dxb:BarItemLink BarItemName="biCenter"/>
+                        <dxb:BarItemLink BarItemName="biRight"/>
+                    </dxr:RibbonStatusBarControl.RightItemLinks>
+                </dxr:RibbonStatusBarControl>
+                <Grid>
+                    <dxdo:DockLayoutManager Name="mainDockManager" FloatingMode="Window">
+                        <dxdo:LayoutGroup Orientation="Horizontal">
+                            <dxdo:LayoutGroup ItemWidth="200" Orientation="Vertical">
+                                <dxdo:LayoutPanel Caption="硬件设备" >
+                                    <dxn:NavBarControl Name="navcontrol" PreviewMouseDown="NavBarGroup_MouseDown">
+                                        <dxn:NavBarControl.View>
+                                            <dxn:SideBarView></dxn:SideBarView>
+                                        </dxn:NavBarControl.View>
+                                        <dxn:NavBarGroup x:Name="navgroup" Header="Card1" DisplayMode="Default" ImageSource="/Images/hardware_32.png"
+				                                ItemImageSettings="{dxn:NavBarImageSettings Height=32, Width=32}"
+				                                ItemLayoutSettings="{dxn:NavBarLayoutSettings ImageDocking=Top, ImageHorizontalAlignment=Center, TextHorizontalAlignment=Center}">
+                                            <dxn:NavBarItem Content="接收机" ImageSource="/Images/2/01.png" Select="NavBarItem_Select_1"/>
+                                            <dxn:NavBarItem Content="位同步" ImageSource="/Images/2/02.png" Select="NavBarItem_Select"/>
+                                            <dxn:NavBarItem Content="帧同步" ImageSource="/Images/2/03.png" Select="NavBarItem_Select_3"/>
+                                            <dxn:NavBarItem Content="解码" ImageSource="/Images/2/04.png" />
+                                            <dxn:NavBarItem Content="模拟" ImageSource="/Images/2/05.png" />
+                                            <dxn:NavBarItem Content="授时" ImageSource="/Images/2/06.png" Select="NavBarItem_Select_2"/>
+                                        </dxn:NavBarGroup>
+                                    </dxn:NavBarControl>
+                                </dxdo:LayoutPanel>
+                                <dxdo:TabbedGroup>
+                                    <dxdo:LayoutPanel Caption="参数信息"/>
+                                    <dxdo:LayoutPanel Caption="导出参数"/>
+                                    <dxdo:LayoutPanel Caption="输出日志"/>
+                                </dxdo:TabbedGroup>
+                            </dxdo:LayoutGroup>
+                            <dxdo:LayoutGroup AllowDrag="False">
+                                <dxdo:DocumentGroup Name="mainControl" MDIStyle="MDI"></dxdo:DocumentGroup>
+                            </dxdo:LayoutGroup>
+                        </dxdo:LayoutGroup>
+                        <dxdo:DockLayoutManager.FloatGroups>
+                            
+                        </dxdo:DockLayoutManager.FloatGroups>
+                    </dxdo:DockLayoutManager>
+                </Grid>
+            </DockPanel>
+        </dxb:BarManager>
+    </Grid>
+</Window>
