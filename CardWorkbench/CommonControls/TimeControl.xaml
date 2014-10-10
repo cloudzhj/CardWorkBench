@@ -8,13 +8,19 @@
         xmlns:dxga="http://schemas.devexpress.com/winfx/2008/xaml/gauges"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:CardWorkbench.CommonControls"
-            mc:Ignorable="d" d:DesignWidth="400">
-    <dxdo:DocumentPanel Name="mainPanel" MDILocation="20,20" ShowCloseButton="False" ShowMaximizeButton="False" ShowMinimizeButton="False">
-        <dxga:DigitalGaugeControl Name="FourteenSegmentsGauge" FlowDirection="LeftToRight"
+            mc:Ignorable="d"  Height="{Binding ActualHeight, ElementName=workCanvas}"
+        Width="{Binding ActualWidth, ElementName=workCanvas}">
+    <!--<dxdo:DocumentPanel Name="mainPanel" MDILocation="20,20" ShowCloseButton="True" ShowMaximizeButton="False" ShowMinimizeButton="False">-->
+        <dxga:DigitalGaugeControl Width="300" Name="FourteenSegmentsGauge" FlowDirection="LeftToRight"
                                       VerticalAlignment="Bottom" HorizontalAlignment="Center"
                                       SymbolCount="20" Text="00:00:00:00"  EnableAnimation="False" >
+        <i:Interaction.Behaviors>
+            <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
+        </i:Interaction.Behaviors>
             <dxga:DigitalGaugeControl.Layers>
                 <dxga:DigitalGaugeLayer/>
             </dxga:DigitalGaugeControl.Layers>
@@ -26,5 +32,5 @@
                 </dxga:FourteenSegmentsView>
             </dxga:DigitalGaugeControl.SymbolView>
         </dxga:DigitalGaugeControl>
-    </dxdo:DocumentPanel>
+    <!--</dxdo:DocumentPanel>-->
 </UserControl>

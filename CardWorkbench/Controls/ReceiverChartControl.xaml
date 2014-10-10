@@ -7,9 +7,8 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
               xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:local="clr-namespace:CardWorkbench.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="700" d:DesighHeight="600">
-    <dxdo:DocumentPanel Name="mainPanel" MDILocation="250,100" MDISize="700,600" Caption="111">
+             mc:Ignorable="d" >
+    <dxdo:DocumentPanel Name="mainPanel" Caption="111">
         <dxdo:DockLayoutManager>
             <dxdo:LayoutGroup Orientation="Vertical">
                 <dxdo:LayoutGroup GroupBorderStyle="NoBorder"  Orientation="Vertical" ItemHeight="30" ShowCaption="False">

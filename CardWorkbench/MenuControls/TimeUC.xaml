@@ -11,14 +11,11 @@
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
-    <dxdo:FloatGroup Name="mainPanel" FloatLocation="300,220" FloatSize="800,600">
-        <dxdo:LayoutPanel>
+             >
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.4*"/>
                     <RowDefinition Height="0.5*"/>
-                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.5*"/>
                 </Grid.RowDefinitions>
                 <dxlc:LayoutControl x:Name="layoutControl" Padding="0">
                     <dxlc:LayoutGroup x:Name="layoutGroup" Header="Decom时间来源" View="GroupBox" Margin="0" Width="{Binding ActualWidth, ElementName=layoutControl}" Height="{Binding ActualHeight, ElementName=layoutControl}" Orientation="Vertical">
@@ -45,16 +42,6 @@
                         </dxlc:LayoutItem>
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutControl>
-                <dxlc:LayoutControl Grid.Row="2" Background="#FFB1CEF3">
-                    <dxlc:LayoutGroup Header="" View="Group" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Height="25" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Button Content="确定" Width="80" Padding="1" Margin="0,0,5,0" />
-                            <Button Content="取消" Width="80" Margin="0,0,5,0" />
-                            <Button Content="应用" Width="80" />
-                        </StackPanel>
-                    </dxlc:LayoutGroup>
-                </dxlc:LayoutControl>
+                
             </Grid>
-        </dxdo:LayoutPanel>
-    </dxdo:FloatGroup>
 </UserControl>

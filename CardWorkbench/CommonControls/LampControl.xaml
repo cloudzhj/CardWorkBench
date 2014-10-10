@@ -8,13 +8,17 @@
         xmlns:dxga="http://schemas.devexpress.com/winfx/2008/xaml/gauges"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" Width="50" Height="50">
-    <dxdo:DocumentPanel Name="mainPanel" MDILocation="250,100" MDISize="50,50" ShowCloseButton="False" ShowMaximizeButton="False" ShowMinimizeButton="False" ShowBorder="False">
-        <dxga:StateIndicatorControl x:Name="lampStateIndicatorControl" StateIndex="1">
+             mc:Ignorable="d"  Height="{Binding ActualHeight, ElementName=workCanvas}"
+        Width="{Binding ActualWidth, ElementName=workCanvas}">
+        <dxga:StateIndicatorControl Width="50" Height="50" x:Name="lampStateIndicatorControl" StateIndex="1">
+        <i:Interaction.Behaviors>
+            <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
+        </i:Interaction.Behaviors>
             <dxga:StateIndicatorControl.Model>
                 <dxga:LampStateIndicatorModel/>
             </dxga:StateIndicatorControl.Model>
         </dxga:StateIndicatorControl>
-    </dxdo:DocumentPanel>
 </UserControl>

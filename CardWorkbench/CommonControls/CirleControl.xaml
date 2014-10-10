@@ -8,10 +8,16 @@
         xmlns:dxga="http://schemas.devexpress.com/winfx/2008/xaml/gauges"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d"  Height="300">
-    <dxdo:DocumentPanel Name="mainPanel" MDILocation="0,0" ShowCloseButton="False" ShowMaximizeButton="False" ShowMinimizeButton="False" ShowBorder="False" AllowSizing="True">
-        <dxga:CircularGaugeControl x:Name="gauge" MaxHeight="300" MaxWidth="300"  EnableAnimation="True" HorizontalAlignment="Left" VerticalAlignment="Top">
+        mc:Ignorable="d"
+        Height="{Binding ActualHeight, ElementName=workCanvas}"
+        Width="{Binding ActualWidth, ElementName=workCanvas}" >
+        <dxga:CircularGaugeControl x:Name="gauge" MaxHeight="200" MaxWidth="200"  EnableAnimation="True" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <i:Interaction.Behaviors>
+            <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
+        </i:Interaction.Behaviors>
             <dxga:CircularGaugeControl.Scales>
                 <dxga:ArcScale HorizontalAlignment="Center">
                     <dxga:ArcScale.Layers>
@@ -35,5 +41,4 @@
                 </dxga:ArcScale>
             </dxga:CircularGaugeControl.Scales>
         </dxga:CircularGaugeControl>
-    </dxdo:DocumentPanel>
 </UserControl>
