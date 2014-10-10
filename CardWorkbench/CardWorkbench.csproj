@@ -145,71 +145,67 @@
     </ApplicationDefinition>
     <Compile Include="Utils\NavBarDragDropHelper.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Page Include="CommonControls\ChartControl.xaml">
+    <Page Include="Views\CommonControls\ChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CommonControls\CirleControl.xaml">
+    <Page Include="Views\CommonControls\CirleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CommonControls\LampControl.xaml">
+    <Page Include="Views\CommonControls\LampControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CommonControls\TimeControl.xaml">
+    <Page Include="Views\CommonControls\TimeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\BitSyncChart.xaml">
+    <Page Include="Views\CommonTools\BitSyncChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\BitSyncEyeControl.xaml">
+    <Page Include="Views\CommonTools\BitSyncEyeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\BitSyncControlPanel.xaml">
+    <Page Include="Views\CommonTools\BitSyncControlPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ControlDictionary.xaml">
+    <Page Include="Resources\ControlDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DecomOutputPanel.xaml">
+    <Page Include="Views\CommonTools\DecomOutputPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\EyeChart.xaml">
+    <Page Include="Views\CommonTools\EyeChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\FrameDump.xaml">
+    <Page Include="Views\CommonTools\FrameDump.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ReceiverChartControl.xaml">
+    <Page Include="Views\CommonTools\ReceiverChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ReceiverControlPanel.xaml">
+    <Page Include="Views\CommonTools\ReceiverFreqDomainChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ReceiverFreqDomainChart.xaml">
+    <Page Include="Views\CommonTools\ReceiverTimeDomainChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ReceiverTimeDomainChart.xaml">
+    <Page Include="Views\CommonTools\TrackControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TrackControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\WareTreeControl.xaml">
+    <Page Include="Views\CommonTools\WareTreeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -221,82 +217,78 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CommonControls\ChartControl.xaml.cs">
+    <Compile Include="Views\CommonControls\ChartControl.xaml.cs">
       <DependentUpon>ChartControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CommonControls\CirleControl.xaml.cs">
+    <Compile Include="Views\CommonControls\CirleControl.xaml.cs">
       <DependentUpon>CirleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CommonControls\LampControl.xaml.cs">
+    <Compile Include="Views\CommonControls\LampControl.xaml.cs">
       <DependentUpon>LampControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CommonControls\TimeControl.xaml.cs">
+    <Compile Include="Views\CommonControls\TimeControl.xaml.cs">
       <DependentUpon>TimeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BitSyncChart.xaml.cs">
+    <Compile Include="Views\CommonTools\BitSyncChart.xaml.cs">
       <DependentUpon>BitSyncChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BitSyncEyeControl.xaml.cs">
+    <Compile Include="Views\CommonTools\BitSyncEyeControl.xaml.cs">
       <DependentUpon>BitSyncEyeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BitSyncControlPanel.xaml.cs">
+    <Compile Include="Views\CommonTools\BitSyncControlPanel.xaml.cs">
       <DependentUpon>BitSyncControlPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ControlPanelBase.cs" />
-    <Compile Include="Controls\DecomOutputPanel.xaml.cs">
+    <Compile Include="Views\CommonTools\DecomOutputPanel.xaml.cs">
       <DependentUpon>DecomOutputPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EyeChart.xaml.cs">
+    <Compile Include="Views\CommonTools\EyeChart.xaml.cs">
       <DependentUpon>EyeChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Frame.cs" />
-    <Compile Include="Controls\FrameDump.xaml.cs">
+    <Compile Include="Models\FrameModel.cs" />
+    <Compile Include="Views\CommonTools\FrameDump.xaml.cs">
       <DependentUpon>FrameDump.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ReceiverChartControl.xaml.cs">
+    <Compile Include="Views\CommonTools\ReceiverChartControl.xaml.cs">
       <DependentUpon>ReceiverChartControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ReceiverControlPanel.xaml.cs">
-      <DependentUpon>ReceiverControlPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ReceiverFreqDomainChart.xaml.cs">
+    <Compile Include="Views\CommonTools\ReceiverFreqDomainChart.xaml.cs">
       <DependentUpon>ReceiverFreqDomainChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ReceiverTimeDomainChart.xaml.cs">
+    <Compile Include="Views\CommonTools\ReceiverTimeDomainChart.xaml.cs">
       <DependentUpon>ReceiverTimeDomainChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TrackControl.xaml.cs">
+    <Compile Include="Views\CommonTools\TrackControl.xaml.cs">
       <DependentUpon>TrackControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WareTreeControl.xaml.cs">
+    <Compile Include="Views\CommonTools\WareTreeControl.xaml.cs">
       <DependentUpon>WareTreeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MenuControls\BitSyncUC.xaml">
+    <Page Include="Views\MenuControls\BitSyncUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MenuControls\FrameSyncUC.xaml">
+    <Page Include="Views\MenuControls\FrameSyncUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MenuControls\ReceiverUC.xaml">
+    <Page Include="Views\MenuControls\ReceiverUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MenuControls\TimeUC.xaml">
+    <Page Include="Views\MenuControls\TimeUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MenuControls\BitSyncUC.xaml.cs" />
-    <Compile Include="MenuControls\FrameSyncUC.xaml.cs" />
-    <Compile Include="MenuControls\ReceiverUC.xaml.cs" />
-    <Compile Include="MenuControls\TimeUC.xaml.cs" />
+    <Compile Include="Views\MenuControls\BitSyncUC.xaml.cs" />
+    <Compile Include="Views\MenuControls\FrameSyncUC.xaml.cs" />
+    <Compile Include="Views\MenuControls\ReceiverUC.xaml.cs" />
+    <Compile Include="Views\MenuControls\TimeUC.xaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -710,6 +702,7 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

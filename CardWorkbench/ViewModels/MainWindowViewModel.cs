@@ -1,5 +1,5 @@
-﻿using CardWorkbench.CommonControls;
-using CardWorkbench.Controls;
+﻿using CardWorkbench.Views.CommonControls;
+using CardWorkbench.Views.CommonTools;
 using CardWorkbench.Utils;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core.Native;

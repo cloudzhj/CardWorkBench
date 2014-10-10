@@ -11,26 +11,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CardWorkbench.Views.CommonTools;
-using CardWorkbench.Views.CommonControls;
-using CardWorkbench.Views.MenuControls;
-using DevExpress.Xpf.NavBar;
-using DevExpress.Xpf.Ribbon;
-using CardWorkbench.Utils;
+using DevExpress.Xpf.Docking;
 
-namespace CardWorkbench
+namespace CardWorkbench.Views.CommonTools
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// BitSyncControlPanel.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : DXRibbonWindow
+    public partial class BitSyncControlPanel : UserControl
     {
-        public MainWindow()
+        public BitSyncControlPanel()
         {
             InitializeComponent();
-            new NavBarDragDropHelper(toolBoxNavBar);  //注册右侧导航工具栏可拖动
-
+            this.LayoutPanel.Caption = "位同步控件";
         }
-
     }
 }
