@@ -26,15 +26,12 @@ namespace CardWorkbench.Views.CommonTools
         public FrameDump()
         {
             InitializeComponent();
+            insertRows();
 
-            frames.Add(new FrameModel(1, "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB"));
-            frames.Add(new FrameModel(2, "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB"));
-            frames.Add(new FrameModel(3, "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB"));
-            frames.Add(new FrameModel(4, "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB"));
-            frames.Add(new FrameModel(5, "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB"));
-            frames.Add(new FrameModel(6, "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB"));
-            frames.Add(new FrameModel(7, "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB"));
-            frames.Add(new FrameModel(8, "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB", "ABAB"));
+         }
+        public void insertRows()
+        {
+            frameGrid.ItemsSource = FrameTestCase.generateData();
         }
     }
 }

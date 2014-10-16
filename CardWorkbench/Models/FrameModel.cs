@@ -8,7 +8,7 @@ namespace CardWorkbench.Models
 {
     public class FrameModel 
     {
-        public int Number { get; set; }
+        public int FrameID { get; set; }
 
         public string SyncWord { get; set; }
         public string Word1 { get; set; }
@@ -24,22 +24,19 @@ namespace CardWorkbench.Models
         public string Word11 { get; set; }
         public string Word12 { get; set; }
 
-        public FrameModel(int frameID, string pcm1, string pcm2, string pcm3, string pcm4, string pcm5, string pcm6, string pcm7, string pcm8, string pcm9, string pcm10, string pcm11, string pcm12)
+    }
+
+    public static class FrameTestCase
+    {
+        public static IList<FrameModel> generateData()
         {
-            this.Number = frameID;
-            this.SyncWord = "ABBC";
-            this.Word1 = pcm1;
-            this.Word2 = pcm2;
-            this.Word3 = pcm3;
-            this.ID = pcm4;
-            this.Word5 = pcm5;
-            this.Word6 = pcm6;
-            this.Word7 = pcm7;
-            this.Word8 = pcm8;
-            this.Word9 = pcm9;
-            this.Word10 = pcm10;
-            this.Word11 = pcm11;
-            this.Word12 = pcm12;
+            List<FrameModel> frameModelList = new List<FrameModel>();
+            for (int i = 1; i < 9; i++)
+            {
+                frameModelList.Add(new FrameModel() { FrameID = i, SyncWord = "EB101", Word1 = "CODE", Word2 = "CODE", Word3 = "CODE", ID = i + "", Word5 = "CODE", Word6 = "CODE", Word7 = "CODE", Word8 = "CODE", Word9 = "CODE", Word10 = "CODE", Word11 = "CODE", Word12 = "CODE" });
+            }
+            return frameModelList;
+
         }
     }
 }

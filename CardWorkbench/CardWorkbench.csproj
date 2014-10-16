@@ -122,9 +122,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\DevExpress.Xpf.Ribbon.v14.1.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -143,8 +145,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\CalibrateType.cs" />
+    <Compile Include="Models\Param.cs" />
+    <Compile Include="Models\paramSortType.cs" />
     <Compile Include="Utils\NavBarDragDropHelper.cs" />
+    <Compile Include="ViewModels\CommonTools\FrameDumpViewModel.cs" />
+    <Compile Include="ViewModels\CustomControls\RFLevelMasterGaugeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\CustomControls\RFLevelSlaveGauge.xaml.cs">
+      <DependentUpon>RFLevelSlaveGauge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomControls\RFLevelMasterGauge.xaml.cs">
+      <DependentUpon>RFLevelMasterGauge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuControls\PlayBack.xaml.cs" />
+    <Page Include="Resources\SliderCustomStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CommonControls\ChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +172,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CommonControls\LampControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CustomControls\RFLevelSlaveGauge.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CustomControls\RFLevelMasterGauge.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -280,6 +306,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MenuControls\TimeUC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MenuControls\PlayBack.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

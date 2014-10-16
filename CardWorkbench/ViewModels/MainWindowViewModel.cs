@@ -14,6 +14,10 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CardWorkbench.Models;
+using DevExpress.Xpf.Editors;
+using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace CardWorkbench.ViewModels
 {
@@ -30,23 +34,22 @@ namespace CardWorkbench.ViewModels
       //工具panel名称、标题 
       public readonly string PANEL_FRAMEDUMP_NAME = "frameDumpPanel";
       public readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
-
       public readonly string PANEL_RECEIVERCHART_NAME = "receiverChartPanel";
-      public readonly string PANEL_RECEIVERCHART_CAPTION = "接收机波形显示";
-      
+      public readonly string PANEL_RECEIVERCHART_CAPTION = "接收机波形显示";     
       public readonly string PANEL_BITSYNCCHART_NAME = "bitSyncChartPanel";
       public readonly string PANEL_BITSYNCCHART_CAPTION = "位同步波形显示";
-
       public readonly string PANEL_DECOMOUTPUT_NAME = "decomOutputPanel";
       public readonly string PANEL_DECOMOUTPUT_CAPTION = "解码输出";
-
       public readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
       //硬件设置菜单栏对话框名称
       public readonly string DIALOG_RECEIVER_SETTING_NAME = "receiverSettingDialog";  //接收机设置
       public readonly string DIALOG_BITSYNC_SETTING_NAME = "bitSyncSettingDialog";  //位同步设置
       public readonly string DIALOG_FRAMESYNC_SETTING_NAME = "frameSyncSettingDialog"; //帧同步设置
       public readonly string DIALOG_TIME_SETTING_NAME = "timeSettingDialog"; //时间设置
+      public readonly string DIALOG_PLAYBACK_SETTING_NAME = "playBackSettingDialog"; //回放设置
+
        
+      //注册服务声明
       public IDialogService receiverSettingDialogService { get { return GetService<IDialogService>(DIALOG_RECEIVER_SETTING_NAME); } }  //获得接收机设置对话框服务
 
       public IDialogService bitSyncSettingDialogService { get { return GetService<IDialogService>(DIALOG_BITSYNC_SETTING_NAME); } }  //获得位同步设置对话框服务
@@ -54,6 +57,25 @@ namespace CardWorkbench.ViewModels
       public IDialogService frameSyncSettingDialogService { get { return GetService<IDialogService>(DIALOG_FRAMESYNC_SETTING_NAME); } }  //获得帧同步设置对话框服务
 
       public IDialogService timeSettingDialogService { get { return GetService<IDialogService>(DIALOG_TIME_SETTING_NAME); } }  //获得时间同步设置对话框服务
+
+      public IDialogService playBackSettingDialogService { get { return GetService<IDialogService>(DIALOG_PLAYBACK_SETTING_NAME); } }  //获得模拟回放设置对话框服务
+
+
+      //参数实体类列表
+      public List<Param> paramList { get; set; }
+      public List<CalibrateType> calibrateTypeList { get; set; }
+      public List<ParamSortType> paramSortTypeList { get; set; }
+
+      public MainWindowViewModel() {
+          //初始化参数数据
+          SampleData.initData();
+          paramList = SampleData.paramList;
+          calibrateTypeList = SampleData.calibrateTypeList;
+          paramSortTypeList = SampleData.paramSortTypeList;
+
+          //
+      }
+
 
       #region 工具菜单栏命令绑定      
       /**
@@ -302,6 +324,44 @@ namespace CardWorkbench.ViewModels
               MessageBox.Show("successfull!!");
           }
       }
+
+      /**
+        声明弹出模拟回放设置界面命令
+        * **/
+      public ICommand playBackSettingCommand
+      {
+          get { return new DelegateCommand<object>(onPlayBackSettingClick, x => { return true; }); }
+      }
+      private void onPlayBackSettingClick(object context)
+      {
+          UICommand okCommand = new UICommand()
+          {
+              Caption = "确定",
+              IsCancel = false,
+              IsDefault = true,
+              Command = new DelegateCommand<CancelEventArgs>(
+                 x => { },
+                 true
+              ),
+          };
+          UICommand cancelCommand = new UICommand()
+          {
+              Id = MessageBoxResult.Cancel,
+              Caption = "取消",
+              IsCancel = true,
+              IsDefault = false,
+          };
+          UICommand result = playBackSettingDialogService.ShowDialog(
+              dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
+              title: "模拟回放设置",
+              viewModel: null
+          );
+
+          if (result == okCommand)
+          {
+              MessageBox.Show("successfull!!");
+          }
+      }
       #endregion
 
       #region 控件栏拖拽命令绑定
@@ -357,5 +417,6 @@ namespace CardWorkbench.ViewModels
         }
       #endregion
 
+        
     }
 }

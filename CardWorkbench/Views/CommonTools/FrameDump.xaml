@@ -10,7 +10,11 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:local="clr-namespace:CardWorkbench.Views.CommonTools"
-             mc:Ignorable="d" >
+             mc:Ignorable="d" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.CommonTools"
+             DataContext="{dxmvvm:ViewModelSource Type=viewModels:FrameDumpViewModel}" >
+
 
     <!--<UserControl.Resources>
         <Style x:Key="customCellStyle"
@@ -19,86 +23,97 @@
             <Setter Property="Background" Value="{Binding Path=RowData.Row.*NameOfTheColumnToChangeBackGroundColor*}" />
         </Style>
     </UserControl.Resources>-->
-            <dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
-                        <dxlc:LayoutGroup>
-                            <dxlc:LayoutGroup Orientation="Horizontal" VerticalAlignment="Top">
-                                <dxlc:LayoutItem IsRequired="True" Label="帧深" LabelPosition="Top" Width="100">
-                                    <dxe:TextEdit IsEnabled="False">8</dxe:TextEdit>
-                                </dxlc:LayoutItem>
-                                <dxlc:LayoutItem IsRequired="True" Label="帧长" LabelPosition="Top" Width="100">
-                                    <dxe:TextEdit IsEnabled="False">12</dxe:TextEdit>
-                                </dxlc:LayoutItem>
-                                <dxlc:LayoutItem IsRequired="True" Label="Word字长" LabelPosition="Top" Width="100">
-                                    <dxe:TextEdit IsEnabled="False">8位</dxe:TextEdit>
-                                </dxlc:LayoutItem>
-                                <dxlc:LayoutItem IsRequired="True" Label="显示格式" LabelPosition="Top" Width="100">
-                                    <dxe:ComboBoxEdit SelectedIndex="0">
-                                        <dxe:ComboBoxEditItem Content="16进制">
-                                        </dxe:ComboBoxEditItem>
-                                    </dxe:ComboBoxEdit>
-                                </dxlc:LayoutItem>
-                                <dxlc:LayoutItem IsRequired="True" Label="显示行数" LabelPosition="Top" Width="100">
-                                    <dxe:ComboBoxEdit SelectedIndex="0">
-                                        <dxe:ComboBoxEditItem Content="8">
-                                        </dxe:ComboBoxEditItem>
-                                    </dxe:ComboBoxEdit>
-                                </dxlc:LayoutItem>
-                            </dxlc:LayoutGroup>
-                            <dxlc:LayoutItem HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center">
-                                <Button  Name="button1"  Width="64" Height="32">
-                                    开始
-                                    <!--<Button.Background>
-                                        <ImageBrush ImageSource="/Images/3/3.png" Stretch="Uniform"/>
-                                    </Button.Background>
-                                    <StackPanel Orientation="Horizontal">
-                                    </StackPanel>-->
-                                </Button>
-                            </dxlc:LayoutItem>
-                            <!--<dxlc:LayoutItem HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center">
-                                <Button Content="停止" Height="32" Name="button2" Width="32">
-                                    <Button.Background>
-                                        <ImageBrush ImageSource="/Images/3/6.png" Stretch="Uniform"/>
-                                    </Button.Background>
-                                    <StackPanel Orientation="Horizontal">
-                                    </StackPanel>
-                                </Button>
-                            </dxlc:LayoutItem>-->
-                        </dxlc:LayoutGroup>
-                        <dxlc:LayoutGroup Header="帧显示" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
-                            <dxlc:DataLayoutControl Padding="0,0,0,0">
-                                <dxg:GridControl SelectionMode="Cell" AutoGenerateColumns="RemoveOld" ItemsSource="{x:Static local:FrameDump.frames}">
-                                    <dxg:GridControl.View>
-                                        <dxg:TableView AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="False"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" MaxHeight="1000" ShowGroupPanel="False">
-                                            <dxg:TableView.LayoutCalculatorFactory>
-                                                <dxg:GridTableViewLayoutCalculatorFactory/>
-                                            </dxg:TableView.LayoutCalculatorFactory>
-                                        </dxg:TableView>
-                                    </dxg:GridControl.View>
-                                    <dxg:GridControl.Columns>
-                                        <dxg:GridColumn x:Name="FrameID" HorizontalHeaderContentAlignment="Center" FieldName="FrameID" Width="20" AllowResizing="False" Header="子帧号" VisibleIndex="0" Fixed="Left"/>
-                                        <dxg:GridColumn x:Name="SyncWord" HorizontalHeaderContentAlignment="Center" FieldName="SyncWord" Width="50" VisibleIndex="13" />
-                                        <dxg:GridColumn x:Name="Word1" HorizontalHeaderContentAlignment="Center" FieldName="Word1" Width="50" VisibleIndex="1" />
-                                        <dxg:GridColumn x:Name="Word2" HorizontalHeaderContentAlignment="Center" FieldName="Word2"  Width="50" VisibleIndex="2" />
-                                        <dxg:GridColumn x:Name="Word3" HorizontalHeaderContentAlignment="Center" FieldName="Word3" Width="50"  VisibleIndex="3"/>
-                                        <dxg:GridColumn x:Name="ID" HorizontalHeaderContentAlignment="Center" FieldName="ID"  Width="50" VisibleIndex="4" SortOrder="Ascending" SortIndex="0">
-                                            <dxg:GridColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Background="Orange"  />
-                                                </DataTemplate>
-                                             </dxg:GridColumn.CellTemplate>
-                                        </dxg:GridColumn>
-                                        <dxg:GridColumn x:Name="Word5" HorizontalHeaderContentAlignment="Center" FieldName="Word5"  Width="50" VisibleIndex="5"/>
-                                        <dxg:GridColumn x:Name="Word6" HorizontalHeaderContentAlignment="Center" FieldName="Word6"  Width="50" VisibleIndex="6"/>
-                                        <dxg:GridColumn x:Name="Word7" HorizontalHeaderContentAlignment="Center" FieldName="Word7" Width="50"  VisibleIndex="7"/>
-                                        <dxg:GridColumn x:Name="Word8" HorizontalHeaderContentAlignment="Center" FieldName="Word8" Width="50"  VisibleIndex="8"/>
-                                        <dxg:GridColumn x:Name="Word9" HorizontalHeaderContentAlignment="Center" FieldName="Word9" Width="50" VisibleIndex="9"/>
-                                        <dxg:GridColumn x:Name="Word10" HorizontalHeaderContentAlignment="Center" FieldName="Word10"  Width="50" VisibleIndex="10"/>
-                                        <dxg:GridColumn x:Name="Word11" HorizontalHeaderContentAlignment="Center" FieldName="Word11" Width="50"  VisibleIndex="11"/>
-                                        <dxg:GridColumn x:Name="Word12" HorizontalHeaderContentAlignment="Center" FieldName="Word12" Width="50" VisibleIndex="12"/>
-                                    </dxg:GridControl.Columns>
-                                </dxg:GridControl>
-                            </dxlc:DataLayoutControl>
-                        </dxlc:LayoutGroup>
-                    </dxlc:LayoutControl>
+    <dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
+        <dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Horizontal" VerticalAlignment="Top">
+                <dxlc:LayoutItem IsRequired="True" Label="帧深" LabelPosition="Top" Width="100">
+                    <dxe:TextEdit IsEnabled="False">8</dxe:TextEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem IsRequired="True" Label="帧长" LabelPosition="Top" Width="100">
+                    <dxe:TextEdit IsEnabled="False">12</dxe:TextEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem IsRequired="True" Label="Word字长" LabelPosition="Top" Width="100">
+                    <dxe:TextEdit IsEnabled="False">8位</dxe:TextEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem IsRequired="True" Label="显示格式" LabelPosition="Top" Width="100">
+                    <dxe:ComboBoxEdit SelectedIndex="0">
+                        <dxe:ComboBoxEditItem Content="16进制">
+                        </dxe:ComboBoxEditItem>
+                    </dxe:ComboBoxEdit>
+                </dxlc:LayoutItem>
+                <dxlc:LayoutItem IsRequired="True" Label="显示子帧" LabelPosition="Top" Width="100">
+                    <dxe:ComboBoxEdit SelectedIndex="0">
+                        <dxmvvm:Interaction.Triggers>
+                            <dxmvvm:EventToCommand EventName="SelectedIndexChanged" PassEventArgsToCommand="True"
+                                  Command="{Binding filterFrameIDCommand}" >
+                            </dxmvvm:EventToCommand>
+                        </dxmvvm:Interaction.Triggers>
+                        <dxe:ComboBoxEditItem Content="ALL" />
+                        <dxe:ComboBoxEditItem Content="6" />
+                    </dxe:ComboBoxEdit>
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutItem HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                <ToggleButton Content="开始" VerticalAlignment="Center" Name="startFrameData_btn" IsChecked="False" Width="64" Height="32" Margin="0,5,0,0" >
+                    <dxmvvm:Interaction.Triggers>
+                        <dxmvvm:EventToCommand EventName="Click" PassEventArgsToCommand="True"
+                                  Command="{Binding startFrameDataCommand}" >
+                            <!--设置点击前值转换器-->
+                            <!--<dxmvvm:EventToCommand.EventArgsConverter>
+                                <viewModels:StartFrameDataBtnClickEventArgsConverter/>
+                            </dxmvvm:EventToCommand.EventArgsConverter>-->
+                        </dxmvvm:EventToCommand>
+                    </dxmvvm:Interaction.Triggers>
+                </ToggleButton>
+                <!--<GroupBox Header="回放速度控制" Height="50" Width="180" HorizontalAlignment="Center" Name="groupBox1" VerticalAlignment="Center" Margin="10,0,0,5" >
+                    <Slider Height="30" HorizontalAlignment="Stretch" Name="slider" VerticalAlignment="Center"  Maximum="100" Value="0" TickPlacement="BottomRight" />
+                </GroupBox>-->
+                    
+                </StackPanel>
+            </dxlc:LayoutItem>
+
+        </dxlc:LayoutGroup>
+        <dxlc:LayoutGroup Header="帧显示" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
+            <dxlc:DataLayoutControl Padding="0,0,0,0">
+                <dxg:GridControl  Name="frameGrid" SelectionMode="Cell" EnableSmartColumnsGeneration="True" >
+                    <dxg:GridControl.View>
+                        <dxg:TableView AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="true"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" MaxHeight="1000" ShowGroupPanel="False">
+                            <dxg:TableView.LayoutCalculatorFactory>
+                                <dxg:GridTableViewLayoutCalculatorFactory/>
+                            </dxg:TableView.LayoutCalculatorFactory>
+                        </dxg:TableView>
+                    </dxg:GridControl.View>
+                    <dxg:GridControl.Columns>
+                        <dxg:GridColumn x:Name="FrameID" Width="60" HorizontalHeaderContentAlignment="Center" FieldName="FrameID"  AllowResizing="False" Header="子帧号" VisibleIndex="0" Fixed="Left" >
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn x:Name="SyncWord" Header="同步字" HorizontalHeaderContentAlignment="Center" FieldName="SyncWord"  VisibleIndex="1" />
+                        <dxg:GridColumn x:Name="Word1" HorizontalHeaderContentAlignment="Center" FieldName="Word1" VisibleIndex="2" >
+                        </dxg:GridColumn>
+                        <dxg:GridColumn x:Name="Word2" HorizontalHeaderContentAlignment="Center" FieldName="Word2"  VisibleIndex="3" />
+                        <dxg:GridColumn x:Name="Word3" HorizontalHeaderContentAlignment="Center" FieldName="Word3"  VisibleIndex="4"/>
+                        <dxg:GridColumn x:Name="ID" Width="60" HorizontalHeaderContentAlignment="Center" FieldName="ID"   VisibleIndex="5" >
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Background="Orange" Text="{Binding Data.ID}" TextAlignment="Center" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn x:Name="Word5" HorizontalHeaderContentAlignment="Center" FieldName="Word5"  VisibleIndex="6"/>
+                        <dxg:GridColumn x:Name="Word6" HorizontalHeaderContentAlignment="Center" FieldName="Word6"   VisibleIndex="7"/>
+                        <dxg:GridColumn x:Name="Word7" HorizontalHeaderContentAlignment="Center" FieldName="Word7"   VisibleIndex="8"/>
+                        <dxg:GridColumn x:Name="Word8" HorizontalHeaderContentAlignment="Center" FieldName="Word8"   VisibleIndex="9"/>
+                        <dxg:GridColumn x:Name="Word9" HorizontalHeaderContentAlignment="Center" FieldName="Word9"  VisibleIndex="10"/>
+                        <dxg:GridColumn x:Name="Word10" HorizontalHeaderContentAlignment="Center" FieldName="Word10"  VisibleIndex="11"/>
+                        <dxg:GridColumn x:Name="Word11" HorizontalHeaderContentAlignment="Center" FieldName="Word11"  VisibleIndex="12"/>
+                        <dxg:GridColumn x:Name="Word12" HorizontalHeaderContentAlignment="Center" FieldName="Word12"  VisibleIndex="13"/>
+                    </dxg:GridControl.Columns>
+                </dxg:GridControl>
+            </dxlc:DataLayoutControl>
+        </dxlc:LayoutGroup>
+    </dxlc:LayoutControl>
 
 </UserControl>
