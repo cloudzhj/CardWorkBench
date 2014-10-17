@@ -54,7 +54,7 @@
                                               MarkerVisible="{Binding ElementName=chbMarkers, Path=IsChecked}"
                                               >
                         <dxc:LineSeries2D.Label>
-                            <dxc:SeriesLabel ConnectorVisible="False"
+                            <dxc:SeriesLabel ConnectorVisible="False" 
                                                      ResolveOverlappingMode="Default"
                                                      dxc:MarkerSeries2D.Angle="{Binding ElementName=slAngle, Path=Value}"
                                                      Visible="{Binding ElementName=chbVisible, Path=IsChecked}" />
