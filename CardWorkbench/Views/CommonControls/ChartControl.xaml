@@ -9,14 +9,20 @@
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:local="clr-namespace:CardWorkbench.Views.CommonControls"
-             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:CardWorkbench.Views.CommonControls"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+        xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.CommonControls"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
-              Height="{Binding ActualHeight, ElementName=workCanvas}"
+        Height="{Binding ActualHeight, ElementName=workCanvas}"
         Width="{Binding ActualWidth, ElementName=workCanvas}"
-             mc:Ignorable="d">
+        mc:Ignorable="d"
+        DataContext="{dxmvvm:ViewModelSource Type=viewModels:ChartControlViewModel}">
     <dxc:ChartControl Name="chart" Width="200" MaxWidth="200" BorderThickness="0" EnableAnimation="True">
+        <dxmvvm:Interaction.Triggers>
+            <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
+        </dxmvvm:Interaction.Triggers>
         <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
         </i:Interaction.Behaviors>

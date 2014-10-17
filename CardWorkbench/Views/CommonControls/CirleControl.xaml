@@ -10,12 +10,18 @@
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+        xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.CommonControls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Height="{Binding ActualHeight, ElementName=workCanvas}"
-        Width="{Binding ActualWidth, ElementName=workCanvas}" >
+        Width="{Binding ActualWidth, ElementName=workCanvas}" 
+        DataContext="{dxmvvm:ViewModelSource Type=viewModels:CirleControlViewModel}" >
         <dxga:CircularGaugeControl x:Name="gauge" MaxHeight="200" MaxWidth="200"  EnableAnimation="True" HorizontalAlignment="Left" VerticalAlignment="Top">
-        <i:Interaction.Behaviors>
+        <dxmvvm:Interaction.Triggers>
+            <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
+        </dxmvvm:Interaction.Triggers>
+            <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
         </i:Interaction.Behaviors>
             <dxga:CircularGaugeControl.Scales>

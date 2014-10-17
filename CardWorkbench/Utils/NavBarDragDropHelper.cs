@@ -10,6 +10,9 @@ using System.Windows.Input;
 
 namespace CardWorkbench.Utils
 {
+    /// <summary>
+    /// 导航栏拖放工具类
+    /// </summary>
     class NavBarDragDropHelper
     {
         private System.Windows.Point _MouseDownLocation;

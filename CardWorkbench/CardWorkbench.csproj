@@ -149,6 +149,12 @@
     <Compile Include="Models\Param.cs" />
     <Compile Include="Models\paramSortType.cs" />
     <Compile Include="Utils\NavBarDragDropHelper.cs" />
+    <Compile Include="Utils\UIControlHelper.cs" />
+    <Compile Include="ViewModels\CommonControls\CirleControlViewModel.cs" />
+    <Compile Include="ViewModels\CommonControls\ChartControlViewModel.cs" />
+    <Compile Include="ViewModels\CommonControls\CommonControlViewModel.cs" />
+    <Compile Include="ViewModels\CommonControls\LampControlViewModel.cs" />
+    <Compile Include="ViewModels\CommonControls\TimeControlViewModel.cs" />
     <Compile Include="ViewModels\CommonTools\FrameDumpViewModel.cs" />
     <Compile Include="ViewModels\CustomControls\RFLevelMasterGaugeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

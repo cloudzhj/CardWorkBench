@@ -8,12 +8,18 @@
         xmlns:dxga="http://schemas.devexpress.com/winfx/2008/xaml/gauges"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+        xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.CommonControls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d"  Height="{Binding ActualHeight, ElementName=workCanvas}"
-        Width="{Binding ActualWidth, ElementName=workCanvas}">
+        mc:Ignorable="d"  Height="{Binding ActualHeight, ElementName=workCanvas}"
+        Width="{Binding ActualWidth, ElementName=workCanvas}"
+        DataContext="{dxmvvm:ViewModelSource Type=viewModels:LampControlViewModel}" >
         <dxga:StateIndicatorControl Width="50" Height="50" x:Name="lampStateIndicatorControl" StateIndex="1">
+        <dxmvvm:Interaction.Triggers>
+            <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
+        </dxmvvm:Interaction.Triggers>
         <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
         </i:Interaction.Behaviors>

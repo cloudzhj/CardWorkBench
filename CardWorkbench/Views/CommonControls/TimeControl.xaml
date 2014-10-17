@@ -10,14 +10,19 @@
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+        xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.CommonControls"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:local="clr-namespace:CardWorkbench.Views.CommonControls"
-            mc:Ignorable="d"  Height="{Binding ActualHeight, ElementName=workCanvas}"
-        Width="{Binding ActualWidth, ElementName=workCanvas}">
+        mc:Ignorable="d"  Height="{Binding ActualHeight, ElementName=workCanvas}"
+        Width="{Binding ActualWidth, ElementName=workCanvas}"
+        DataContext="{dxmvvm:ViewModelSource Type=viewModels:TimeControlViewModel}">
     <!--<dxdo:DocumentPanel Name="mainPanel" MDILocation="20,20" ShowCloseButton="True" ShowMaximizeButton="False" ShowMinimizeButton="False">-->
         <dxga:DigitalGaugeControl Width="300" Name="FourteenSegmentsGauge" FlowDirection="LeftToRight"
                                       VerticalAlignment="Bottom" HorizontalAlignment="Center"
                                       SymbolCount="20" Text="00:00:00:00"  EnableAnimation="False" >
+        <dxmvvm:Interaction.Triggers>
+            <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
+        </dxmvvm:Interaction.Triggers>
         <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
         </i:Interaction.Behaviors>

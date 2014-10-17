@@ -24,29 +24,31 @@ namespace CardWorkbench.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
       //控件名称
-      public readonly string TOOLBOX_TEXTCONTROL_NAME = "toolbox_textCtrl"; //文本
-      public readonly string TOOLBOX_LINECONTROL_NAME = "toolbox_lineCtrl"; //二维曲线
-      public readonly string TOOLBOX_METERCONTROL_NAME = "toolbox_meterCtrl"; //仪表
-      public readonly string TOOLBOX_LIGHTCONTROL_NAME = "toolbox_lightCtrl"; //工作灯
-      public readonly string TOOLBOX_TIMECONTROL_NAME = "toolbox_timeCtrl"; //时间
+      public static readonly string TOOLBOX_TEXTCONTROL_NAME = "toolbox_textCtrl"; //文本
+      public static readonly string TOOLBOX_LINECONTROL_NAME = "toolbox_lineCtrl"; //二维曲线
+      public static readonly string TOOLBOX_METERCONTROL_NAME = "toolbox_meterCtrl"; //仪表
+      public static readonly string TOOLBOX_LIGHTCONTROL_NAME = "toolbox_lightCtrl"; //工作灯
+      public static readonly string TOOLBOX_TIMECONTROL_NAME = "toolbox_timeCtrl"; //时间
       //工作区document group 名称
-      public readonly string DOCUMENTGROUP_NAME = "documentContainer";  
+      public static readonly string DOCUMENTGROUP_NAME = "documentContainer";
+      //工作区自定义控件Canvas名称
+      public static readonly string CANVAS_CUSTOM_CONTROL_NAME = "workCanvas";  
       //工具panel名称、标题 
-      public readonly string PANEL_FRAMEDUMP_NAME = "frameDumpPanel";
-      public readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
-      public readonly string PANEL_RECEIVERCHART_NAME = "receiverChartPanel";
-      public readonly string PANEL_RECEIVERCHART_CAPTION = "接收机波形显示";     
-      public readonly string PANEL_BITSYNCCHART_NAME = "bitSyncChartPanel";
-      public readonly string PANEL_BITSYNCCHART_CAPTION = "位同步波形显示";
-      public readonly string PANEL_DECOMOUTPUT_NAME = "decomOutputPanel";
-      public readonly string PANEL_DECOMOUTPUT_CAPTION = "解码输出";
-      public readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
+      public static readonly string PANEL_FRAMEDUMP_NAME = "frameDumpPanel";
+      public static readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
+      public static readonly string PANEL_RECEIVERCHART_NAME = "receiverChartPanel";
+      public static readonly string PANEL_RECEIVERCHART_CAPTION = "接收机波形显示";     
+      public static readonly string PANEL_BITSYNCCHART_NAME = "bitSyncChartPanel";
+      public static readonly string PANEL_BITSYNCCHART_CAPTION = "位同步波形显示";
+      public static readonly string PANEL_DECOMOUTPUT_NAME = "decomOutputPanel";
+      public static readonly string PANEL_DECOMOUTPUT_CAPTION = "解码输出";
+      public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
       //硬件设置菜单栏对话框名称
-      public readonly string DIALOG_RECEIVER_SETTING_NAME = "receiverSettingDialog";  //接收机设置
-      public readonly string DIALOG_BITSYNC_SETTING_NAME = "bitSyncSettingDialog";  //位同步设置
-      public readonly string DIALOG_FRAMESYNC_SETTING_NAME = "frameSyncSettingDialog"; //帧同步设置
-      public readonly string DIALOG_TIME_SETTING_NAME = "timeSettingDialog"; //时间设置
-      public readonly string DIALOG_PLAYBACK_SETTING_NAME = "playBackSettingDialog"; //回放设置
+      public static readonly string DIALOG_RECEIVER_SETTING_NAME = "receiverSettingDialog";  //接收机设置
+      public static readonly string DIALOG_BITSYNC_SETTING_NAME = "bitSyncSettingDialog";  //位同步设置
+      public static readonly string DIALOG_FRAMESYNC_SETTING_NAME = "frameSyncSettingDialog"; //帧同步设置
+      public static readonly string DIALOG_TIME_SETTING_NAME = "timeSettingDialog"; //时间设置
+      public static readonly string DIALOG_PLAYBACK_SETTING_NAME = "playBackSettingDialog"; //回放设置
 
        
       //注册服务声明
@@ -386,7 +388,8 @@ namespace CardWorkbench.ViewModels
             {
                 string navItemName = data.Name;
                 FrameworkElement root = LayoutHelper.GetTopLevelVisual(originalSource as DependencyObject);
-                Canvas workCanvas = (Canvas)LayoutHelper.FindElementByName(root, "workCanvas");
+                Canvas workCanvas = (Canvas)LayoutHelper.FindElementByName(root, CANVAS_CUSTOM_CONTROL_NAME);
+                UserControl commonControl = null;
                 if (TOOLBOX_TEXTCONTROL_NAME.Equals(navItemName))   //文本控件
                 {
                     //TODO ...
@@ -394,23 +397,24 @@ namespace CardWorkbench.ViewModels
                 }
                 else if (TOOLBOX_LINECONTROL_NAME.Equals(navItemName)) //曲线控件
                 {
-                    ChartControl chartControl = new ChartControl();
-                    workCanvas.Children.Add(chartControl);
+                    commonControl = new ChartControl();
                 }
                 else if (TOOLBOX_LIGHTCONTROL_NAME.Equals(navItemName)) //工作灯控件
                 {
-                    LampControl lampControl = new LampControl();
-                    workCanvas.Children.Add(lampControl);
+                    commonControl = new LampControl();
                 }
                 else if (TOOLBOX_METERCONTROL_NAME.Equals(navItemName))  //仪表控件
                 {
-                    CirleControl circleControl = new CirleControl();
-                    workCanvas.Children.Add(circleControl);
+                    commonControl = new CirleControl();
                 }
                 else if (TOOLBOX_TIMECONTROL_NAME.Equals(navItemName)) //时间控件
                 {
-                    TimeControl timeControl = new TimeControl();
-                    workCanvas.Children.Add(timeControl);
+                    commonControl = new TimeControl();
+                }
+                if (commonControl != null)
+                {
+                    Canvas.SetZIndex(commonControl,0); 
+                    workCanvas.Children.Add(commonControl);                   
                 }
 
             }
