@@ -308,7 +308,11 @@
                                                           ItemsSource="{Binding Path=paramList}"
                                                           Grid.ColumnSpan="4" >
                                                     <dxg:GridControl.View>
-                                                        <dxg:TableView AllowSorting="True" AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="False"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" MaxHeight="1000" ShowGroupPanel="False">
+                                                        <dxg:TableView Name="paramGridTabelView" AllowSorting="True" AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="False"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" MaxHeight="1000" ShowGroupPanel="False">
+                                                            <dxmvvm:Interaction.Triggers>
+                                                                <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding ParamGridMouseDownCommand}" />
+                                                                <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseMove" Command="{Binding ParamGridMouseMoveCommand}" />
+                                                            </dxmvvm:Interaction.Triggers>
                                                             <dxg:TableView.LayoutCalculatorFactory>
                                                                 <dxg:GridTableViewLayoutCalculatorFactory/>
                                                             </dxg:TableView.LayoutCalculatorFactory>
@@ -385,21 +389,8 @@
                                                 							<dxlc:LayoutItem HorizontalAlignment="Left" IsRequired="True" Label="当前频率" LabelPosition="top" Width="200">
                                                 								<dxe:TextEdit Width="100" HorizontalAlignment="Left" IsEnabled="False" EditValue="2200.00 MHz"/>
                                                 							</dxlc:LayoutItem>
-                                                                            <customControls:RFLevelMasterGauge/>
-                                                                        <!--<Canvas>
-                                                                            <dxe:ProgressBarEdit  Height="25"  Width="200" ContentDisplayMode="Value" Value="-100" Minimum="-110" Maximum="-10">
-                                                                                <dxmvvm:Interaction.Triggers>
-                                                                                    <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Loaded" Command="{Binding masterMcLevelProgressBarCommand}" />
-                                                                                </dxmvvm:Interaction.Triggers>
-                                                                            </dxe:ProgressBarEdit>
-                                                                            <Slider  AutoToolTipPlacement="TopLeft" Name="masterSlider" TickPlacement="BottomRight" Minimum="-110" Maximum="-10" Value="-97" Width="200" Style="{StaticResource customSlider}" Margin="0,20,0,0" >
-                                                                            </Slider>
-                                                                            <UniformGrid Columns="3" Rows="1" Width="200" Margin="0,23,0,0">
-                                                                                <TextBlock FontSize="9" Text="{Binding ElementName=masterSlider,Path=Minimum}" TextAlignment="Left" HorizontalAlignment="Left"/>
-                                                                                <TextBlock FontSize="9" Text="{Binding ElementName=masterSlider,Path=Value}" TextAlignment="Center" Margin="0,0,15,0"/>
-                                                                                <TextBlock FontSize="9" Text="{Binding ElementName=masterSlider,Path=Maximum}" TextAlignment="Right" HorizontalAlignment="Right"/>
-                                                                            </UniformGrid>
-                                                                        </Canvas>-->
+                                                                        <!--主载波信号强度条-->
+                                                                        <customControls:RFLevelMasterGauge/>
                                                                         
                                                 						</dxlc:LayoutGroup>
                                                                 
@@ -413,17 +404,7 @@
                                                 							<dxlc:LayoutItem HorizontalAlignment="Left" IsRequired="True" Label="当前频率" LabelPosition="top" Width="200">
                                                 								<dxe:TextEdit Width="100" HorizontalAlignment="Left" IsEnabled="False" EditValue="---"/>
                                                 							</dxlc:LayoutItem>
-                                                								<!--<StackPanel Orientation="Vertical">
-                                                									<Canvas>
-                                                										<dxe:ProgressBarEdit Height="25"  Width="200" ContentDisplayMode="Value" Value="-60" Minimum="-110" Maximum="-10" />
-                                                										<Slider AutoToolTipPlacement="TopLeft"  x:Name="slaveSlider" Minimum="-110" Maximum="-10" Value="-97" Width="200" Style="{StaticResource customSlider}" Margin="0,20,0,0" />
-                                                										<UniformGrid Columns="3" Rows="1" Width="200" Margin="0,23,0,0">
-                                                											<TextBlock FontSize="9" Text="{Binding Minimum, ElementName=slaveSlider}" TextAlignment="Left"/>
-                                                											<TextBlock FontSize="9" Text="{Binding Value, ElementName=slaveSlider}" TextAlignment="Center" Margin="0,0,15,0"/>
-                                                											<TextBlock FontSize="9" Text="{Binding Maximum, ElementName=slaveSlider}" TextAlignment="Right"/>
-                                                										</UniformGrid>
-                                                									</Canvas>
-                                                								</StackPanel>-->
+                                                                            <!--副载波信号强度条-->
                                                                             <customControls:RFLevelSlaveGauge/>
 
                                                 						</dxlc:LayoutGroup>

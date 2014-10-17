@@ -18,7 +18,27 @@ namespace CardWorkbench.ViewModels.CommonControls
     /// </summary>
     public class ChartControlViewModel : CommonControlViewModel
     {
-       
+        public ICommand ChartControlDragEnterCommand
+        {
+            get { return new DelegateCommand<DragEventArgs>(onChartControlDragEnter, x => { return true; }); }
+        }
+
+        private void onChartControlDragEnter(DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.Copy;
+            e.Handled = true;
+        }
+
+        public ICommand ChartControlDropCommand
+        {
+            get { return new DelegateCommand<DragEventArgs>(onChartControlDrop, x => { return true; }); }
+        }
+
+        private void onChartControlDrop(DragEventArgs e)
+        {
+            int rowHandle = (int)e.Data.GetData(typeof(int));
+            MessageBox.Show("Hello");
+        }
 
        
     }

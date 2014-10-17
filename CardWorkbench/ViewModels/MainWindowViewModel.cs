@@ -18,6 +18,8 @@ using CardWorkbench.Models;
 using DevExpress.Xpf.Editors;
 using System.Windows.Threading;
 using System.Windows.Media;
+using DevExpress.Data;
+using DevExpress.Xpf.Grid;
 
 namespace CardWorkbench.ViewModels
 {
@@ -67,6 +69,11 @@ namespace CardWorkbench.ViewModels
       public List<Param> paramList { get; set; }
       public List<CalibrateType> calibrateTypeList { get; set; }
       public List<ParamSortType> paramSortTypeList { get; set; }
+
+      //参数grid某行是否拖拽开始
+      bool _dragStarted = false;
+      //参数grid面板table view的名称
+      public static readonly string PARAM_GRID_TABLEVIEW_NAME = "paramGridTabelView"; 
 
       public MainWindowViewModel() {
           //初始化参数数据
@@ -421,6 +428,49 @@ namespace CardWorkbench.ViewModels
         }
       #endregion
 
-        
+        #region 参数Grid面板命令绑定
+        public ICommand ParamGridMouseDownCommand
+        {
+            get { return new DelegateCommand<MouseButtonEventArgs>(onParamGridMouseDown, x => { return true; }); }
+        }
+
+        private void onParamGridMouseDown(MouseButtonEventArgs e)
+        {
+            FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
+            TableView paramTableView = (TableView)LayoutHelper.FindElementByName(root, PARAM_GRID_TABLEVIEW_NAME);
+            int rowHandle = paramTableView.GetRowHandleByMouseEventArgs(e);
+            if (rowHandle != GridDataController.InvalidRow)
+                _dragStarted = true;
+        }
+
+        public ICommand ParamGridMouseMoveCommand
+        {
+            get { return new DelegateCommand<MouseEventArgs>(onParamGridMouseMove, x => { return true; }); }
+        }
+
+        private void onParamGridMouseMove(MouseEventArgs e)
+        {
+            FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
+            TableView paramTableView = (TableView)LayoutHelper.FindElementByName(root, PARAM_GRID_TABLEVIEW_NAME);
+            int rowHandle = paramTableView.GetRowHandleByMouseEventArgs(e);
+            if (_dragStarted)
+            {
+                DataObject data = CreateDataObject(rowHandle);
+                FrameworkElement element = paramTableView.GetRowElementByMouseEventArgs(e);
+                if (element != null)
+                    DragDrop.DoDragDrop(element, data, DragDropEffects.Move | DragDropEffects.Copy);
+                _dragStarted = false;
+            }
+
+        }
+
+        private DataObject CreateDataObject(int rowHandle)
+        {
+            DataObject data = new DataObject();
+            data.SetData(typeof(int), rowHandle);
+            return data;
+        }
+
+        #endregion
     }
 }

@@ -19,9 +19,11 @@
         Width="{Binding ActualWidth, ElementName=workCanvas}"
         mc:Ignorable="d"
         DataContext="{dxmvvm:ViewModelSource Type=viewModels:ChartControlViewModel}">
-    <dxc:ChartControl Name="chart" Width="200" MaxWidth="200" BorderThickness="0" EnableAnimation="True">
+    <dxc:ChartControl AllowDrop="True" Name="chart" Width="200" MaxWidth="200" BorderThickness="0" EnableAnimation="True">
         <dxmvvm:Interaction.Triggers>
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
+            <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Drop" Command="{Binding ChartControlDropCommand}" />
+            <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="DragEnter" Command="{Binding ChartControlDragEnterCommand}" />
         </dxmvvm:Interaction.Triggers>
         <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
