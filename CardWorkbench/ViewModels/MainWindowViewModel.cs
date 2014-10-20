@@ -493,8 +493,53 @@ namespace CardWorkbench.ViewModels
                 commonControlsCanvas.Children.Clear();
             }
         }
-        
-        
+
+        /// <summary>
+        /// 控件键盘按键响应事件命令
+        /// </summary>
+        public ICommand CommonControlKeyDownCommand
+        {
+            get { return new DelegateCommand<KeyEventArgs>(onCommonControlsDeleteKeyDown, x => { return true; }); }
+        }
+
+        private void onCommonControlsDeleteKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)  //删除按键
+            {
+                //UserControl control = LayoutHelper.FindParentObject<UserControl>(e.Source as DependencyObject);
+               // FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
+                Canvas workCanvas = e.Source as Canvas;
+                var maxZ = UIControlHelper.getMaxZIndexOfContainer(workCanvas); //当前最顶层的控件
+
+                if (workCanvas.Children.Count != 0)
+                {
+                    foreach (FrameworkElement childElement in workCanvas.Children)
+                    {
+                        Console.WriteLine("delete before" + Canvas.GetZIndex(childElement));
+                        if (Canvas.GetZIndex(childElement) == maxZ)
+                        {
+                            workCanvas.Children.Remove(childElement); //删除
+                        }
+
+                    }
+
+                }
+
+               
+
+                if (workCanvas.Children.Count != 0)
+                {
+                    foreach (FrameworkElement childElement in workCanvas.Children)
+                    {
+                        Console.WriteLine("delete after" + Canvas.GetZIndex(childElement));
+                    }
+
+                }
+                Console.WriteLine(maxZ);
+
+
+            }
+        }
         #endregion
     }
 }

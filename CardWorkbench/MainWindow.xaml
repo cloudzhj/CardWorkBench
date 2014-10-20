@@ -485,7 +485,11 @@
                                             <dxmvvm:Interaction.Triggers>
                                                 <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Drop" Command="{Binding dropToolBoxCommand}" />
                                             </dxmvvm:Interaction.Triggers>
-                                            <Canvas Name="workCanvas"></Canvas>
+                                            <Canvas Name="workCanvas">
+                                                <dxmvvm:Interaction.Triggers>
+                                                    <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="KeyDown" Command="{Binding CommonControlKeyDownCommand}"  />
+                                                </dxmvvm:Interaction.Triggers>
+                                            </Canvas>
                                         </dxdo:DocumentPanel>
                                     </dxdo:DocumentGroup>
                                 </dxdo:LayoutGroup>
