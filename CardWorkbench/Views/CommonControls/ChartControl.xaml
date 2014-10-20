@@ -24,7 +24,6 @@
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Drop" Command="{Binding ChartControlDropCommand}" />
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="DragEnter" Command="{Binding ChartControlDragEnterCommand}" />
-            <!--<dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="KeyDown" Command="{Binding CommonControlKeyDownCommand}"  />-->
         </dxmvvm:Interaction.Triggers>
         <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />

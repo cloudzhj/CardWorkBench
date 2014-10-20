@@ -497,18 +497,24 @@ namespace CardWorkbench.ViewModels
         /// <summary>
         /// 控件键盘按键响应事件命令
         /// </summary>
-        public ICommand CommonControlKeyDownCommand
+        public ICommand CanvasDeleteKeyDownCommand
         {
-            get { return new DelegateCommand<KeyEventArgs>(onCommonControlsDeleteKeyDown, x => { return true; }); }
+            get { return new DelegateCommand<KeyEventArgs>(onCanvasDeleteKeyDown, x => { return true; }); }
         }
 
-        private void onCommonControlsDeleteKeyDown(KeyEventArgs e)
+        private void onCanvasDeleteKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Delete)  //删除按键
             {
                 //UserControl control = LayoutHelper.FindParentObject<UserControl>(e.Source as DependencyObject);
                // FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
                 Canvas workCanvas = e.Source as Canvas;
+                if (workCanvas == null)
+                {
+                    FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
+                    workCanvas = (Canvas)LayoutHelper.FindElementByName(root, CANVAS_CUSTOM_CONTROL_NAME);
+
+                }
                 var maxZ = UIControlHelper.getMaxZIndexOfContainer(workCanvas); //当前最顶层的控件
 
                 if (workCanvas.Children.Count != 0)
@@ -519,25 +525,12 @@ namespace CardWorkbench.ViewModels
                         if (Canvas.GetZIndex(childElement) == maxZ)
                         {
                             workCanvas.Children.Remove(childElement); //删除
+                            break;
                         }
 
                     }
 
                 }
-
-               
-
-                if (workCanvas.Children.Count != 0)
-                {
-                    foreach (FrameworkElement childElement in workCanvas.Children)
-                    {
-                        Console.WriteLine("delete after" + Canvas.GetZIndex(childElement));
-                    }
-
-                }
-                Console.WriteLine(maxZ);
-
-
             }
         }
         #endregion

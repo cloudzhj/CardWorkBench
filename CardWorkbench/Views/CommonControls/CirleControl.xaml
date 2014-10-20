@@ -20,7 +20,6 @@
         <dxga:CircularGaugeControl x:Name="gaugeChart" MaxHeight="200" MaxWidth="200"  EnableAnimation="True" HorizontalAlignment="Left" VerticalAlignment="Top">
         <dxmvvm:Interaction.Triggers>
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
-            <!--<dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="KeyDown" Command="{Binding CommonControlKeyDownCommand}" />-->
         </dxmvvm:Interaction.Triggers>
             <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
