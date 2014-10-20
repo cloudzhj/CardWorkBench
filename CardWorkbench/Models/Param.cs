@@ -59,7 +59,9 @@ namespace CardWorkbench.Models
                     new ParamSortType { paramSortTypeName = "飞控" },
                     new ParamSortType { paramSortTypeName = "航电" },
                     new ParamSortType { paramSortTypeName = "USDC" },
-                    new ParamSortType { paramSortTypeName = "IDMP" }
+                    new ParamSortType { paramSortTypeName = "IDMP" },
+                    new ParamSortType { paramSortTypeName = "其它" }
+
             };
             i = 0;
             paramSortTypeList.ForEach(x => x.paramSortTypeId = ++i);
@@ -99,9 +101,9 @@ namespace CardWorkbench.Models
                    new Param { paramName = "Rock" , paramChineseName = "名称1", 
                     calibrateType = calibrateTypeList.Single(a => a.calibrateTypeName == "点对校准"),
                     paramSortType = paramSortTypeList.Single(a => a.paramSortTypeName == "飞控") },
-                new Param { paramName = "Jazz" , paramChineseName = "名称2" , 
+                new Param { paramName = "ID" , paramChineseName = "ID参数" , 
                     calibrateType = calibrateTypeList.Single(a => a.calibrateTypeName == "点对校准"),
-                    paramSortType = paramSortTypeList.Single(a => a.paramSortTypeName == "航电") },
+                    paramSortType = paramSortTypeList.Single(a => a.paramSortTypeName == "其它") },
                 new Param { paramName = "Metal" , paramChineseName = "名称3" , 
                     calibrateType = calibrateTypeList.Single(a => a.calibrateTypeName == "多项式校准"),
                     paramSortType = paramSortTypeList.Single(a => a.paramSortTypeName == "IDMP") },

@@ -20,6 +20,7 @@ using System.Windows.Threading;
 using System.Windows.Media;
 using DevExpress.Data;
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.Bars;
 
 namespace CardWorkbench.ViewModels
 {
@@ -86,7 +87,7 @@ namespace CardWorkbench.ViewModels
       }
 
 
-      #region 工具菜单栏命令绑定      
+      #region 顶部功能菜单命令绑定      
       /**
        *源码管理工具界面命令
        **/
@@ -374,10 +375,6 @@ namespace CardWorkbench.ViewModels
       #endregion
 
       #region 控件栏拖拽命令绑定
-      
-      /**
-       声明拖拽工具箱item命令
-       **/
         public ICommand dropToolBoxCommand
         {
             get { return new DelegateCommand<DragEventArgs>(onDropToolBoxNavItem, x => { return true; }); }
@@ -397,6 +394,7 @@ namespace CardWorkbench.ViewModels
                 FrameworkElement root = LayoutHelper.GetTopLevelVisual(originalSource as DependencyObject);
                 Canvas workCanvas = (Canvas)LayoutHelper.FindElementByName(root, CANVAS_CUSTOM_CONTROL_NAME);
                 UserControl commonControl = null;
+                int maxZindex = UIControlHelper.getMaxZIndexOfContainer(workCanvas);
                 if (TOOLBOX_TEXTCONTROL_NAME.Equals(navItemName))   //文本控件
                 {
                     //TODO ...
@@ -420,7 +418,7 @@ namespace CardWorkbench.ViewModels
                 }
                 if (commonControl != null)
                 {
-                    Canvas.SetZIndex(commonControl,0); 
+                    Canvas.SetZIndex(commonControl, maxZindex + 1);
                     workCanvas.Children.Add(commonControl);                   
                 }
 
@@ -428,7 +426,7 @@ namespace CardWorkbench.ViewModels
         }
       #endregion
 
-        #region 参数Grid面板命令绑定
+      #region 参数Grid面板命令绑定
         public ICommand ParamGridMouseDownCommand
         {
             get { return new DelegateCommand<MouseButtonEventArgs>(onParamGridMouseDown, x => { return true; }); }
@@ -455,8 +453,16 @@ namespace CardWorkbench.ViewModels
             int rowHandle = paramTableView.GetRowHandleByMouseEventArgs(e);
             if (_dragStarted)
             {
-                DataObject data = CreateDataObject(rowHandle);
                 FrameworkElement element = paramTableView.GetRowElementByMouseEventArgs(e);
+
+                RowControl rowControl = paramTableView.GetRowElementByRowHandle(rowHandle) as RowControl;
+                RowData rowData = null;
+                if (rowControl != null)
+                {
+                    rowData = rowControl.DataContext as RowData;
+                }
+                DataObject data = CreateDataObject(rowData);
+
                 if (element != null)
                     DragDrop.DoDragDrop(element, data, DragDropEffects.Move | DragDropEffects.Copy);
                 _dragStarted = false;
@@ -464,13 +470,31 @@ namespace CardWorkbench.ViewModels
 
         }
 
-        private DataObject CreateDataObject(int rowHandle)
+        private DataObject CreateDataObject(RowData rowData)
         {
             DataObject data = new DataObject();
-            data.SetData(typeof(int), rowHandle);
+            //data.SetData(typeof(int), rowHandle);
+            data.SetData(typeof(RowData), rowData);
             return data;
         }
 
+        #endregion
+
+        #region 自定义控件Panel按钮命令绑定
+        public ICommand resetCommonControlsPanelCommand
+        {
+            get { return new DelegateCommand<Canvas>(onResetCommonControlsBtnClick, x => { return true; }); }
+        }
+
+        private void onResetCommonControlsBtnClick(Canvas commonControlsCanvas)
+        {
+            if (commonControlsCanvas != null)
+            {
+                commonControlsCanvas.Children.Clear();
+            }
+        }
+        
+        
         #endregion
     }
 }

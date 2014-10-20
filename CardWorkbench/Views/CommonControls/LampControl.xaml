@@ -19,6 +19,7 @@
         <dxga:StateIndicatorControl Width="50" Height="50" x:Name="lampStateIndicatorControl" StateIndex="1">
         <dxmvvm:Interaction.Triggers>
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
+            <!--<dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="KeyDown" Command="{Binding CommonControlKeyDownCommand}" />-->
         </dxmvvm:Interaction.Triggers>
         <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />

@@ -26,7 +26,30 @@ namespace CardWorkbench.Utils
             FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
             Canvas workCanvas = (Canvas)LayoutHelper.FindElementByName(root, containerName);
             BringToFront(workCanvas as FrameworkElement, parentControl);
-        
+        }
+        /// <summary>
+        /// 获得容器中顶层控件的zindex值
+        /// </summary>
+        /// <param name="element">容器</param>
+        /// <returns></returns>
+        public static int getMaxZIndexOfContainer(FrameworkElement element)
+        {
+            if (element == null) return -1;
+
+            Canvas canvas = element as Canvas;
+            if (canvas == null) return -1;
+
+            if (canvas.Children == null || canvas.Children.Count == 0)
+            {
+                return 0;
+            }
+
+            var maxZ = canvas.Children.OfType<UIElement>()
+                //.Where(x => x != pane)
+             .Select(x => Canvas.GetZIndex(x))
+             .Max();
+
+            return maxZ;
         }
 
         /// <summary>
@@ -34,17 +57,13 @@ namespace CardWorkbench.Utils
         /// </summary>
         /// <param name="element">容器</param>
         /// <param name="pane">需要置顶的控件</param>
-        private static void BringToFront(FrameworkElement element, Control pane)
+        public static void BringToFront(FrameworkElement element, Control pane)
         {
-            if (element == null) return;
-
-            Canvas canvas = element as Canvas;
-            if (canvas == null) return;
-
-            var maxZ = canvas.Children.OfType<UIElement>()
-              //.Where(x => x != pane)
-              .Select(x => Canvas.GetZIndex(x))
-              .Max();
+            int maxZ = getMaxZIndexOfContainer(element);
+            if (maxZ == -1)
+            {
+                return;
+            }
             Canvas.SetZIndex(pane, maxZ + 1);
         }
     }

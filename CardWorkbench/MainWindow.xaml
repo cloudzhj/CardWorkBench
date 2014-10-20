@@ -107,6 +107,19 @@
 
     <Grid>
         <dxb:BarManager AllowQuickCustomization="False" AllowCustomization="False">
+            <dxb:BarManager.Bars>
+                <!--自定义控件document panel工具按钮条-->
+                <dxb:Bar Caption="commonControlsPanelBtnBar" x:Name="commonControlsPanelBtnBar" UseWholeRow="True" AllowQuickCustomization="False" ShowDragWidget="False">
+                    <dxb:Bar.DockInfo>
+                        <dxb:BarDockInfo ContainerName="commonControlsPanelBtnBar" />
+                    </dxb:Bar.DockInfo>
+                    <dxb:Bar.ItemLinks>
+                        <dxb:BarButtonItemLink BarItemName="loadCommonControlsConfig" />
+                        <dxb:BarButtonItemLink BarItemName="saveCommonControlsConfig" />
+                        <dxb:BarButtonItemLink BarItemName="resetCommonControlsPanel" />
+                    </dxb:Bar.ItemLinks>
+                </dxb:Bar>             
+            </dxb:BarManager.Bars>
             <dxb:BarManager.Items>
                 <dxb:BarButtonItem x:Name="biOpen" Content="打开" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_16x16.png" LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_32x32.png" />
                 <dxb:BarButtonItem x:Name="biNew" Content="保存当前配置" LargeGlyph="{dx:DXImage Image=ExportFile_32x32.png}" Glyph="{dx:DXImage Image=ExportFile_16x16.png}"/>
@@ -128,6 +141,14 @@
                                Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Support/Info_16x16.png" 
                                LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Support/Info_32x32.png" 
                                 />
+                <!--自定义控件panel按钮注册-->
+                <dxb:BarButtonItem Name="loadCommonControlsConfig" CategoryName="commonControlsPanelBtnBar" Content="加载配置" GlyphSize="Small" Glyph="{dx:DXImage Image=LoadFrom_16x16.png}"  />
+                <dxb:BarButtonItem Name="saveCommonControlsConfig" CategoryName="commonControlsPanelBtnBar" Content="保存配置" GlyphSize="Small"  Glyph="{dx:DXImage Image=SavePageSetup_16x16.png}"  />
+                <dxb:BarButtonItem Name="resetCommonControlsPanel" CategoryName="commonControlsPanelBtnBar" Content="重置控件" GlyphSize="Small" Glyph="{dx:DXImage Image=Recurrence_16x16.png}" >
+                    <dxmvvm:Interaction.Triggers>
+                        <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding resetCommonControlsPanelCommand}" CommandParameter="{Binding ElementName=workCanvas}" />
+                    </dxmvvm:Interaction.Triggers>
+                </dxb:BarButtonItem>
             </dxb:BarManager.Items>
             <DockPanel>
                 <dxr:RibbonControl DockPanel.Dock="Top" AllowCustomization="False"  RibbonStyle="Office2010" RibbonTitleBarVisibility="Collapsed" ToolbarShowMode="Hide" AllowKeyTips="False">
@@ -460,7 +481,7 @@
 
                                             </dxlc:LayoutControl>
                                         </dxdo:DocumentPanel>
-                                        <dxdo:DocumentPanel Name="mainControl" AllowDrop="True"  Caption="自定义控件" ToolTip="可拖拽控件至该面板" FooterDescription="自定义工作区" Description="自定义工作区">
+                                        <dxdo:DocumentPanel Name="mainControl" HeaderBarContainerControlName="commonControlsPanelBtnBar" AllowDrop="True"  Caption="自定义控件" ToolTip="可拖拽控件至该面板" FooterDescription="自定义工作区" Description="自定义工作区">
                                             <dxmvvm:Interaction.Triggers>
                                                 <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Drop" Command="{Binding dropToolBoxCommand}" />
                                             </dxmvvm:Interaction.Triggers>

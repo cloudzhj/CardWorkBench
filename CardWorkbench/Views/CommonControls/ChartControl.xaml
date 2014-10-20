@@ -19,11 +19,12 @@
         Width="{Binding ActualWidth, ElementName=workCanvas}"
         mc:Ignorable="d"
         DataContext="{dxmvvm:ViewModelSource Type=viewModels:ChartControlViewModel}">
-    <dxc:ChartControl AllowDrop="True" Name="chart" Width="200" MaxWidth="200" BorderThickness="0" EnableAnimation="True">
+    <dxc:ChartControl AllowDrop="True" Name="line2DChart" Width="400" Height="200" BorderThickness="0" EnableAnimation="True">
         <dxmvvm:Interaction.Triggers>
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Drop" Command="{Binding ChartControlDropCommand}" />
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="DragEnter" Command="{Binding ChartControlDragEnterCommand}" />
+            <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="KeyDown" Command="{Binding CommonControlKeyDownCommand}"  />
         </dxmvvm:Interaction.Triggers>
         <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
@@ -63,5 +64,9 @@
                 </dxc:XYDiagram2D.Series>
             </dxc:XYDiagram2D>
         </dxc:ChartControl.Diagram>
+        <dxc:ChartControl.Titles>
+            <dxc:Title Dock="Top" HorizontalAlignment="Center" Content="" />
+            <!--<dxc:Title Dock="Bottom" HorizontalAlignment="Right" FontSize="12" Foreground="Silver" Margin="0,10,0,0" Content="From www.usagold.com" />-->
+        </dxc:ChartControl.Titles>
     </dxc:ChartControl>
 </UserControl>

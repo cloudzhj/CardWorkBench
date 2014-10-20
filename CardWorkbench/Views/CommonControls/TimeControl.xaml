@@ -22,6 +22,7 @@
                                       SymbolCount="20" Text="00:00:00:00"  EnableAnimation="False" >
         <dxmvvm:Interaction.Triggers>
             <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding CommonControlClickCommand}" />
+            <!--<dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="KeyDown" Command="{Binding CommonControlKeyDownCommand}" />-->
         </dxmvvm:Interaction.Triggers>
         <i:Interaction.Behaviors>
             <ei:MouseDragElementBehavior ConstrainToParentBounds="True" />
