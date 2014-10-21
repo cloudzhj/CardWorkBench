@@ -107,9 +107,9 @@ namespace CardWorkbench.ViewModels.CommonTools
                 else
                 {
                     int result = int.Parse(this.filterFrameID);
-                    Console.WriteLine("result:" + result);
-                    Console.WriteLine("frameNum:" + frameNum);
-                    Console.WriteLine("fullFrameCount:" + fullFrameCount);
+                    //Console.WriteLine("result:" + result);
+                    //Console.WriteLine("frameNum:" + frameNum);
+                    //Console.WriteLine("fullFrameCount:" + fullFrameCount);
 
                     if (frameNum == result || frameNum == result + row_lst.Count * fullFrameCount)  //所有是过滤值的才更新
                     {
@@ -117,7 +117,7 @@ namespace CardWorkbench.ViewModels.CommonTools
                         {
                             filterTempRow = 0;
                         }
-                        Console.WriteLine("update row:"+updateRowCount);
+                        //Console.WriteLine("update row:"+updateRowCount);
                         row_lst[filterTempRow] = new FrameModel() { FrameID = frameNum, SyncWord = "EB101", Word1 = "FF" + frameNum, Word2 = "FFF", Word3 = "FF" + frameNum, ID = result + "", Word5 = "FFFF", Word6 = "FFFF", Word7 = "FFFF", Word8 = "FFFF", Word9 = "FFFF", Word10 = "FFFF", Word11 = "FFFF", Word12 = "FFFF" };
                         frameDataGrid.RefreshRow(filterTempRow);
                         filterTempRow++;

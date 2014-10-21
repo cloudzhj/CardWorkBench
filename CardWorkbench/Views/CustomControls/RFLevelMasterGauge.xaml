@@ -10,18 +10,20 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              mc:Ignorable="d" 
              DataContext="{dxmvvm:ViewModelSource Type=viewModels:RFLevelMasterGaugeViewModel}" >
-    <dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="Group" ScrollBars="None">
+    <!--<dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="Group" ScrollBars="None">-->
+    <Grid>
+        
         <dxlc:LayoutGroup Orientation="Horizontal" >
-            <dxlc:LayoutItem HorizontalAlignment="Left" IsRequired="True" Label="当前信号强度" LabelPosition="Left" Width="200" Margin="-10,0,0,0">
+            <dxlc:LayoutItem HorizontalAlignment="Left" IsRequired="True" Label="当前信号强度" LabelPosition="Left" Width="200" >
                     <TextBlock Foreground="White"  Margin="5,0,0,0" >
                         <Run Text="{Binding ElementName=masterLevelScaleRange,Path=EndValue}" />
                         <Run Text=" dBm" />
                     </TextBlock>
             </dxlc:LayoutItem>
         </dxlc:LayoutGroup>
-        <dxga:LinearGaugeControl x:Name="linearGaugeControl" Height="100" Width="300" Margin="-35,-20,0,0" HorizontalAlignment="Left"  >
+        <dxga:LinearGaugeControl x:Name="linearGaugeControl" Height="100" Width="300" HorizontalAlignment="Left"  >
             <dxga:LinearGaugeControl.Model>
-                <dxga:LinearClassicModel/>
+                <dxga:LinearClassicModel />
             </dxga:LinearGaugeControl.Model>
             <!--<dxga:LinearGaugeControl.Layers>
               <dxga:LinearGaugeLayer/>
@@ -34,7 +36,7 @@
                     <dxga:LinearScale.Ranges>
                         <dxga:LinearScaleRange x:Name="masterLevelScaleRange" StartValue="-110" EndValue="-105">
                             <dxga:LinearScaleRange.Options>
-                                <dxga:RangeOptions Offset="4" Thickness="8" ZIndex="1" />
+                                <dxga:RangeOptions Offset="4" Thickness="15" ZIndex="1" />
                             </dxga:LinearScaleRange.Options>
                             <dxga:LinearScaleRange.Presentation>
                                 <dxga:DefaultLinearScaleRangePresentation Fill="LightBlue" />
@@ -42,7 +44,7 @@
                         </dxga:LinearScaleRange>
                         <dxga:LinearScaleRange StartValue="-110" EndValue="-90">
                             <dxga:LinearScaleRange.Options>
-                                <dxga:RangeOptions Offset="4" Thickness="14" ZIndex="0" />
+                                <dxga:RangeOptions Offset="4" Thickness="25" ZIndex="0" />
                             </dxga:LinearScaleRange.Options>
                             <dxga:LinearScaleRange.Presentation>
                                 <dxga:DefaultLinearScaleRangePresentation Fill="#00b159" />
@@ -50,7 +52,7 @@
                         </dxga:LinearScaleRange>
                         <dxga:LinearScaleRange StartValue="-90" EndValue="-30">
                             <dxga:LinearScaleRange.Options>
-                                <dxga:RangeOptions Offset="4" Thickness="14" ZIndex="0" />
+                                <dxga:RangeOptions Offset="4" Thickness="25" ZIndex="0" />
                             </dxga:LinearScaleRange.Options>
                             <dxga:LinearScaleRange.Presentation>
                                 <dxga:DefaultLinearScaleRangePresentation Fill="#ffc425" />
@@ -58,7 +60,7 @@
                         </dxga:LinearScaleRange>
                         <dxga:LinearScaleRange StartValue="-30" EndValue="-10">
                             <dxga:LinearScaleRange.Options>
-                                <dxga:RangeOptions Offset="4" Thickness="14" ZIndex="0" />
+                                <dxga:RangeOptions Offset="4" Thickness="25" ZIndex="0" />
                             </dxga:LinearScaleRange.Options>
                             <dxga:LinearScaleRange.Presentation>
                                 <dxga:DefaultLinearScaleRangePresentation Fill="#d11141" />
@@ -102,5 +104,6 @@
 
             </dxga:LinearGaugeControl.Scales>
         </dxga:LinearGaugeControl>
-    </dxlc:LayoutControl>
+    </Grid>    
+    <!--</dxlc:LayoutControl>-->
 </UserControl>

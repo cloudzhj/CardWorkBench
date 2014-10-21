@@ -21,6 +21,8 @@ using System.Windows.Media;
 using DevExpress.Data;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Bars;
+using CardWorkbench.Views.MenuControls;
+using CardWorkbench.Views.CardStateGroup;
 
 namespace CardWorkbench.ViewModels
 {
@@ -87,10 +89,34 @@ namespace CardWorkbench.ViewModels
       }
 
 
-      #region 顶部功能菜单命令绑定      
-      /**
-       *源码管理工具界面命令
-       **/
+      #region 顶部功能菜单命令绑定  
+ 
+      /// <summary>
+      /// “硬件识别” 按钮command
+      /// </summary>
+      public ICommand cardRecognitionCommand
+      {
+          get { return new DelegateCommand<LayoutPanel>(onCardRecognitionClick, x => { return true; }); }
+      }
+
+      private void onCardRecognitionClick(LayoutPanel cardMenuPanel)
+      {
+          cardMenuPanel.Content = new CardMenuConfig();
+
+          //TEST.
+          FrameworkElement root = LayoutHelper.GetTopLevelVisual(cardMenuPanel);
+          GroupBox receiverGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_recState");
+          GroupBox bitSyncGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_bitSyncState");
+          GroupBox frameSyncGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_frameSyncState");
+          receiverGrpBox.Content = new ReceiverStateGroupBox();
+          bitSyncGrpBox.Content = new BitSyncStateGroupBox();
+          frameSyncGrpBox.Content = new FrameSyncStateGroupBox();
+
+      }
+
+      /// <summary>
+      /// ”原始帧显示“ 按钮Command
+      /// </summary>
       public ICommand frameDumpCommand {
           get { return new DelegateCommand<DockLayoutManager>(onFrameDumpClick, x => { return true; }); }
       }
@@ -100,9 +126,9 @@ namespace CardWorkbench.ViewModels
           createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_FRAMEDUMP_NAME, PANEL_FRAMEDUMP_CAPTION, new FrameDump());          
       }
 
-      /**
-       *接收机波形显示工具界面命令
-       **/
+      /// <summary>
+      /// "接收机波形显示" 按钮command
+      /// </summary>
       public ICommand receiverChartCommand
       {
           get { return new DelegateCommand<DockLayoutManager>(onReceiverChartClick, x => { return true; }); }
@@ -113,9 +139,9 @@ namespace CardWorkbench.ViewModels
           createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_RECEIVERCHART_NAME, PANEL_RECEIVERCHART_CAPTION, new ReceiverChartControl());
       }
 
-      /**
-      *位同步波形显示工具界面命令
-      **/
+      /// <summary>
+      /// "位同步波形显示" 按钮Command
+      /// </summary>
       public ICommand bitSyncChartCommand
       {
           get { return new DelegateCommand<DockLayoutManager>(onBitSyncChartClick, x => { return true; }); }
@@ -126,9 +152,9 @@ namespace CardWorkbench.ViewModels
           createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_BITSYNCCHART_NAME, PANEL_BITSYNCCHART_CAPTION, new BitSyncChart());
       }
 
-      /**
-        *解码输出工具界面命令
-        **/
+      /// <summary>
+      /// ”解码输出“ 按钮Command
+      /// </summary>
       public ICommand decomOutputCommand
       {
           get { return new DelegateCommand<DockLayoutManager>(onDecomOutputClick, x => { return true; }); }
@@ -139,9 +165,9 @@ namespace CardWorkbench.ViewModels
           createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_DECOMOUTPUT_NAME, PANEL_DECOMOUTPUT_CAPTION, new DecomOutputPanel());
       }
 
-      /**
-       * 自定义控件显示命令
-       */
+      /// <summary>
+      /// "自定义控件" 按钮Command
+      /// </summary>
       public ICommand customControlCommand {
           get { return new DelegateCommand<DockLayoutManager>(onCustomControlClick, x => { return true; }); }
       }
@@ -156,9 +182,14 @@ namespace CardWorkbench.ViewModels
           dockManager.DockController.Activate(docPanel);
       }
 
-      /**
-       * 在工作区创建document panel
-       **/
+      /// <summary>
+      /// 在工作区document group创建新的document Panel
+      /// </summary>
+      /// <param name="dockManager">dock布局管理器</param>
+      /// <param name="documentGroupName">documentGroup名称</param>
+      /// <param name="addDocPanelName">新增Document panel名称</param>
+      /// <param name="addDocPanelCaption">新增Document Panel显示标题</param>
+      /// <param name="panelContent">新增Document Panel的内容元素</param>
       private void createWorkDocumentPanel(DockLayoutManager dockManager, string documentGroupName, string addDocPanelName, string addDocPanelCaption, object panelContent)
       {
           DocumentGroup documentGroup = dockManager.GetItem(documentGroupName) as DocumentGroup;
@@ -397,7 +428,7 @@ namespace CardWorkbench.ViewModels
                 int maxZindex = UIControlHelper.getMaxZIndexOfContainer(workCanvas);
                 if (TOOLBOX_TEXTCONTROL_NAME.Equals(navItemName))   //文本控件
                 {
-                    //TODO ...
+                    commonControl = new TextControl();
 
                 }
                 else if (TOOLBOX_LINECONTROL_NAME.Equals(navItemName)) //曲线控件
@@ -450,23 +481,31 @@ namespace CardWorkbench.ViewModels
         {
             FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
             TableView paramTableView = (TableView)LayoutHelper.FindElementByName(root, PARAM_GRID_TABLEVIEW_NAME);
-            int rowHandle = paramTableView.GetRowHandleByMouseEventArgs(e);
-            if (_dragStarted)
+            //int rowHandle = paramTableView.GetRowHandleByMouseEventArgs(e);
+            //RowControl rowControl = paramTableView.GetRowElementByRowHandle(rowHandle) as RowControl;
+
+            //此处必须新建控件的dipatcher线程做处理，否则在拖动参数时会出现界面假死的情况
+            paramTableView.Dispatcher.BeginInvoke(new Action(() =>
             {
-                FrameworkElement element = paramTableView.GetRowElementByMouseEventArgs(e);
-
-                RowControl rowControl = paramTableView.GetRowElementByRowHandle(rowHandle) as RowControl;
-                RowData rowData = null;
-                if (rowControl != null)
+                if (_dragStarted)
                 {
-                    rowData = rowControl.DataContext as RowData;
+                    //Console.WriteLine("start..............");
+                    FrameworkElement element = paramTableView.GetRowElementByMouseEventArgs(e);
+                    RowData rowData = null;
+                    if (element != null)
+                    {
+                        rowData = element.DataContext as RowData;
+                        if (rowData == null)
+                        {
+                            return;
+                        }
+                        DataObject data = CreateDataObject(rowData);
+                        DragDrop.DoDragDrop(element, data, DragDropEffects.Move | DragDropEffects.Copy);
+                    }
+                    _dragStarted = false;
+                    //Console.WriteLine("end..............");
                 }
-                DataObject data = CreateDataObject(rowData);
-
-                if (element != null)
-                    DragDrop.DoDragDrop(element, data, DragDropEffects.Move | DragDropEffects.Copy);
-                _dragStarted = false;
-            }
+            }));
 
         }
 
@@ -480,7 +519,7 @@ namespace CardWorkbench.ViewModels
 
         #endregion
 
-        #region 自定义控件Panel按钮命令绑定
+      #region 自定义控件Panel按钮命令绑定
         public ICommand resetCommonControlsPanelCommand
         {
             get { return new DelegateCommand<Canvas>(onResetCommonControlsBtnClick, x => { return true; }); }
@@ -521,7 +560,6 @@ namespace CardWorkbench.ViewModels
                 {
                     foreach (FrameworkElement childElement in workCanvas.Children)
                     {
-                        Console.WriteLine("delete before" + Canvas.GetZIndex(childElement));
                         if (Canvas.GetZIndex(childElement) == maxZ)
                         {
                             workCanvas.Children.Remove(childElement); //删除

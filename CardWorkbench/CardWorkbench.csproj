@@ -154,18 +154,46 @@
     <Compile Include="ViewModels\CommonControls\ChartControlViewModel.cs" />
     <Compile Include="ViewModels\CommonControls\CommonControlViewModel.cs" />
     <Compile Include="ViewModels\CommonControls\LampControlViewModel.cs" />
+    <Compile Include="ViewModels\CommonControls\TextControlViewModel.cs" />
     <Compile Include="ViewModels\CommonControls\TimeControlViewModel.cs" />
     <Compile Include="ViewModels\CommonTools\FrameDumpViewModel.cs" />
     <Compile Include="ViewModels\CustomControls\RFLevelMasterGaugeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\CardStateGroup\BitSyncStateGroupBox.xaml.cs">
+      <DependentUpon>BitSyncStateGroupBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardStateGroup\FrameSyncStateGroupBox.xaml.cs">
+      <DependentUpon>FrameSyncStateGroupBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardStateGroup\ReceiverStateGroupBox.xaml.cs">
+      <DependentUpon>ReceiverStateGroupBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CommonControls\TextControl.xaml.cs">
+      <DependentUpon>TextControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CustomControls\RFLevelSlaveGauge.xaml.cs">
       <DependentUpon>RFLevelSlaveGauge.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CustomControls\RFLevelMasterGauge.xaml.cs">
       <DependentUpon>RFLevelMasterGauge.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MenuControls\CardMenuConfig.xaml.cs">
+      <DependentUpon>CardMenuConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MenuControls\PlayBack.xaml.cs" />
     <Page Include="Resources\SliderCustomStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardStateGroup\BitSyncStateGroupBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardStateGroup\FrameSyncStateGroupBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardStateGroup\ReceiverStateGroupBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,6 +208,10 @@
     <Page Include="Views\CommonControls\LampControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CommonControls\TextControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CustomControls\RFLevelSlaveGauge.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -302,6 +334,10 @@
     <Page Include="Views\MenuControls\BitSyncUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MenuControls\CardMenuConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MenuControls\FrameSyncUC.xaml">
       <Generator>MSBuild:Compile</Generator>

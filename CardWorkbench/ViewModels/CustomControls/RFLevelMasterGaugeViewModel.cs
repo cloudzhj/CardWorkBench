@@ -21,9 +21,7 @@ namespace CardWorkbench.ViewModels.CustomControls
         //信号强度刻度条
         LinearScale linearScale;
 
-        /**
-       声明信号强度进度条命令
-       **/
+        //信号强度进度条命令
         public ICommand masterMcLevelProgressBarCommand
         {
             get { return new DelegateCommand<RoutedEventArgs>(onMasterMcLevelProgressBarLoaded, x => { return true; }); }
