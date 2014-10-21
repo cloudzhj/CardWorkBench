@@ -10,6 +10,7 @@
              xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.CustomControls"
              mc:Ignorable="d" >
     <Grid>
+        <StackPanel Orientation="Vertical">
         <dxlc:LayoutGroup Orientation="Horizontal" >
             <dxlc:LayoutItem HorizontalAlignment="Left" IsRequired="True" Label="当前信号强度" LabelPosition="Left" Width="200" >
                 <TextBlock Foreground="White"  Margin="5,0,0,0" >
@@ -101,5 +102,6 @@
 
             </dxga:LinearGaugeControl.Scales>
         </dxga:LinearGaugeControl>
+        </StackPanel>
     </Grid>
 </UserControl>
