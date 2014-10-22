@@ -32,6 +32,22 @@
     
     <!--服务注册-->
     <dxmvvm:Interaction.Behaviors>
+        <!--硬件识别对话框-->
+        <dx:DialogService Name="hardwareRecognitionDialog" DialogWindowStartupLocation="CenterOwner">
+            <dx:DialogService.ViewTemplate>
+                <DataTemplate>
+                    <local:HardwareRecognition />
+                </DataTemplate>
+            </dx:DialogService.ViewTemplate>
+            <dx:DialogService.DialogStyle>
+                <Style TargetType="dx:DXDialogWindow">
+                    <Setter Property="Width" Value="800"/>
+                    <Setter Property="Height" Value="600"/>
+                </Style>
+            </dx:DialogService.DialogStyle>
+        </dx:DialogService>
+        <!--配置文件选择对话框-->
+        <dxmvvm:OpenFileDialogService Title="选择硬件配置文件" RestorePreviouslySelectedDirectory="True"/>
         <!--接收机设置对话框-->
         <dx:DialogService Name="receiverSettingDialog" DialogWindowStartupLocation="CenterOwner">
             <dx:DialogService.ViewTemplate>
@@ -123,7 +139,11 @@
             </dxb:BarManager.Bars>
             <!--按钮注册-->
             <dxb:BarManager.Items>
-                <dxb:BarButtonItem x:Name="biOpen" Content="打开" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_16x16.png" LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_32x32.png" />
+                <dxb:BarButtonItem x:Name="biOpen" Content="打开配置" 
+                                   Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_16x16.png" 
+                                   LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_32x32.png" 
+                                   Command="{Binding openHardwareConfigCommand}" 
+                                   CommandParameter="{Binding ElementName=cardMenuConfigPanel}"/>
                 <dxb:BarButtonItem x:Name="biNew" Content="保存当前配置" LargeGlyph="{dx:DXImage Image=ExportFile_32x32.png}" Glyph="{dx:DXImage Image=ExportFile_16x16.png}"/>
                 <dxb:BarCheckItem x:Name="biCenter" Glyph="{dx:DXImage Image=ContentArrangeInColums_16x16.png}" GroupIndex="1"/>
                 <dxb:BarCheckItem x:Name="biRight" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Format/AlignRight_16x16.png" GroupIndex="1"/>
@@ -176,7 +196,7 @@
                                 <dxb:BarButtonItem x:Name="barButtonItem3" Content="远程连接" LargeGlyph="{dx:DXImage Image=IDE_32x32.png}" />
                                 <dxb:BarButtonItem x:Name="barButtonItem1" Content="硬件识别" LargeGlyph="{dx:DXImage Image=Find_32x32.png}" >
                                     <dxmvvm:Interaction.Triggers>
-                                        <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding cardRecognitionCommand}" CommandParameter="{Binding ElementName=cardMenuConfigPanel}"/>
+                                        <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding hardwareRecognitionCommand}" CommandParameter="{Binding ElementName=cardMenuConfigPanel}"/>
                                     </dxmvvm:Interaction.Triggers>
                                 </dxb:BarButtonItem>
                                 <dxb:BarButtonItem x:Name="barButtonItem5" LargeGlyph="{dx:DXImage Image=Add_32x32.png}" Content="添加硬件"/>
@@ -246,6 +266,14 @@
                                         <!--硬件配置菜单面板-->
                                         <dxdo:LayoutPanel Name="cardMenuConfigPanel" Caption="硬件设备" >
                                             <!--<setting:CardMenuConfig />-->
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWithOverflow" Margin="10,0">
+                                                <Run Text="点击" />
+                                                <Hyperlink Command="{Binding hardwareRecognitionCommand}" CommandParameter="{Binding ElementName=cardMenuConfigPanel}">此处</Hyperlink>
+                                                <Run Text="开始硬件识别" />
+                                                <Run Text="或" />
+                                                <Hyperlink Command="{Binding openHardwareConfigCommand}" CommandParameter="{Binding ElementName=cardMenuConfigPanel}">打开</Hyperlink>
+                                                <Run Text="一个本地已保存的配置" />
+                                            </TextBlock>
                                         </dxdo:LayoutPanel>
                                         
                                         <!--参数信息面板-->

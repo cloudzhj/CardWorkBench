@@ -7,9 +7,9 @@
              mc:Ignorable="d" >
     <Grid>
         <dxn:NavBarControl Name="navcontrol">
-            <dxn:NavBarGroup x:Name="navgroup" Header="Card1 设置" DisplayMode="Default" ImageSource="/CardWorkbench;component/Images/hardware_32.png"
+            <dxn:NavBarGroup x:Name="navgroup" Header="GDP4425设置" DisplayMode="Default" ImageSource="/CardWorkbench;component/Images/hardware_32.png"
 				                                ItemImageSettings="{dxn:NavBarImageSettings Height=32, Width=32}" >
-                <dxn:NavBarItem  Command="{Binding receiverSettingCommand}" >
+                <dxn:NavBarItem  Command="{Binding receiverSettingCommand,IsAsync=True}" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/01.png" />
                         <Label VerticalAlignment="Center" Margin="5,0,0,0">接收机</Label>

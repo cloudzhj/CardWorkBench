@@ -49,6 +49,7 @@ namespace CardWorkbench.ViewModels
       public static readonly string PANEL_DECOMOUTPUT_CAPTION = "解码输出";
       public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
       //硬件设置菜单栏对话框名称
+      public static readonly string DIALOG_HARDWAR_RECOGNITION_NAME = "hardwareRecognitionDialog";
       public static readonly string DIALOG_RECEIVER_SETTING_NAME = "receiverSettingDialog";  //接收机设置
       public static readonly string DIALOG_BITSYNC_SETTING_NAME = "bitSyncSettingDialog";  //位同步设置
       public static readonly string DIALOG_FRAMESYNC_SETTING_NAME = "frameSyncSettingDialog"; //帧同步设置
@@ -57,6 +58,8 @@ namespace CardWorkbench.ViewModels
 
        
       //注册服务声明
+      public IDialogService hardwareRecognitionDialogService { get { return GetService<IDialogService>(DIALOG_HARDWAR_RECOGNITION_NAME); } }  //获得硬件识别对话框服务
+
       public IDialogService receiverSettingDialogService { get { return GetService<IDialogService>(DIALOG_RECEIVER_SETTING_NAME); } }  //获得接收机设置对话框服务
 
       public IDialogService bitSyncSettingDialogService { get { return GetService<IDialogService>(DIALOG_BITSYNC_SETTING_NAME); } }  //获得位同步设置对话框服务
@@ -66,7 +69,7 @@ namespace CardWorkbench.ViewModels
       public IDialogService timeSettingDialogService { get { return GetService<IDialogService>(DIALOG_TIME_SETTING_NAME); } }  //获得时间同步设置对话框服务
 
       public IDialogService playBackSettingDialogService { get { return GetService<IDialogService>(DIALOG_PLAYBACK_SETTING_NAME); } }  //获得模拟回放设置对话框服务
-
+      public IOpenFileDialogService OpenFileDialogService { get { return GetService<IOpenFileDialogService>() ; } }  //获得文件选择对话框服务
 
       //参数实体类列表
       public List<Param> paramList { get; set; }
@@ -92,18 +95,53 @@ namespace CardWorkbench.ViewModels
       #region 顶部功能菜单命令绑定  
  
       /// <summary>
-      /// “硬件识别” 按钮command
+      /// 硬件识别对话框命令
       /// </summary>
-      public ICommand cardRecognitionCommand
+      public ICommand hardwareRecognitionCommand
       {
-          get { return new DelegateCommand<LayoutPanel>(onCardRecognitionClick, x => { return true; }); }
+          get { return new DelegateCommand<LayoutPanel>(onHardwareRecognitionClick, x => { return true; }); }
       }
 
-      private void onCardRecognitionClick(LayoutPanel cardMenuPanel)
+      private void onHardwareRecognitionClick(LayoutPanel cardMenuPanel)
+      {
+          UICommand okCommand = new UICommand()
+          {
+              Caption = "确定",
+              IsCancel = false,
+              IsDefault = true,
+              Command = new DelegateCommand<CancelEventArgs>(
+                 x => { },
+                 true
+              ),
+          };
+          UICommand cancelCommand = new UICommand()
+          {
+              Id = MessageBoxResult.Cancel,
+              Caption = "取消",
+              IsCancel = true,
+              IsDefault = false,
+          };
+          UICommand result = hardwareRecognitionDialogService.ShowDialog(
+              dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
+              title: "硬件识别",
+              viewModel: null
+          );
+
+          if (result == okCommand)
+          {
+              //cardMenuConfigPanel
+              onSelectHardwareLoad(cardMenuPanel);
+          }
+      }
+
+      /// <summary>
+      /// 加载选中板卡显示配置菜单命令
+      /// </summary>
+      private void onSelectHardwareLoad(LayoutPanel cardMenuPanel)
       {
           cardMenuPanel.Content = new CardMenuConfig();
 
-          //TEST.
+          //TEST////////////////////////////////////////////////
           FrameworkElement root = LayoutHelper.GetTopLevelVisual(cardMenuPanel);
           GroupBox receiverGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_recState");
           GroupBox bitSyncGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_bitSyncState");
@@ -111,7 +149,42 @@ namespace CardWorkbench.ViewModels
           receiverGrpBox.Content = new ReceiverStateGroupBox();
           bitSyncGrpBox.Content = new BitSyncStateGroupBox();
           frameSyncGrpBox.Content = new FrameSyncStateGroupBox();
+          ////////////////////////////////////////////////////
 
+      }
+
+      /// <summary>
+      /// 打开读取本地硬件配置文件对话框
+      /// </summary>
+      public ICommand openHardwareConfigCommand {
+          get { return new DelegateCommand<LayoutPanel>(onOpenHardwareConfigClick, x => { return true; }); }
+      }
+
+      private void onOpenHardwareConfigClick(LayoutPanel cardMenuPanel)
+      {
+          //System.Windows.Forms.FileDialog dialog = new System.Windows.Forms.OpenFileDialog();
+          //if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+          //{
+          //    onSelectHardwareLoad(cardMenuPanel);
+          //}
+          OpenFileDialogService.Filter = "配置文件|*.xml";
+          OpenFileDialogService.FilterIndex = 1;
+          bool DialogResult = OpenFileDialogService.ShowDialog();
+          if (!DialogResult)
+          {
+              //ResultFileName = string.Empty;
+          }
+          else
+          {
+              onSelectHardwareLoad(cardMenuPanel);
+
+              //IFileInfo file = OpenFileDialogService.Files.First();
+              //ResultFileName = file.Name;
+              //using (var stream = file.OpenText())
+              //{
+              //    FileBody = stream.ReadToEnd();
+              //}
+          }
       }
 
       /// <summary>
@@ -210,10 +283,10 @@ namespace CardWorkbench.ViewModels
       #endregion
 
       #region 硬件设置对话框命令绑定
-     
-      /**
-      声明弹出接收机设置界面命令
-      * **/
+
+      /// <summary>
+      /// 接收机设置对话框命令
+      /// </summary>
       public ICommand receiverSettingCommand
       {
           get { return new DelegateCommand<object>(onReceiverSettingClick, x => { return true; }); }
@@ -250,9 +323,9 @@ namespace CardWorkbench.ViewModels
           }
       }
 
-      /**
-   声明弹出位同步设置界面命令
-   * **/
+      /// <summary>
+      /// 位同步设置对话框命令
+      /// </summary>
       public ICommand bitSyncSettingCommand
       {
           get { return new DelegateCommand<object>(onBitSyncSettingClick, x => { return true; }); }
@@ -289,9 +362,9 @@ namespace CardWorkbench.ViewModels
           }
       }
 
-      /**
-        声明弹出帧同步设置界面命令
-        * **/
+     /// <summary>
+      /// 帧同步设置对话框命令
+     /// </summary>
       public ICommand frameSyncSettingCommand
       {
           get { return new DelegateCommand<object>(onFrameSyncSettingClick, x => { return true; }); }
@@ -328,9 +401,9 @@ namespace CardWorkbench.ViewModels
           }
       }
 
-      /**
-    声明弹出时间同步设置界面命令
-    * **/
+      /// <summary>
+      /// 时间同步设置对话框命令
+      /// </summary>
       public ICommand timeSettingCommand
       {
           get { return new DelegateCommand<object>(ontimeSyncSettingClick, x => { return true; }); }
@@ -366,9 +439,9 @@ namespace CardWorkbench.ViewModels
           }
       }
 
-      /**
-        声明弹出模拟回放设置界面命令
-        * **/
+      /// <summary>
+      /// 模拟回放设置对话框命令
+      /// </summary>
       public ICommand playBackSettingCommand
       {
           get { return new DelegateCommand<object>(onPlayBackSettingClick, x => { return true; }); }
