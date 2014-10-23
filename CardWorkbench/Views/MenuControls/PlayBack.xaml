@@ -11,9 +11,14 @@
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             Width="800" Height="600" >
-
-        <dxlc:LayoutControl x:Name="layoutControl" Orientation="Vertical" Padding="0" UseLayoutRounding="True" View="GroupBox">
+             Width="800" Height="600" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.MenuControls"
+             DataContext="{dxmvvm:ViewModelSource Type=viewModels:PlayBackViewModel}" >
+    <dxmvvm:Interaction.Triggers>
+        <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Loaded" Command="{Binding stopLoadingSplashCommand}" />
+    </dxmvvm:Interaction.Triggers>
+    <dxlc:LayoutControl x:Name="layoutControl" Orientation="Vertical" Padding="0" UseLayoutRounding="True" View="GroupBox">
             <dxlc:LayoutGroup Orientation="Vertical">
                 <GroupBox Header="本地文件模拟" Name="groupBox_localfile_sim" >
                     <dxlc:LayoutGroup Orientation="Vertical">

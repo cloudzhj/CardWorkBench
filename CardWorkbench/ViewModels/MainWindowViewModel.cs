@@ -23,6 +23,8 @@ using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Bars;
 using CardWorkbench.Views.MenuControls;
 using CardWorkbench.Views.CardStateGroup;
+using System.Threading;
+using DevExpress.Xpf.Core;
 
 namespace CardWorkbench.ViewModels
 {
@@ -70,8 +72,9 @@ namespace CardWorkbench.ViewModels
 
       public IDialogService playBackSettingDialogService { get { return GetService<IDialogService>(DIALOG_PLAYBACK_SETTING_NAME); } }  //获得模拟回放设置对话框服务
       public IOpenFileDialogService OpenFileDialogService { get { return GetService<IOpenFileDialogService>() ; } }  //获得文件选择对话框服务
+      public ISplashScreenService SplashScreenService { get { return GetService<ISplashScreenService>(); } } //LOADING splash screen服务
 
-      //参数实体类列表
+        //参数实体类列表
       public List<Param> paramList { get; set; }
       public List<CalibrateType> calibrateTypeList { get; set; }
       public List<ParamSortType> paramSortTypeList { get; set; }
@@ -294,6 +297,8 @@ namespace CardWorkbench.ViewModels
 
       private void onReceiverSettingClick(object context)
       {
+          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
+
           UICommand okCommand = new UICommand()
           {
               Caption = "确定",
@@ -311,6 +316,7 @@ namespace CardWorkbench.ViewModels
               IsCancel = true,
               IsDefault = false,
           };
+          //DXSplashScreen.Show<SplashScreenView>();
           UICommand result = receiverSettingDialogService.ShowDialog(
               dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
               title: "接收机设置",
@@ -333,6 +339,7 @@ namespace CardWorkbench.ViewModels
 
       private void onBitSyncSettingClick(object context)
       {
+          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
           UICommand okCommand = new UICommand()
           {
               Caption = "确定",
@@ -372,6 +379,8 @@ namespace CardWorkbench.ViewModels
 
       private void onFrameSyncSettingClick(object context)
       {
+          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
+
           UICommand okCommand = new UICommand()
           {
               Caption = "确定",
@@ -410,6 +419,8 @@ namespace CardWorkbench.ViewModels
       }
       private void ontimeSyncSettingClick(object context)
       {
+          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
+
           UICommand okCommand = new UICommand()
           {
               Caption = "确定",
@@ -448,6 +459,8 @@ namespace CardWorkbench.ViewModels
       }
       private void onPlayBackSettingClick(object context)
       {
+          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
+
           UICommand okCommand = new UICommand()
           {
               Caption = "确定",

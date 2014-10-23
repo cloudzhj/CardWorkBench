@@ -9,8 +9,14 @@
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:System="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" >
+             mc:Ignorable="d" 
+             xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.MenuControls"
+             DataContext="{dxmvvm:ViewModelSource Type=viewModels:BitSyncUCViewModel}" >
+    <dxmvvm:Interaction.Triggers>
+        <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Loaded" Command="{Binding stopLoadingSplashCommand}" />
+    </dxmvvm:Interaction.Triggers>
     <Grid>
     	<Grid.ColumnDefinitions>
     		<ColumnDefinition Width="0.4*"/>

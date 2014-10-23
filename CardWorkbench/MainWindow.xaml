@@ -11,6 +11,7 @@
         xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+        xmlns:proj="clr-namespace:CardWorkbench" 
         xmlns:local="clr-namespace:CardWorkbench.Views.CommonTools" 
         xmlns:setting="clr-namespace:CardWorkbench.Views.MenuControls" 
         xmlns:customControls="clr-namespace:CardWorkbench.Views.CustomControls" 
@@ -18,7 +19,8 @@
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
-        Title="地面站配套软件 V1.0" Height="768" Width="1024" WindowState="Maximized"
+        dx:DXSplashScreen.SplashScreenType="{x:Type proj:MainSplashScreen}" 
+        Title="地面站配套软件 Beta1.0" Height="768" Width="1024" WindowState="Maximized"
         DataContext="{dxmvvm:ViewModelSource Type=viewModels:MainWindowViewModel}" >
 
     <!--自定义Slider资源-->
@@ -32,6 +34,13 @@
     
     <!--服务注册-->
     <dxmvvm:Interaction.Behaviors>
+        <!--<dx:DXSplashScreenService>
+            <dx:DXSplashScreenService.ViewTemplate>
+                <DataTemplate>
+                    <proj:SplashScreenView/>
+                </DataTemplate>
+            </dx:DXSplashScreenService.ViewTemplate>
+        </dx:DXSplashScreenService>-->
         <!--硬件识别对话框-->
         <dx:DialogService Name="hardwareRecognitionDialog" DialogWindowStartupLocation="CenterOwner">
             <dx:DialogService.ViewTemplate>
@@ -56,7 +65,7 @@
                 </DataTemplate>
             </dx:DialogService.ViewTemplate>
             <dx:DialogService.DialogStyle>
-                <Style TargetType="dx:DXDialogWindow">
+                <Style TargetType="dx:DXDialogWindow" >
                     <Setter Property="Width" Value="800"/>
                     <Setter Property="Height" Value="600"/>
                 </Style>

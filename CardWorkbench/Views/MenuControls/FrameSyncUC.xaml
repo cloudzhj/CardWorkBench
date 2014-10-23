@@ -11,13 +11,14 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" >
-        <!--<UserControl.Resources>
-            <Style TargetType="dxlc:GroupBox">
-                <Setter Property="Background" Value="#FF838383"/>
-            </Style>
-        </UserControl.Resources>-->
-        <Grid>
+             mc:Ignorable="d" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.MenuControls"
+             DataContext="{dxmvvm:ViewModelSource Type=viewModels:FrameSyncUCViewModel}" >
+    <dxmvvm:Interaction.Triggers>
+        <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Loaded" Command="{Binding stopLoadingSplashCommand}" />
+    </dxmvvm:Interaction.Triggers>
+    <Grid>
             <dxlc:LayoutControl x:Name="layoutControl" Padding="0">
             <dxlc:LayoutGroup Header="LayoutGroup" Width="{Binding ActualWidth, ElementName=layoutControl}" Height="{Binding ActualHeight, ElementName=layoutControl}" View="Tabs">
                 <dxlc:LayoutGroup Header="帧同步" >

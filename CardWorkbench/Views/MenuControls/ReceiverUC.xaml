@@ -12,7 +12,12 @@
              xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             >
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.MenuControls"
+             DataContext="{dxmvvm:ViewModelSource Type=viewModels:ReceiverUCViewModel}" >
+    <dxmvvm:Interaction.Triggers>
+        <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Loaded" Command="{Binding stopLoadingSplashCommand}" />
+    </dxmvvm:Interaction.Triggers>
             <Grid SnapsToDevicePixels="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.55*"/>

@@ -82,6 +82,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\DevExpress.Mvvm.v14.1.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Charts.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\DevExpress.Xpf.Charts.v14.1.dll</HintPath>
@@ -146,6 +147,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DXSplashScreen\MainSplashScreen.xaml.cs">
+      <DependentUpon>MainSplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DXSplashScreen\SplashScreenView.xaml.cs" />
     <Compile Include="Models\CalibrateType.cs" />
     <Compile Include="Models\HardwareModel.cs" />
     <Compile Include="Models\Param.cs" />
@@ -161,6 +166,12 @@
     <Compile Include="ViewModels\CommonTools\FrameDumpViewModel.cs" />
     <Compile Include="ViewModels\CustomControls\RFLevelMasterGaugeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MenuControls\BitSyncUCViewModel.cs" />
+    <Compile Include="ViewModels\MenuControls\FrameSyncUCViewModel.cs" />
+    <Compile Include="ViewModels\MenuControls\MenuControlsViewModel.cs" />
+    <Compile Include="ViewModels\MenuControls\PlayBackViewModel.cs" />
+    <Compile Include="ViewModels\MenuControls\ReceiverUCViewModel.cs" />
+    <Compile Include="ViewModels\MenuControls\TimeUCViewModel.cs" />
     <Compile Include="Views\CardStateGroup\BitSyncStateGroupBox.xaml.cs">
       <DependentUpon>BitSyncStateGroupBox.xaml</DependentUpon>
     </Compile>
@@ -186,6 +197,14 @@
       <DependentUpon>CardMenuConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MenuControls\PlayBack.xaml.cs" />
+    <Page Include="DXSplashScreen\MainSplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DXSplashScreen\SplashScreenView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\SliderCustomStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -424,9 +443,6 @@
     <Resource Include="Images\3\7.png" />
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="SplashScreen.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
@@ -460,6 +476,8 @@
     <Content Include="DLL\DevExpress.Xpf.Printing.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Ribbon.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Themes.Office2013DarkGray.v14.1.dll" />
+    <Resource Include="DXSplashScreen\Image.png" />
+    <Resource Include="DXSplashScreen\Logo.png" />
   </ItemGroup>
   <ItemGroup>
     <PublishFile Include="DevExpress.Charts.v14.1.Core">
