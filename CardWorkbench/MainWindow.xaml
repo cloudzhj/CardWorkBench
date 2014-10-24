@@ -20,7 +20,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         dx:DXSplashScreen.SplashScreenType="{x:Type proj:MainSplashScreen}" 
-        Title="地面站配套软件 Beta1.0" Height="768" Width="1024" WindowState="Maximized"
+        Title="地面站配套软件 demo" Height="768" Width="1024" WindowState="Maximized"
         DataContext="{dxmvvm:ViewModelSource Type=viewModels:MainWindowViewModel}" >
 
     <!--自定义Slider资源-->

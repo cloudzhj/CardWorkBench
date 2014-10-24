@@ -71,7 +71,7 @@ namespace CardWorkbench.ViewModels.CommonControls
               if (series2D == null && xyDiagram2D != null)
               {
                   series2D = xyDiagram2D.Series[0] as LineSeries2D;
-                  timer.Interval = TimeSpan.FromMilliseconds(100);
+                  timer.Interval = TimeSpan.FromMilliseconds(50);
                   timer.Tick += new EventHandler(RefreshPlot);
                   timer.IsEnabled = true;
               }
