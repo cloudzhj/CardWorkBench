@@ -183,7 +183,7 @@
             </dxb:BarManager.Items>
             <!--主界面dock面板-->
             <DockPanel>
-                <dxr:RibbonControl DockPanel.Dock="Top" AllowCustomization="False"  RibbonStyle="Office2010" RibbonTitleBarVisibility="Collapsed" ToolbarShowMode="Hide" AllowKeyTips="False">
+                <dxr:RibbonControl Name="ribbonControl" DockPanel.Dock="Top" AllowCustomization="False"  RibbonStyle="Office2010" RibbonTitleBarVisibility="Collapsed" ToolbarShowMode="Hide" AllowKeyTips="False">
                     <dxr:RibbonControl.ApplicationMenu>
                         <dxr:ApplicationMenu RightPaneWidth="280" ShowRightPane="False">
                             <dxr:ApplicationMenu.ItemLinks>
@@ -215,7 +215,7 @@
                                 <dxb:BarButtonItemLink BarItemName="biNew"/>
                             </dxr:RibbonPageGroup>
                         </dxr:RibbonPage>
-                        <dxr:RibbonPage Caption="工具">
+                        <dxr:RibbonPage Name="toolsRibbonPage" Caption="工具" IsEnabled="False">
                             <dxr:RibbonPageGroup Caption="硬件工具">
                                 <!--<dxb:BarButtonItem x:Name="barButtonItem6" Content="位同步眼图" LargeGlyph="{dx:DXImage Image=Show_32x32.png}" ItemClick="barButtonItem4_ItemClick" PreviewMouseLeftButtonDown="barButtonItem6_PreviewMouseDown"/>-->
                                 <dxb:BarButtonItem x:Name="barButtonItem4" Content="接收机波形显示" LargeGlyph="{dx:DXImage Image=Spline_32x32.png}">
@@ -374,7 +374,7 @@
                                                 			<GroupBox Header="接收机状态" x:Name="groupBox_recState"  >
                                                 				<GroupBox.HeaderTemplate>
                                                 					<DataTemplate >
-                                                						<TextBlock Foreground="Orange"  FontStyle="Italic" FontWeight="Medium" Margin="3" Text="接收机状态"/>
+                                                						<TextBlock Foreground="Orange"   FontWeight="Medium" Margin="3" Text="接收机状态"/>
                                                 					</DataTemplate>
                                                 				</GroupBox.HeaderTemplate>
                                                 				
@@ -384,7 +384,7 @@
                                                 			<GroupBox Header="位同步状态" x:Name="groupBox_bitSyncState" Margin="0,0,5,0"  >
                                                 				<GroupBox.HeaderTemplate>
                                                 					<DataTemplate >
-                                                						<TextBlock Foreground="Orange"  FontStyle="Italic" FontWeight="Medium" Margin="3" Text="位同步状态"/>
+                                                						<TextBlock Foreground="Orange"   FontWeight="Medium" Margin="3" Text="位同步状态"/>
                                                 					</DataTemplate>
                                                 				</GroupBox.HeaderTemplate>
                                                 				
@@ -394,7 +394,7 @@
                                                 			<GroupBox Header="帧同步状态" x:Name="groupBox_frameSyncState" Margin="5,0,0,0" >
                                                 				<GroupBox.HeaderTemplate>
                                                 					<DataTemplate >
-                                                						<TextBlock Foreground="Orange"  FontStyle="Italic" FontWeight="Medium" Margin="3" Text="帧同步状态"/>
+                                                						<TextBlock Foreground="Orange"   FontWeight="Medium" Margin="3" Text="帧同步状态"/>
                                                 					</DataTemplate>
                                                 				</GroupBox.HeaderTemplate>
                                                 				

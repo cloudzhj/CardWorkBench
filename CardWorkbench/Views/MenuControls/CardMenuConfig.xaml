@@ -35,12 +35,12 @@
                         <Label VerticalAlignment="Center" Margin="5,0,0,0">解码</Label>
                     </StackPanel>
                 </dxn:NavBarItem>
-                <dxn:NavBarItem Command="{Binding playBackSettingCommand}">
+                <!--<dxn:NavBarItem Command="{Binding playBackSettingCommand}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/05.png" />
                         <Label VerticalAlignment="Center" Margin="5,0,0,0">模拟</Label>
                     </StackPanel>
-                </dxn:NavBarItem>
+                </dxn:NavBarItem>-->
                 <dxn:NavBarItem Command="{Binding timeSettingCommand}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/06.png" />

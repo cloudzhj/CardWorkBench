@@ -39,7 +39,10 @@ namespace CardWorkbench.ViewModels
       //工作区document group 名称
       public static readonly string DOCUMENTGROUP_NAME = "documentContainer";
       //工作区自定义控件Canvas名称
-      public static readonly string CANVAS_CUSTOM_CONTROL_NAME = "workCanvas";  
+      public static readonly string CANVAS_CUSTOM_CONTROL_NAME = "workCanvas";
+      //Ribbon标签栏及其组件名称
+      public static readonly string RIBBONCONTROL_NAME = "ribbonControl";
+      public static readonly string RIBBONPAGE_TOOLS_NAME = "toolsRibbonPage";  
       //工具panel名称、标题 
       public static readonly string PANEL_FRAMEDUMP_NAME = "frameDumpPanel";
       public static readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
@@ -144,8 +147,8 @@ namespace CardWorkbench.ViewModels
       {
           cardMenuPanel.Content = new CardMenuConfig();
 
-          //TEST////////////////////////////////////////////////
           FrameworkElement root = LayoutHelper.GetTopLevelVisual(cardMenuPanel);
+          //TEST 显示主页硬件状态////////////////////////////////////////////////
           GroupBox receiverGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_recState");
           GroupBox bitSyncGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_bitSyncState");
           GroupBox frameSyncGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_frameSyncState");
@@ -154,6 +157,10 @@ namespace CardWorkbench.ViewModels
           frameSyncGrpBox.Content = new FrameSyncStateGroupBox();
           ////////////////////////////////////////////////////
 
+          //开启ribbon工具标签页
+          RibbonControl ribbonControl = (RibbonControl)LayoutHelper.FindElementByName(root, RIBBONCONTROL_NAME);
+          RibbonPage ribbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_TOOLS_NAME) as RibbonPage;
+          ribbonPage.IsEnabled = true;
       }
 
       /// <summary>

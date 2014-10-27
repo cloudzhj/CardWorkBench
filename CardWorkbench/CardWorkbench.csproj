@@ -434,15 +434,6 @@
     <Resource Include="Images\2\14.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\3\1.png" />
-    <Resource Include="Images\3\2.png" />
-    <Resource Include="Images\3\3.png" />
-    <Resource Include="Images\3\4.png" />
-    <Resource Include="Images\3\5.png" />
-    <Resource Include="Images\3\6.png" />
-    <Resource Include="Images\3\7.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
@@ -476,6 +467,11 @@
     <Content Include="DLL\DevExpress.Xpf.Printing.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Ribbon.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Themes.Office2013DarkGray.v14.1.dll" />
+    <Resource Include="Images\play\record.png" />
+    <Resource Include="Images\play\pause.png" />
+    <Resource Include="Images\play\play.png" />
+    <Resource Include="Images\play\stop.png" />
+    <Resource Include="Images\play\recording.png" />
     <Resource Include="DXSplashScreen\Image.png" />
     <Resource Include="DXSplashScreen\Logo.png" />
   </ItemGroup>

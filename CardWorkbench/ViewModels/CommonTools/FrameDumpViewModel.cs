@@ -15,15 +15,31 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace CardWorkbench.ViewModels.CommonTools
 {
     public class FrameDumpViewModel : ViewModelBase
     {
-        //“开始”按钮文本常量
-        public readonly string BUTTON_CONTENT_START = "开始";
-        public readonly string BUTTON_CONTENT_STOP = "停止";
+        //Image控件名称
+        public readonly string IMAGE_PLAY_FRAMEDATA_NAME = "playFrameDataImg";
+        public readonly string IMAGE_RECORD_FRAMEDATA_NAME = "recordFrameDataImg";
+
+        //Image资源路径
+        public readonly string PATH_IMAGE_PLAY_PAUSE = "/Images/play/pause.png";
+        public readonly string PATH_IMAGE_PLAY_PLAY = "/Images/play/play.png";
+        public readonly string PATH_IMAGE_PLAY_RECORD = "/Images/play/record.png";
+        public readonly string PATH_IMAGE_PLAY_RECORDING = "/Images/play/recording.png";
+
+        //按钮提示文本
+        public readonly string TOOLTIP_BUTTON_PLAY_FRAMEDATA = "开始";
+        public readonly string TOOLTIP_BUTTON_PAUSE_FRAMEDATA = "暂停";
+        public readonly string TOOLTIP_BUTTON_RECORD_FRAMEDATA = "记录";
+        public readonly string TOOLTIP_BUTTON_STOP_RECORD_FRAMEDATA = "停止记录";
+
+        //FRAMEData的Grid名称
+        public readonly string GRID_FRAMEDATA_NAME = "frameGrid";
 
         private DispatcherTimer timer = new DispatcherTimer();
         GridControl frameDataGrid = null;
@@ -35,6 +51,9 @@ namespace CardWorkbench.ViewModels.CommonTools
         string filterFrameID = "ALL";  //筛选子帧ID的临时变量
         bool isReset = false; //是否重置接收数据
 
+        /// <summary>
+        /// 点击“开始”接收或播放数据命令
+        /// </summary>
         public ICommand startFrameDataCommand
         {
             get { return new DelegateCommand<RoutedEventArgs>(onStartFrameDataClick, x => { return true; }); }
@@ -43,13 +62,15 @@ namespace CardWorkbench.ViewModels.CommonTools
         private void onStartFrameDataClick(RoutedEventArgs e)
         {
             ToggleButton startFrameData_btn = e.Source as ToggleButton;
+            Image playFrameDataImg = startFrameData_btn.FindName(IMAGE_PLAY_FRAMEDATA_NAME) as Image;
 
             FrameworkElement root = LayoutHelper.GetTopLevelVisual(startFrameData_btn as DependencyObject);
-            frameDataGrid = (GridControl)LayoutHelper.FindElementByName(root, "frameGrid");
+            frameDataGrid = (GridControl)LayoutHelper.FindElementByName(root, GRID_FRAMEDATA_NAME);
 
             if (startFrameData_btn.IsChecked == true)
             {
-                startFrameData_btn.Content = BUTTON_CONTENT_STOP;
+                playFrameDataImg.Source = new BitmapImage(new Uri(PATH_IMAGE_PLAY_PAUSE, UriKind.Relative));
+                startFrameData_btn.ToolTip = TOOLTIP_BUTTON_PAUSE_FRAMEDATA;
                 
                 //新建一个线程去更新datagrid
                 //List<FrameModel> row_lst = frameDataGrid.ItemsSource as List<FrameModel>;
@@ -71,9 +92,40 @@ namespace CardWorkbench.ViewModels.CommonTools
             }
             else
             {
-                startFrameData_btn.Content = BUTTON_CONTENT_START;
+                playFrameDataImg.Source = new BitmapImage(new Uri(PATH_IMAGE_PLAY_PLAY, UriKind.Relative));
+                startFrameData_btn.ToolTip = TOOLTIP_BUTTON_PLAY_FRAMEDATA;
+                
                 timer.Stop();
                 isTimerPause = true; //计时暂停
+            }
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommand recordFrameDataCommand
+        {
+            get { return new DelegateCommand<RoutedEventArgs>(onRecordFrameDataClick, x => { return true; }); }
+        }
+
+        private void onRecordFrameDataClick(RoutedEventArgs e)
+        {
+            ToggleButton recordFrameData_btn = e.Source as ToggleButton;
+            Image recordFrameDataImg = recordFrameData_btn.FindName(IMAGE_RECORD_FRAMEDATA_NAME) as Image;
+
+           // FrameworkElement root = LayoutHelper.GetTopLevelVisual(recordFrameData_btn as DependencyObject);
+           // frameDataGrid = (GridControl)LayoutHelper.FindElementByName(root, "frameGrid");
+
+            if (recordFrameData_btn.IsChecked == true)
+            {
+                recordFrameDataImg.Source = new BitmapImage(new Uri(PATH_IMAGE_PLAY_RECORDING, UriKind.Relative));
+                recordFrameData_btn.ToolTip = TOOLTIP_BUTTON_STOP_RECORD_FRAMEDATA;
+            }
+            else
+            {
+                recordFrameDataImg.Source = new BitmapImage(new Uri(PATH_IMAGE_PLAY_RECORD, UriKind.Relative));
+                recordFrameData_btn.ToolTip = TOOLTIP_BUTTON_RECORD_FRAMEDATA;
             }
 
         }
