@@ -53,6 +53,7 @@ namespace CardWorkbench.ViewModels
       public static readonly string PANEL_DECOMOUTPUT_NAME = "decomOutputPanel";
       public static readonly string PANEL_DECOMOUTPUT_CAPTION = "解码输出";
       public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
+      public static readonly string DOCUMENTPANEL_WORKSTATE_NAME = "document1"; //工作区硬件工作状态panel名称
       //硬件设置菜单栏对话框名称
       public static readonly string DIALOG_HARDWAR_RECOGNITION_NAME = "hardwareRecognitionDialog";
       public static readonly string DIALOG_RECEIVER_SETTING_NAME = "receiverSettingDialog";  //接收机设置
@@ -147,11 +148,11 @@ namespace CardWorkbench.ViewModels
       {
           cardMenuPanel.Content = new CardMenuConfig();
 
-          FrameworkElement root = LayoutHelper.GetTopLevelVisual(cardMenuPanel);
+          FrameworkElement root = LayoutHelper.GetRoot(cardMenuPanel);
           //TEST 显示主页硬件状态////////////////////////////////////////////////
-          GroupBox receiverGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_recState");
-          GroupBox bitSyncGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_bitSyncState");
-          GroupBox frameSyncGrpBox = (GroupBox)LayoutHelper.FindElementByName(root, "groupBox_frameSyncState");
+          GroupBox receiverGrpBox = (GroupBox)root.FindName("groupBox_recState");
+          GroupBox bitSyncGrpBox = (GroupBox)root.FindName("groupBox_bitSyncState");
+          GroupBox frameSyncGrpBox = (GroupBox)root.FindName("groupBox_frameSyncState");
           receiverGrpBox.Content = new ReceiverStateGroupBox();
           bitSyncGrpBox.Content = new BitSyncStateGroupBox();
           frameSyncGrpBox.Content = new FrameSyncStateGroupBox();

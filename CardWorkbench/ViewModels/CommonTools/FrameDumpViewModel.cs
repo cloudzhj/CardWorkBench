@@ -4,6 +4,7 @@ using DevExpress.Mvvm.UI;
 using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.LayoutControl;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -22,10 +24,12 @@ namespace CardWorkbench.ViewModels.CommonTools
 {
     public class FrameDumpViewModel : ViewModelBase
     {
-        //Image控件名称
+        //Button名称
+        public readonly string BUTTON_PLAY_FRAMEDATA_NAME = "startFrameData_btn";
+        public readonly string BUTTON_RECORD_FRAMEDATA_NAME = "recordFrameData_btn";
+        //Button Image控件名称
         public readonly string IMAGE_PLAY_FRAMEDATA_NAME = "playFrameDataImg";
         public readonly string IMAGE_RECORD_FRAMEDATA_NAME = "recordFrameDataImg";
-
         //Image资源路径
         public readonly string PATH_IMAGE_PLAY_PAUSE = "/Images/play/pause.png";
         public readonly string PATH_IMAGE_PLAY_PLAY = "/Images/play/play.png";
@@ -40,6 +44,15 @@ namespace CardWorkbench.ViewModels.CommonTools
 
         //FRAMEData的Grid名称
         public readonly string GRID_FRAMEDATA_NAME = "frameGrid";
+        //模式切换下拉选项名称
+        public readonly string COMBOBOX_CHANGEMODEL_REALTIME = "实时";
+        public readonly string COMBOBOX_CHANGEMODEL_PLAYBACK = "回放";
+        //回放设置组名称
+        public readonly string LAYOUTGROUP_PLAYBACK_NAME = "playBack_setting_group";
+        //回放时间显示panel名称
+        public readonly string PANEL_RECORDTIME_NAME = "recordTimePanel";
+        //回放时间显示image名称
+        public readonly string IMAGE_RECORDTIME_NAME = "recordTimeImage";
 
         private DispatcherTimer timer = new DispatcherTimer();
         GridControl frameDataGrid = null;
@@ -50,6 +63,26 @@ namespace CardWorkbench.ViewModels.CommonTools
         bool isTimerPause = false;  //计时器是否暂停
         string filterFrameID = "ALL";  //筛选子帧ID的临时变量
         bool isReset = false; //是否重置接收数据
+
+        public IOpenFileDialogService OpenFileDialogService { get { return GetService<IOpenFileDialogService>(); } }  //获得文件选择对话框服务
+
+        public ICommand frameDumpLoadedCommand {
+            get { return new DelegateCommand<RoutedEventArgs>(onframeDumpLoaded, x => { return true; }); }
+        }
+
+        private void onframeDumpLoaded(RoutedEventArgs e)
+        {
+           
+            FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
+
+            StackPanel recordTimeTextPanel = LayoutHelper.FindElementByName(root, PANEL_RECORDTIME_NAME) as StackPanel;
+
+            TextBox currentTimeTextbox = recordTimeTextPanel.FindName("currentTimeTextbox") as TextBox;
+            DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 1), DispatcherPriority.Normal, delegate
+            {
+                currentTimeTextbox.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            }, currentTimeTextbox.Dispatcher);
+        }
 
         /// <summary>
         /// 点击“开始”接收或播放数据命令
@@ -66,12 +99,18 @@ namespace CardWorkbench.ViewModels.CommonTools
 
             FrameworkElement root = LayoutHelper.GetTopLevelVisual(startFrameData_btn as DependencyObject);
             frameDataGrid = (GridControl)LayoutHelper.FindElementByName(root, GRID_FRAMEDATA_NAME);
+            ToggleButton recordFrameDataButton = LayoutHelper.FindElementByName(root, BUTTON_RECORD_FRAMEDATA_NAME) as ToggleButton;
+            Image recordFlashImage = LayoutHelper.FindElementByName(root, IMAGE_RECORDTIME_NAME) as Image;
+            StackPanel recordTimeTextPanel = LayoutHelper.FindElementByName(root, PANEL_RECORDTIME_NAME) as StackPanel;
 
             if (startFrameData_btn.IsChecked == true)
             {
+                //更改按钮外观
                 playFrameDataImg.Source = new BitmapImage(new Uri(PATH_IMAGE_PLAY_PAUSE, UriKind.Relative));
                 startFrameData_btn.ToolTip = TOOLTIP_BUTTON_PAUSE_FRAMEDATA;
-                
+                //记录按钮可点击
+                recordFrameDataButton.IsEnabled = true;
+
                 //新建一个线程去更新datagrid
                 //List<FrameModel> row_lst = frameDataGrid.ItemsSource as List<FrameModel>;
                 //foreach (FrameModel rowModel in row_lst)
@@ -92,9 +131,15 @@ namespace CardWorkbench.ViewModels.CommonTools
             }
             else
             {
+                //还原按钮外观
                 playFrameDataImg.Source = new BitmapImage(new Uri(PATH_IMAGE_PLAY_PLAY, UriKind.Relative));
                 startFrameData_btn.ToolTip = TOOLTIP_BUTTON_PLAY_FRAMEDATA;
-                
+
+                //TODO 如果已开始记录，则停止记录并询问是否保存，还原记录按钮不可点击，结束动画，隐藏记录时间
+                recordFrameDataButton.IsEnabled = false;              
+                recordFlashImage.BeginAnimation(TextBlock.OpacityProperty, null);
+                recordTimeTextPanel.Visibility = Visibility.Hidden;
+
                 timer.Stop();
                 isTimerPause = true; //计时暂停
             }
@@ -102,7 +147,7 @@ namespace CardWorkbench.ViewModels.CommonTools
         }
 
         /// <summary>
-        /// 
+        /// "记录"数据按钮命令
         /// </summary>
         public ICommand recordFrameDataCommand
         {
@@ -114,18 +159,40 @@ namespace CardWorkbench.ViewModels.CommonTools
             ToggleButton recordFrameData_btn = e.Source as ToggleButton;
             Image recordFrameDataImg = recordFrameData_btn.FindName(IMAGE_RECORD_FRAMEDATA_NAME) as Image;
 
-           // FrameworkElement root = LayoutHelper.GetTopLevelVisual(recordFrameData_btn as DependencyObject);
-           // frameDataGrid = (GridControl)LayoutHelper.FindElementByName(root, "frameGrid");
+            FrameworkElement root = LayoutHelper.GetTopLevelVisual(recordFrameData_btn as DependencyObject);
+            StackPanel recordTimeTextPanel = LayoutHelper.FindElementByName(root, PANEL_RECORDTIME_NAME) as StackPanel;
+            Image recordFlashImage = recordTimeTextPanel.FindName(IMAGE_RECORDTIME_NAME) as Image;
 
-            if (recordFrameData_btn.IsChecked == true)
+            if (recordFrameData_btn.IsChecked == true)  //开始记录
             {
+                //TODO 需要判断当前是否开始播放数据
+
+                //更改按钮外观
                 recordFrameDataImg.Source = new BitmapImage(new Uri(PATH_IMAGE_PLAY_RECORDING, UriKind.Relative));
                 recordFrameData_btn.ToolTip = TOOLTIP_BUTTON_STOP_RECORD_FRAMEDATA;
+                //显示记录时间，开始动画
+                recordTimeTextPanel.Visibility = Visibility.Visible;
+                DoubleAnimation da = new DoubleAnimation();
+                da.From = 1;
+                da.To = 0.2;
+                da.RepeatBehavior = RepeatBehavior.Forever;
+                da.AutoReverse = true;
+                da.Duration = TimeSpan.FromMilliseconds(500);
+                recordFlashImage.BeginAnimation(TextBlock.OpacityProperty, da);
+
+                
             }
-            else
+            else //停止记录
             {
+                //TODO 弹出记录文件“另存为...”对话框
+                
+                //还原按钮外观
                 recordFrameDataImg.Source = new BitmapImage(new Uri(PATH_IMAGE_PLAY_RECORD, UriKind.Relative));
                 recordFrameData_btn.ToolTip = TOOLTIP_BUTTON_RECORD_FRAMEDATA;
+                //结束动画，隐藏记录时间
+                recordFlashImage.BeginAnimation(TextBlock.OpacityProperty, null);
+                recordTimeTextPanel.Visibility = Visibility.Hidden;
+
             }
 
         }
@@ -181,6 +248,9 @@ namespace CardWorkbench.ViewModels.CommonTools
             }));
         }
 
+        /// <summary>
+        /// 过滤子帧号命令
+        /// </summary>
         public ICommand filterFrameIDCommand {
             get { return new DelegateCommand<RoutedEventArgs>(onfilterFrameIDChanged, x => { return true; }); }
         }
@@ -191,6 +261,75 @@ namespace CardWorkbench.ViewModels.CommonTools
             filterFrameID = filterId;
             isReset = true;
         }
+
+        /// <summary>
+        /// 设置当前模式命令
+        /// </summary>
+        public ICommand changeModelCommand
+        {
+            get { return new DelegateCommand<RoutedEventArgs>(onChangeModel, x => { return true; }); }
+        }
+
+        private void onChangeModel(RoutedEventArgs e)
+        {
+            //TODO 1. 如有数据，则先停止暂停当前的数据播放
+
+            //2.切换模式
+            ComboBoxEdit comboBox = e.Source as ComboBoxEdit;
+            string model = comboBox.EditValue as string;
+            FrameworkElement root = LayoutHelper.GetTopLevelVisual(comboBox as DependencyObject);
+            LayoutGroup playBackSettingGroup = LayoutHelper.FindElementByName(root, LAYOUTGROUP_PLAYBACK_NAME) as LayoutGroup;
+            ToggleButton recordFrameDataBtn = LayoutHelper.FindElementByName(root, BUTTON_RECORD_FRAMEDATA_NAME) as ToggleButton;
+
+            if (COMBOBOX_CHANGEMODEL_REALTIME.Equals(model))  //实时模式
+            {
+                //回放设置不可见
+                playBackSettingGroup.IsEnabled = false;
+                playBackSettingGroup.IsCollapsed = true;
+                //记录按钮可用
+                recordFrameDataBtn.IsEnabled = true;
+            }
+            else if (COMBOBOX_CHANGEMODEL_PLAYBACK.Equals(model)) //回放模式
+            {
+                //回放设置可见
+                playBackSettingGroup.IsEnabled = true;
+                playBackSettingGroup.IsCollapsed = false;
+                //记录按钮不可用
+                recordFrameDataBtn.IsEnabled = false;
+
+            }
+            
+        }
+
+        /// <summary>
+        /// 选择回放文件按钮命令
+        /// </summary>
+        public ICommand selectPlayBackDatafileCommand
+        {
+            get { return new DelegateCommand<RoutedEventArgs>(onSelectPlayBackDatafile, x => { return true; }); }
+        }
+        private void onSelectPlayBackDatafile(RoutedEventArgs e)
+        {
+            Button buttonInfo = e.Source as Button;
+            ButtonEdit be = LayoutHelper.FindLayoutOrVisualParentObject<ButtonEdit>(buttonInfo as DependencyObject);
+            if (be == null)
+                return;
+            //System.Windows.Forms.FileDialog dialog = new System.Windows.Forms.OpenFileDialog();
+            //if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    be.EditValue = dialog.FileName;
+            //}
+            OpenFileDialogService.Filter = "数据文件|*.dat";
+            OpenFileDialogService.FilterIndex = 1;
+            bool DialogResult = OpenFileDialogService.ShowDialog();
+            if (DialogResult)
+            {
+               IFileInfo file = OpenFileDialogService.Files.First();
+               be.EditValue = file.Name;
+            }
+            
+        }
+
     }
 
     //子线程刷新

@@ -16,40 +16,44 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
              xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.CommonTools"
              DataContext="{dxmvvm:ViewModelSource Type=viewModels:FrameDumpViewModel}" >
-
-
-    <!--<UserControl.Resources>
-        <Style x:Key="customCellStyle"
-    BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=CellStyle}}"
-    TargetType="dxg:CellContentPresenter">
-            <Setter Property="Background" Value="{Binding Path=RowData.Row.*NameOfTheColumnToChangeBackGroundColor*}" />
-        </Style>
-    </UserControl.Resources>-->
+    <dxmvvm:Interaction.Triggers>
+        <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Loaded" Command="{Binding frameDumpLoadedCommand}" />
+    </dxmvvm:Interaction.Triggers>
+    <!--服务注册-->
+    <dxmvvm:Interaction.Behaviors>
+        <!--配置文件选择对话框-->
+        <dxmvvm:OpenFileDialogService Title="选择回放数据文件" RestorePreviouslySelectedDirectory="True"/>
+    </dxmvvm:Interaction.Behaviors>
     <dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
         <dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Horizontal" VerticalAlignment="Top">
-                <dxlc:LayoutItem IsRequired="True" Label="模式切换" LabelPosition="Top" Width="100">
+                <dxlc:LayoutItem IsRequired="True" Label="模式切换" LabelPosition="Top" Width="80">
                     <dxe:ComboBoxEdit SelectedIndex="0">
+                        <dxmvvm:Interaction.Triggers>
+                            <dxmvvm:EventToCommand EventName="SelectedIndexChanged" PassEventArgsToCommand="True"
+                                  Command="{Binding changeModelCommand}" >
+                            </dxmvvm:EventToCommand>
+                        </dxmvvm:Interaction.Triggers>
                         <dxe:ComboBoxEditItem Content="实时" />
                         <dxe:ComboBoxEditItem Content="回放" />
                     </dxe:ComboBoxEdit>
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem IsRequired="True" Label="帧深" LabelPosition="Top" Width="100">
+                <dxlc:LayoutItem IsRequired="True" Label="帧深" LabelPosition="Top" Width="80">
                     <dxe:TextEdit IsEnabled="False">8</dxe:TextEdit>
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem IsRequired="True" Label="帧长" LabelPosition="Top" Width="100">
+                <dxlc:LayoutItem IsRequired="True" Label="帧长" LabelPosition="Top" Width="80">
                     <dxe:TextEdit IsEnabled="False">12</dxe:TextEdit>
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem IsRequired="True" Label="Word字长" LabelPosition="Top" Width="100">
+                <dxlc:LayoutItem IsRequired="True" Label="Word字长" LabelPosition="Top" Width="80">
                     <dxe:TextEdit IsEnabled="False">8位</dxe:TextEdit>
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem IsRequired="True" Label="显示格式" LabelPosition="Top" Width="100">
+                <dxlc:LayoutItem IsRequired="True" Label="显示格式" LabelPosition="Top" Width="80">
                     <dxe:ComboBoxEdit SelectedIndex="0">
                         <dxe:ComboBoxEditItem Content="16进制">
                         </dxe:ComboBoxEditItem>
                     </dxe:ComboBoxEdit>
                 </dxlc:LayoutItem>
-                <dxlc:LayoutItem IsRequired="True" Label="显示子帧" LabelPosition="Top" Width="100">
+                <dxlc:LayoutItem IsRequired="True" Label="显示子帧" LabelPosition="Top" Width="80">
                     <dxe:ComboBoxEdit SelectedIndex="0">
                         <dxmvvm:Interaction.Triggers>
                             <dxmvvm:EventToCommand EventName="SelectedIndexChanged" PassEventArgsToCommand="True"
@@ -60,10 +64,13 @@
                         <dxe:ComboBoxEditItem Content="6" />
                     </dxe:ComboBoxEdit>
                 </dxlc:LayoutItem>
+                <dxlc:LayoutItem IsRequired="True" Label="本机时间" LabelPosition="Top" Width="150">
+                    <TextBox Name="currentTimeTextbox" IsEnabled="False"></TextBox>
+                </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
             <dxlc:LayoutItem HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center">
                 <StackPanel Orientation="Horizontal">
-                <ToggleButton ToolTip="开始" VerticalAlignment="Center" Name="startFrameData_btn" IsChecked="False" Width="64" Height="32" Margin="0,5,0,0" >
+                    <ToggleButton ToolTip="开始" VerticalAlignment="Center" Name="startFrameData_btn" IsChecked="False" Width="64" Height="32" Margin="0,5,0,0" >
                         <Image Name="playFrameDataImg" Width="16" Height="16" Source="/CardWorkbench;component/Images/play/play.png" />
                         <dxmvvm:Interaction.Triggers>
                         <dxmvvm:EventToCommand EventName="Click" PassEventArgsToCommand="True"
@@ -75,10 +82,7 @@
                         </dxmvvm:EventToCommand>
                     </dxmvvm:Interaction.Triggers>
                 </ToggleButton>
-                <!--<GroupBox Header="回放速度控制" Height="50" Width="180" HorizontalAlignment="Center" Name="groupBox1" VerticalAlignment="Center" Margin="10,0,0,5" >
-                    <Slider Height="30" HorizontalAlignment="Stretch" Name="slider" VerticalAlignment="Center"  Maximum="100" Value="0" TickPlacement="BottomRight" />
-                </GroupBox>-->
-                    <ToggleButton ToolTip="记录" VerticalAlignment="Center" IsChecked="False" Name="recordFrameData_btn"  Width="64" Height="32" Margin="5,5,0,0" >
+                    <ToggleButton ToolTip="记录" IsEnabled="False" VerticalAlignment="Center" IsChecked="False" Name="recordFrameData_btn"  Width="64" Height="32" Margin="5,5,0,0" >
                         <Image Name="recordFrameDataImg" Width="16" Height="16" Source="/CardWorkbench;component/Images/play/record.png" />
                         <dxmvvm:Interaction.Triggers>
                             <dxmvvm:EventToCommand EventName="Click" PassEventArgsToCommand="True"
@@ -86,10 +90,43 @@
                             </dxmvvm:EventToCommand>
                         </dxmvvm:Interaction.Triggers>
                     </ToggleButton>
-                   
+                    <StackPanel Name="recordTimePanel" Visibility="Hidden" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,5,0,0" >
+                        <Image Name="recordTimeImage" Source="/CardWorkbench;component/Images/play/recordFlash.png"></Image> 
+                        <TextBlock Name="recordTimeText" Foreground="Red" VerticalAlignment="Center">
+                            <Run Text="00:00:00.000" />
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
             </dxlc:LayoutItem>
+        </dxlc:LayoutGroup>
+        <dxlc:LayoutGroup Name="playBack_setting_group" Header="回放设置" Orientation="Horizontal" VerticalAlignment="Top" UseLayoutRounding="True" View="GroupBox" IsCollapsed="True" IsCollapsible="True" IsEnabled="False">
+            <GroupBox>
+                <dxlc:LayoutGroup Orientation="Horizontal">
 
+                    <dxlc:LayoutItem HorizontalAlignment="Left" IsRequired="True" Label="选择数据文件" LabelPosition="top" >
+                        <dxe:ButtonEdit Name="fileBrowser" AllowDefaultButton="False" Width="277">
+                            <dxe:ButtonEdit.Buttons>
+                                <dxe:ButtonInfo  Content="..." >
+                                    <dxmvvm:Interaction.Triggers>
+                                        <dxmvvm:EventToCommand EventName="Click" PassEventArgsToCommand="True"
+                                          Command="{Binding selectPlayBackDatafileCommand}" >
+                                        </dxmvvm:EventToCommand>
+                                    </dxmvvm:Interaction.Triggers>
+                                </dxe:ButtonInfo>
+                            </dxe:ButtonEdit.Buttons>
+                        </dxe:ButtonEdit>
+                    </dxlc:LayoutItem>
+
+
+                    <dxlc:LayoutItem HorizontalAlignment="Left" IsRequired="True" Label="设置时间间隔" LabelPosition="top" Margin="10,0,0,0" >
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="timeInterval" Value="{Binding Value, ElementName=intervalNum}" HorizontalAlignment="Left" Minimum="1" Maximum="100"  VerticalAlignment="Top"  Width="200" SmallChange="1" LargeChange="10" AutoToolTipPlacement="TopLeft" IsTabStop="False" TickPlacement="BottomRight" TickFrequency="10" />
+                            <dxe:SpinEdit x:Name="intervalNum" Value="{Binding Value, ElementName=timeInterval}" HorizontalAlignment="Left"  VerticalAlignment="Top"  Width="80" />
+                            <Label Content="ms/帧" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                        </StackPanel>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </GroupBox>
         </dxlc:LayoutGroup>
         <dxlc:LayoutGroup Header="帧显示" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
             <dxlc:DataLayoutControl Padding="0,0,0,0">

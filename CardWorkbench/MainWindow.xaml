@@ -405,7 +405,7 @@
 
                                             </dxlc:LayoutControl>
                                         </dxdo:DocumentPanel>
-                                        <dxdo:DocumentPanel Name="mainControl" HeaderBarContainerControlName="commonControlsPanelBtnBar" AllowDrop="True"  Caption="自定义控件" ToolTip="可拖拽控件至该面板" FooterDescription="自定义工作区" Description="自定义工作区">
+                                        <dxdo:DocumentPanel Closed="True" Name="mainControl" HeaderBarContainerControlName="commonControlsPanelBtnBar" AllowDrop="True"  Caption="自定义控件" ToolTip="可拖拽控件至该面板" FooterDescription="自定义工作区" Description="自定义工作区">
                                             <dxmvvm:Interaction.Triggers>
                                                 <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Drop" Command="{Binding dropToolBoxCommand}" />
                                             </dxmvvm:Interaction.Triggers>
