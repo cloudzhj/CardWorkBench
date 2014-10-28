@@ -157,7 +157,6 @@ namespace CardWorkbench.ViewModels
           bitSyncGrpBox.Content = new BitSyncStateGroupBox();
           frameSyncGrpBox.Content = new FrameSyncStateGroupBox();
           ////////////////////////////////////////////////////
-
           //开启ribbon工具标签页
           RibbonControl ribbonControl = (RibbonControl)LayoutHelper.FindElementByName(root, RIBBONCONTROL_NAME);
           RibbonPage ribbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_TOOLS_NAME) as RibbonPage;
