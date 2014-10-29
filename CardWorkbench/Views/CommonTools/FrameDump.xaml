@@ -23,12 +23,13 @@
     <dxmvvm:Interaction.Behaviors>
         <!--配置文件选择对话框-->
         <dxmvvm:OpenFileDialogService Title="选择回放数据文件" RestorePreviouslySelectedDirectory="True"/>
+        <dxmvvm:SaveFileDialogService Title="保存记录数据文件" RestorePreviouslySelectedDirectory="True"/>
     </dxmvvm:Interaction.Behaviors>
     <dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
         <dxlc:LayoutGroup>
             <dxlc:LayoutGroup Orientation="Horizontal" VerticalAlignment="Top">
                 <dxlc:LayoutItem IsRequired="True" Label="模式切换" LabelPosition="Top" Width="80">
-                    <dxe:ComboBoxEdit SelectedIndex="0">
+                    <dxe:ComboBoxEdit Name="modeChangeComboBox" SelectedIndex="0">
                         <dxmvvm:Interaction.Triggers>
                             <dxmvvm:EventToCommand EventName="SelectedIndexChanged" PassEventArgsToCommand="True"
                                   Command="{Binding changeModelCommand}" >
@@ -68,7 +69,7 @@
                     <TextBox Name="currentTimeTextbox" IsEnabled="False"></TextBox>
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
-            <dxlc:LayoutItem HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center">
+            <dxlc:LayoutItem HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Width="250">
                 <StackPanel Orientation="Horizontal">
                     <ToggleButton ToolTip="开始" VerticalAlignment="Center" Name="startFrameData_btn" IsChecked="False" Width="64" Height="32" Margin="0,5,0,0" >
                         <Image Name="playFrameDataImg" Width="16" Height="16" Source="/CardWorkbench;component/Images/play/play.png" />
@@ -93,7 +94,7 @@
                     <StackPanel Name="recordTimePanel" Visibility="Hidden" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,5,0,0" >
                         <Image Name="recordTimeImage" Source="/CardWorkbench;component/Images/play/recordFlash.png"></Image> 
                         <TextBlock Name="recordTimeText" Foreground="Red" VerticalAlignment="Center">
-                            <Run Text="00:00:00.000" />
+                            00:00:00.000
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
