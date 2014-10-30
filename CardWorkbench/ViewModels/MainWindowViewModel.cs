@@ -46,12 +46,8 @@ namespace CardWorkbench.ViewModels
       //工具panel名称、标题 
       public static readonly string PANEL_FRAMEDUMP_NAME = "frameDumpPanel";
       public static readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
-      public static readonly string PANEL_RECEIVERCHART_NAME = "receiverChartPanel";
-      public static readonly string PANEL_RECEIVERCHART_CAPTION = "接收机波形显示";     
-      public static readonly string PANEL_BITSYNCCHART_NAME = "bitSyncChartPanel";
-      public static readonly string PANEL_BITSYNCCHART_CAPTION = "位同步波形显示";
-      public static readonly string PANEL_DECOMOUTPUT_NAME = "decomOutputPanel";
-      public static readonly string PANEL_DECOMOUTPUT_CAPTION = "解码输出";
+    
+
       public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
       public static readonly string DOCUMENTPANEL_WORKSTATE_NAME = "document1"; //工作区硬件工作状态panel名称
       //硬件设置菜单栏对话框名称
@@ -130,7 +126,7 @@ namespace CardWorkbench.ViewModels
           };
           UICommand result = hardwareRecognitionDialogService.ShowDialog(
               dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
-              title: "硬件识别",
+              title: "设备识别",
               viewModel: null
           );
 
@@ -209,44 +205,6 @@ namespace CardWorkbench.ViewModels
           createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_FRAMEDUMP_NAME, PANEL_FRAMEDUMP_CAPTION, new FrameDump());          
       }
 
-      /// <summary>
-      /// "接收机波形显示" 按钮command
-      /// </summary>
-      public ICommand receiverChartCommand
-      {
-          get { return new DelegateCommand<DockLayoutManager>(onReceiverChartClick, x => { return true; }); }
-      }
-
-      private void onReceiverChartClick(DockLayoutManager dockManager)
-      {
-          createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_RECEIVERCHART_NAME, PANEL_RECEIVERCHART_CAPTION, new ReceiverChartControl());
-      }
-
-      /// <summary>
-      /// "位同步波形显示" 按钮Command
-      /// </summary>
-      public ICommand bitSyncChartCommand
-      {
-          get { return new DelegateCommand<DockLayoutManager>(onBitSyncChartClick, x => { return true; }); }
-      }
-
-      private void onBitSyncChartClick(DockLayoutManager dockManager)
-      {
-          createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_BITSYNCCHART_NAME, PANEL_BITSYNCCHART_CAPTION, new BitSyncChart());
-      }
-
-      /// <summary>
-      /// ”解码输出“ 按钮Command
-      /// </summary>
-      public ICommand decomOutputCommand
-      {
-          get { return new DelegateCommand<DockLayoutManager>(onDecomOutputClick, x => { return true; }); }
-      }
-
-      private void onDecomOutputClick(DockLayoutManager dockManager)
-      {
-          createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_DECOMOUTPUT_NAME, PANEL_DECOMOUTPUT_CAPTION, new DecomOutputPanel());
-      }
 
       /// <summary>
       /// "自定义控件" 按钮Command

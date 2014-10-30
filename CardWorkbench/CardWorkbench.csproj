@@ -253,51 +253,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CommonTools\BitSyncChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CommonTools\BitSyncEyeControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\CommonTools\BitSyncControlPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Resources\ControlDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CommonTools\DecomOutputPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CommonTools\EyeChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\CommonTools\FrameDump.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CommonTools\ReceiverChartControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CommonTools\ReceiverFreqDomainChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CommonTools\ReceiverTimeDomainChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CommonTools\TrackControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CommonTools\WareTreeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -321,39 +281,9 @@
     <Compile Include="Views\CommonControls\TimeControl.xaml.cs">
       <DependentUpon>TimeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CommonTools\BitSyncChart.xaml.cs">
-      <DependentUpon>BitSyncChart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\BitSyncEyeControl.xaml.cs">
-      <DependentUpon>BitSyncEyeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\BitSyncControlPanel.xaml.cs">
-      <DependentUpon>BitSyncControlPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\DecomOutputPanel.xaml.cs">
-      <DependentUpon>DecomOutputPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\EyeChart.xaml.cs">
-      <DependentUpon>EyeChart.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\FrameModel.cs" />
     <Compile Include="Views\CommonTools\FrameDump.xaml.cs">
       <DependentUpon>FrameDump.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\ReceiverChartControl.xaml.cs">
-      <DependentUpon>ReceiverChartControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\ReceiverFreqDomainChart.xaml.cs">
-      <DependentUpon>ReceiverFreqDomainChart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\ReceiverTimeDomainChart.xaml.cs">
-      <DependentUpon>ReceiverTimeDomainChart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\TrackControl.xaml.cs">
-      <DependentUpon>TrackControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CommonTools\WareTreeControl.xaml.cs">
-      <DependentUpon>WareTreeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

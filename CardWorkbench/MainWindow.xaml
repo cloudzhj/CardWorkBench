@@ -20,27 +20,11 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         dx:DXSplashScreen.SplashScreenType="{x:Type proj:MainSplashScreen}" 
-        Title="地面站配套软件 demo" Height="768" Width="1024" WindowState="Maximized"
+        Title="MCFS配置监控软件" Height="768" Width="1024" WindowState="Maximized"
         DataContext="{dxmvvm:ViewModelSource Type=viewModels:MainWindowViewModel}" >
-
-    <!--自定义Slider资源-->
-    <!--<dxr:DXRibbonWindow.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/SliderCustomStyle.xaml" /> 
-            </ResourceDictionary.MergedDictionaries>           
-        </ResourceDictionary>       
-    </dxr:DXRibbonWindow.Resources>-->
     
     <!--服务注册-->
     <dxmvvm:Interaction.Behaviors>
-        <!--<dx:DXSplashScreenService>
-            <dx:DXSplashScreenService.ViewTemplate>
-                <DataTemplate>
-                    <proj:SplashScreenView/>
-                </DataTemplate>
-            </dx:DXSplashScreenService.ViewTemplate>
-        </dx:DXSplashScreenService>-->
         <!--硬件识别对话框-->
         <dx:DialogService Name="hardwareRecognitionDialog" DialogWindowStartupLocation="CenterOwner">
             <dx:DialogService.ViewTemplate>
@@ -55,8 +39,8 @@
                 </Style>
             </dx:DialogService.DialogStyle>
         </dx:DialogService>
-        <!--配置文件选择对话框-->
-        <dxmvvm:OpenFileDialogService Title="选择硬件配置文件" RestorePreviouslySelectedDirectory="True"/>
+        <!--通道配置文件选择对话框-->
+        <dxmvvm:OpenFileDialogService Title="选择通道配置文件" RestorePreviouslySelectedDirectory="True"/>
         <!--接收机设置对话框-->
         <dx:DialogService Name="receiverSettingDialog" DialogWindowStartupLocation="CenterOwner">
             <dx:DialogService.ViewTemplate>
@@ -146,28 +130,14 @@
                     </dxb:Bar.ItemLinks>
                 </dxb:Bar>             
             </dxb:BarManager.Bars>
-            <!--按钮注册-->
+            <!--RibbonPage按钮注册-->
             <dxb:BarManager.Items>
-                <dxb:BarButtonItem x:Name="biOpen" Content="打开配置" 
+                <dxb:BarButtonItem x:Name="biOpen" Content="加载本地配置" 
                                    Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_16x16.png" 
-                                   LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/Open_32x32.png" 
+                                   LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/LoadFrom_32x32.png" 
                                    Command="{Binding openHardwareConfigCommand}" 
                                    CommandParameter="{Binding ElementName=cardMenuConfigPanel}"/>
-                <dxb:BarButtonItem x:Name="biNew" Content="保存当前配置" LargeGlyph="{dx:DXImage Image=ExportFile_32x32.png}" Glyph="{dx:DXImage Image=ExportFile_16x16.png}"/>
-                <dxb:BarCheckItem x:Name="biCenter" Glyph="{dx:DXImage Image=ContentArrangeInColums_16x16.png}" GroupIndex="1"/>
-                <dxb:BarCheckItem x:Name="biRight" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Format/AlignRight_16x16.png" GroupIndex="1"/>
-                <dxb:BarCheckItem x:Name="biLeft" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Format/AlignLeft_16x16.png" GroupIndex="1" IsChecked="True"/>
-                <dxb:BarStaticItem x:Name="biRow" Content="Row:" ShowBorder="False"/>
-                <dxb:BarStaticItem x:Name="biRowValue" Content="1"/>
-                <dxb:BarStaticItem x:Name="biColumn" Content="Column:" ShowBorder="False"/>
-                <dxb:BarStaticItem x:Name="biColumnValue" Content="1"/>
-
-                <dxb:BarButtonItem Name="bNew" Content="New" 
-                               Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/New_16x16.png" 
-                               LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Actions/New_32x32.png"  
-                               Description="New blank document."
-                               Hint="New blank document."
-                               />
+                <dxb:BarButtonItem x:Name="biNew" Content="保存当前配置" LargeGlyph="{dx:DXImage Image=ExportFile_32x32.png}" Glyph="{dx:DXImage Image=ExportFile_16x16.png}"/>                
                 <dxb:BarButtonItem Name="bAbout" Content="关于" 
                                Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Support/Info_16x16.png" 
                                LargeGlyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Support/Info_32x32.png" 
@@ -187,8 +157,7 @@
                     <dxr:RibbonControl.ApplicationMenu>
                         <dxr:ApplicationMenu RightPaneWidth="280" ShowRightPane="False">
                             <dxr:ApplicationMenu.ItemLinks>
-                                <!--<dxb:BarItemLink BarItemName="bNew"/>
-                                <dxb:BarItemLinkSeparator/>-->
+                            
                                 <dxb:BarItemLink BarItemName="bAbout"/>
                             </dxr:ApplicationMenu.ItemLinks>
 
@@ -200,103 +169,47 @@
                         </dxr:ApplicationMenu>
                     </dxr:RibbonControl.ApplicationMenu>
                     <dxr:RibbonDefaultPageCategory>
-                        <!--<dxr:RibbonPage Name="modelRibbonPage" Caption="模式">
-                            <dxr:RibbonPageGroup Caption="模式切换">
-                                <dxb:BarSplitButtonItem Content="实时" Hint="实时" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Chart/Chart_32x32.png" ActAsDropDown="True" RibbonStyle="Large">
-                                    <dxb:BarSplitButtonItem.PopupControl>
-                                        <dxb:PopupMenu>
-                                            <dxb:PopupMenu.ItemLinks>
-                                                <dxb:BarButtonItemLink BarItemName="bAbout" />
-                                            </dxb:PopupMenu.ItemLinks>
-                                         </dxb:PopupMenu>
-                                    </dxb:BarSplitButtonItem.PopupControl>
-                                </dxb:BarSplitButtonItem>
-                                <dxb:BarEditItem Content="当前模式" EditHeight="50" EditWidth="60" BarItemDisplayMode="ContentAndGlyph"  ClosePopupOnChangingEditValue="True"  RibbonStyle="Large">
-                                    <dxb:BarEditItem.EditSettings>
-                                        <dxe:ComboBoxEditSettings IsTextEditable="False" PopupMaxHeight="250" >
-                                            <dxe:ComboBoxEditSettings.Items>
-                                                <dxe:ComboBoxEditItem Content="实时" />
-                                                <dxe:ComboBoxEditItem Content="回放" />
-                                            </dxe:ComboBoxEditSettings.Items>
-                                        </dxe:ComboBoxEditSettings>
-                                    </dxb:BarEditItem.EditSettings>
-                                    
-                                </dxb:BarEditItem>
-                                <dxe:ComboBoxEdit Name="modeChangeComboBox" SelectedIndex="0">
-                                    <dxmvvm:Interaction.Triggers>
-                                        <dxmvvm:EventToCommand EventName="SelectedIndexChanged" PassEventArgsToCommand="True"
-                                  Command="{Binding changeModelCommand}" >
-                                        </dxmvvm:EventToCommand>
-                                    </dxmvvm:Interaction.Triggers>
-                                    <dxe:ComboBoxEditItem Content="实时" />
-                                    <dxe:ComboBoxEditItem Content="回放" />
-                                </dxe:ComboBoxEdit>
-                            </dxr:RibbonPageGroup>
-                        </dxr:RibbonPage>-->
-                        <dxr:RibbonPage Caption="配置">
-                            <dxr:RibbonPageGroup Caption="硬件设备">
-                                <dxb:BarButtonItem x:Name="barButtonItem3" Content="远程连接" LargeGlyph="{dx:DXImage Image=IDE_32x32.png}" />
-                                <dxb:BarButtonItem x:Name="barButtonItem1" Content="硬件识别" LargeGlyph="{dx:DXImage Image=Find_32x32.png}" >
+                        <dxr:RibbonPage Caption="设置">
+                            <dxr:RibbonPageGroup Caption="设备设置">
+                                <dxb:BarButtonItem x:Name="barButtonItem1" Content="设备识别" LargeGlyph="{dx:DXImage Image=Find_32x32.png}" >
                                     <dxmvvm:Interaction.Triggers>
                                         <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding hardwareRecognitionCommand}" CommandParameter="{Binding ElementName=cardMenuConfigPanel}"/>
                                     </dxmvvm:Interaction.Triggers>
                                 </dxb:BarButtonItem>
-                                <dxb:BarButtonItem x:Name="barButtonItem5" LargeGlyph="{dx:DXImage Image=Add_32x32.png}" Content="添加硬件"/>
+						     <dxb:BarButtonItem x:Name="resetDeviceButton" Content="重置设备" LargeGlyph="{dx:DXImage Image=HistoryItem_32x32.png}">
+							 </dxb:BarButtonItem>
                             </dxr:RibbonPageGroup>
-                            <dxr:RibbonPageGroup Caption="配置文件">
-                                <dxb:BarButtonItemLink BarItemName="biOpen"/>
+                            
+							<dxr:RibbonPageGroup Caption="通道设置">
+                                <dxb:BarButtonItem x:Name="startChannelButton" Content="运行通道" LargeGlyph="{dx:DXImage Image=Apply_32x32.png}">
+								</dxb:BarButtonItem>
+                                <dxb:BarButtonItem x:Name="stopChannelButton" Content="停止通道" LargeGlyph="{dx:DXImage Image=Cancel_32x32.png}">
+								</dxb:BarButtonItem>
+								<dxb:BarButtonItem x:Name="resetChannelButton" Content="重置通道" LargeGlyph="{dx:DXImage Image=Convert_32x32.png}">
+								</dxb:BarButtonItem>
+								<dxb:BarButtonItemLink BarItemName="biOpen"/>
                                 <dxb:BarButtonItemLink BarItemName="biNew"/>
-                            </dxr:RibbonPageGroup>
+							</dxr:RibbonPageGroup>
+						
                         </dxr:RibbonPage>
-                        <dxr:RibbonPage Name="toolsRibbonPage" Caption="工具" IsEnabled="False">
-                            <dxr:RibbonPageGroup Caption="硬件工具">
-                                <!--<dxb:BarButtonItem x:Name="barButtonItem6" Content="位同步眼图" LargeGlyph="{dx:DXImage Image=Show_32x32.png}" ItemClick="barButtonItem4_ItemClick" PreviewMouseLeftButtonDown="barButtonItem6_PreviewMouseDown"/>-->
-                                <dxb:BarButtonItem x:Name="barButtonItem4" Content="接收机波形显示" LargeGlyph="{dx:DXImage Image=Spline_32x32.png}">
-                                    <dxmvvm:Interaction.Triggers>
-                                        <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding receiverChartCommand}" CommandParameter="{Binding ElementName=mainDockManager}"/>
-                                    </dxmvvm:Interaction.Triggers>
-                                </dxb:BarButtonItem>
-                                <dxb:BarButtonItem x:Name="barButtonItem9" Content="位同步波形显示" LargeGlyph="{dx:DXImage Image=Area_32x32.png}" >
-                                    <dxmvvm:Interaction.Triggers>
-                                        <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding bitSyncChartCommand}" CommandParameter="{Binding ElementName=mainDockManager}"/>
-                                    </dxmvvm:Interaction.Triggers>
-                                </dxb:BarButtonItem>
+                        <dxr:RibbonPage Name="toolsRibbonPage" Caption="监控" IsEnabled="False">
+                            <dxr:RibbonPageGroup Caption="数据显示">
                                 <dxb:BarButtonItem x:Name="barButtonItem10" Content="原始帧显示" LargeGlyph="{dx:DXImage Image=Grid_32x32.png}" >
                                     <dxmvvm:Interaction.Triggers>
                                         <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding frameDumpCommand}" CommandParameter="{Binding ElementName=mainDockManager}"/>
                                     </dxmvvm:Interaction.Triggers>
                                 </dxb:BarButtonItem>
-                                <dxb:BarButtonItem x:Name="barButtonItem11" Content="解码输出" LargeGlyph="{dx:DXImage Image=Edit_32x32.png}" >
-                                    <dxmvvm:Interaction.Triggers>
-                                        <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding decomOutputCommand}" CommandParameter="{Binding ElementName=mainDockManager}"/>
-                                    </dxmvvm:Interaction.Triggers>
-                                </dxb:BarButtonItem>
-                            </dxr:RibbonPageGroup>
-                            <dxr:RibbonPageGroup Caption="控件显示">
-                                <dxb:BarButtonItem x:Name="barButtonItem2" Content="自定义控件" LargeGlyph="{dx:DXImage Image=BringToFrontOfText_32x32.png}" >
+                                <dxb:BarButtonItem x:Name="barButtonItem2" Content="自定义控件显示" LargeGlyph="{dx:DXImage Image=BringToFrontOfText_32x32.png}" >
                                     <dxmvvm:Interaction.Triggers>
                                         <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding customControlCommand}" CommandParameter="{Binding ElementName=mainDockManager}"/>
                                     </dxmvvm:Interaction.Triggers>
                                 </dxb:BarButtonItem>
                             </dxr:RibbonPageGroup>
+                           
                         </dxr:RibbonPage>
                     </dxr:RibbonDefaultPageCategory>
                 </dxr:RibbonControl>
-                <!--状态栏
-                <dxr:RibbonStatusBarControl DockPanel.Dock="Bottom">
-                    <dxr:RibbonStatusBarControl.LeftItemLinks>
-                        <dxb:BarItemLink BarItemName="biRow"/>
-                        <dxb:BarItemLink BarItemName="biRowValue"/>
-                        <dxb:BarItemLink BarItemName="biColumn"/>
-                        <dxb:BarItemLink BarItemName="biColumnValue"/>
-                    </dxr:RibbonStatusBarControl.LeftItemLinks>
-                    <dxr:RibbonStatusBarControl.RightItemLinks>
-                        <dxb:BarItemLink BarItemName="biLeft"/>
-                        <dxb:BarItemLink BarItemName="biCenter"/>
-                        <dxb:BarItemLink BarItemName="biRight"/>
-                    </dxr:RibbonStatusBarControl.RightItemLinks>
-                </dxr:RibbonStatusBarControl>
-				-->
+               
                 <Grid>
                     <dxdo:DockLayoutManager Name="mainDockManager" FloatingMode="Desktop">
                         <dxdo:LayoutGroup>
@@ -310,10 +223,7 @@
                                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWithOverflow" Margin="10,0">
                                                 <Run Text="点击" />
                                                 <Hyperlink Command="{Binding hardwareRecognitionCommand}" CommandParameter="{Binding ElementName=cardMenuConfigPanel}">此处</Hyperlink>
-                                                <Run Text="开始硬件识别" />
-                                                <Run Text="或" />
-                                                <Hyperlink Command="{Binding openHardwareConfigCommand}" CommandParameter="{Binding ElementName=cardMenuConfigPanel}">打开</Hyperlink>
-                                                <Run Text="一个本地已保存的配置" />
+                                                <Run Text="开始设备识别" />
                                             </TextBlock>
                                         </dxdo:LayoutPanel>
                                         
