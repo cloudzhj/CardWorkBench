@@ -200,9 +200,9 @@
                         </dxr:ApplicationMenu>
                     </dxr:RibbonControl.ApplicationMenu>
                     <dxr:RibbonDefaultPageCategory>
-                        <dxr:RibbonPage Name="modelRibbonPage" Caption="模式">
+                        <!--<dxr:RibbonPage Name="modelRibbonPage" Caption="模式">
                             <dxr:RibbonPageGroup Caption="模式切换">
-                                <!--<dxb:BarSplitButtonItem Content="实时" Hint="实时" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Chart/Chart_32x32.png" ActAsDropDown="True" RibbonStyle="Large">
+                                <dxb:BarSplitButtonItem Content="实时" Hint="实时" Glyph="pack://application:,,,/DevExpress.Images.v14.1;component/Images/Chart/Chart_32x32.png" ActAsDropDown="True" RibbonStyle="Large">
                                     <dxb:BarSplitButtonItem.PopupControl>
                                         <dxb:PopupMenu>
                                             <dxb:PopupMenu.ItemLinks>
@@ -210,7 +210,7 @@
                                             </dxb:PopupMenu.ItemLinks>
                                          </dxb:PopupMenu>
                                     </dxb:BarSplitButtonItem.PopupControl>
-                                </dxb:BarSplitButtonItem>-->
+                                </dxb:BarSplitButtonItem>
                                 <dxb:BarEditItem Content="当前模式" EditHeight="50" EditWidth="60" BarItemDisplayMode="ContentAndGlyph"  ClosePopupOnChangingEditValue="True"  RibbonStyle="Large">
                                     <dxb:BarEditItem.EditSettings>
                                         <dxe:ComboBoxEditSettings IsTextEditable="False" PopupMaxHeight="250" >
@@ -222,7 +222,7 @@
                                     </dxb:BarEditItem.EditSettings>
                                     
                                 </dxb:BarEditItem>
-                                <!--<dxe:ComboBoxEdit Name="modeChangeComboBox" SelectedIndex="0">
+                                <dxe:ComboBoxEdit Name="modeChangeComboBox" SelectedIndex="0">
                                     <dxmvvm:Interaction.Triggers>
                                         <dxmvvm:EventToCommand EventName="SelectedIndexChanged" PassEventArgsToCommand="True"
                                   Command="{Binding changeModelCommand}" >
@@ -230,9 +230,9 @@
                                     </dxmvvm:Interaction.Triggers>
                                     <dxe:ComboBoxEditItem Content="实时" />
                                     <dxe:ComboBoxEditItem Content="回放" />
-                                </dxe:ComboBoxEdit>-->
+                                </dxe:ComboBoxEdit>
                             </dxr:RibbonPageGroup>
-                        </dxr:RibbonPage>
+                        </dxr:RibbonPage>-->
                         <dxr:RibbonPage Caption="配置">
                             <dxr:RibbonPageGroup Caption="硬件设备">
                                 <dxb:BarButtonItem x:Name="barButtonItem3" Content="远程连接" LargeGlyph="{dx:DXImage Image=IDE_32x32.png}" />
