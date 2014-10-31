@@ -39,13 +39,13 @@
                 </Style>
             </dx:DialogService.DialogStyle>
         </dx:DialogService>
-        <!--通道配置文件选择对话框-->
+        <!--通道配置文件选择对话框--><!--
         <dxmvvm:OpenFileDialogService Title="选择通道配置文件" RestorePreviouslySelectedDirectory="True"/>
-        <!--接收机设置对话框-->
+        --><!--通道设置对话框--><!--
         <dx:DialogService Name="receiverSettingDialog" DialogWindowStartupLocation="CenterOwner">
             <dx:DialogService.ViewTemplate>
                 <DataTemplate>
-                    <setting:ReceiverUC />
+                    <setting:FrameSyncUC />
                 </DataTemplate>
             </dx:DialogService.ViewTemplate>
             <dx:DialogService.DialogStyle>
@@ -55,25 +55,11 @@
                 </Style>
             </dx:DialogService.DialogStyle>
         </dx:DialogService>
-        <!--位同步设置对话框-->
-        <dx:DialogService Name="bitSyncSettingDialog" DialogWindowStartupLocation="CenterOwner">
-            <dx:DialogService.ViewTemplate>
-                <DataTemplate>
-                    <setting:BitSyncUC />
-                </DataTemplate>
-            </dx:DialogService.ViewTemplate>
-            <dx:DialogService.DialogStyle>
-                <Style TargetType="dx:DXDialogWindow">
-                    <Setter Property="Width" Value="800"/>
-                    <Setter Property="Height" Value="600"/>
-                </Style>
-            </dx:DialogService.DialogStyle>
-        </dx:DialogService>
-        <!--帧同步设置对话框-->
+        --><!--模拟器设置对话框--><!--
         <dx:DialogService Name="frameSyncSettingDialog" DialogWindowStartupLocation="CenterOwner">
             <dx:DialogService.ViewTemplate>
                 <DataTemplate>
-                    <setting:FrameSyncUC />
+                    <setting:ReceiverUC />
                 </DataTemplate>
             </dx:DialogService.ViewTemplate>
             <dx:DialogService.DialogStyle>
@@ -82,35 +68,7 @@
                     <Setter Property="Height" Value="600"/>
                 </Style>
             </dx:DialogService.DialogStyle>
-        </dx:DialogService>
-        <!--时间设置对话框-->
-        <dx:DialogService Name="timeSettingDialog" DialogWindowStartupLocation="CenterOwner">
-            <dx:DialogService.ViewTemplate>
-                <DataTemplate>
-                    <setting:TimeUC />
-                </DataTemplate>
-            </dx:DialogService.ViewTemplate>
-            <dx:DialogService.DialogStyle>
-                <Style TargetType="dx:DXDialogWindow">
-                    <Setter Property="Width" Value="800"/>
-                    <Setter Property="Height" Value="600"/>
-                </Style>
-            </dx:DialogService.DialogStyle>
-        </dx:DialogService>
-        <!--模拟设置对话框-->
-        <dx:DialogService Name="playBackSettingDialog" DialogWindowStartupLocation="CenterOwner">
-            <dx:DialogService.ViewTemplate>
-                <DataTemplate>
-                    <setting:PlayBack />
-                </DataTemplate>
-            </dx:DialogService.ViewTemplate>
-            <dx:DialogService.DialogStyle>
-                <Style TargetType="dx:DXDialogWindow">
-                    <Setter Property="Width" Value="800"/>
-                    <Setter Property="Height" Value="600"/>
-                </Style>
-            </dx:DialogService.DialogStyle>
-        </dx:DialogService>
+        </dx:DialogService>-->
 
     </dxmvvm:Interaction.Behaviors>
 
@@ -153,7 +111,7 @@
             </dxb:BarManager.Items>
             <!--主界面dock面板-->
             <DockPanel>
-                <dxr:RibbonControl Name="ribbonControl" DockPanel.Dock="Top" AllowCustomization="False"  RibbonStyle="Office2010" RibbonTitleBarVisibility="Collapsed" ToolbarShowMode="Hide" AllowKeyTips="False">
+                <dxr:RibbonControl Name="ribbonControl" DockPanel.Dock="Top" AllowCustomization="False"  RibbonStyle="Office2010" RibbonTitleBarVisibility="Collapsed" ToolbarShowMode="Hide" AllowKeyTips="False" BorderThickness="5">
                     <dxr:RibbonControl.ApplicationMenu>
                         <dxr:ApplicationMenu RightPaneWidth="280" ShowRightPane="False">
                             <dxr:ApplicationMenu.ItemLinks>
@@ -218,7 +176,7 @@
                                     <!--左侧dock 硬件配置菜单/参数信息 面板组-->
                                     <dxdo:TabbedGroup Name="dataTabbedGroup" ItemWidth="220">
                                         <!--硬件配置菜单面板-->
-                                        <dxdo:LayoutPanel Name="cardMenuConfigPanel" Caption="硬件设备" >
+                                        <dxdo:LayoutPanel Name="cardMenuConfigPanel" Caption="硬件设备" BorderThickness="0" >
                                             <!--<setting:CardMenuConfig />-->
                                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="WrapWithOverflow" Margin="10,0">
                                                 <Run Text="点击" />
@@ -227,127 +185,18 @@
                                             </TextBlock>
                                         </dxdo:LayoutPanel>
                                         
-                                        <!--参数信息面板-->
-                                        <dxdo:LayoutPanel Name="paramTabPanel" Caption="参数信息"  HeaderBarContainerControlName="documentBar" FocusContentOnActivating="False">
-                                            <Grid x:Name="paramHandleGrid">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0.3*"/>
-                                                    <ColumnDefinition Width="0.2*"/>
-                                                    <ColumnDefinition Width="0.2*"/>
-                                                    <ColumnDefinition Width="0.3*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="0.05*"/>
-                                                    <RowDefinition Height="0.05*"/>
-                                                    <RowDefinition Height="0.05*"/>
-                                                    <RowDefinition Height="0.75*"/>
-                                                    <RowDefinition Height="0.1*"/>
-                                                </Grid.RowDefinitions>
-                                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
-                                                    <Label Content="参数类型"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" />
-                                                    <ComboBox  Width="120" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
-                                                    <Label Content="校准类型"  HorizontalAlignment="Center" Margin="10,0,0,0"  VerticalAlignment="Center" Padding="0" />
-                                                    <ComboBox   Width="120" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" />
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
-                                                    <Label Content="参数过滤"  HorizontalAlignment="Center" Margin="10,0,0,0"  VerticalAlignment="Center" Padding="0" />
-                                                    <TextBox  Height="23" TextWrapping="Wrap"  Width="120" Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                </StackPanel>
-                                                    <!--<Button Content="选择常用参数" Margin="15,0,0,0" FontFamily="/GDAS_Monitor_App;component/Fonts/#Microsoft YaHei" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Width="105" Grid.ColumnSpan="2" Padding="0" FontSize="13.333"/>
-                                                <CheckBox Content="记住当前所选参数" Grid.Column="1" HorizontalAlignment="Center" Margin="0" Grid.Row="2" VerticalAlignment="Center" FontSize="13.333" Grid.ColumnSpan="2"/>-->
-                                                <dxg:GridControl x:Name="paramsDataGrid"
-                                                          Grid.Column="0"
-                                                          Grid.Row="3"
-                                                          Grid.RowSpan="2"
-                                                          RenderOptions.ClearTypeHint="Enabled"
-                                                          TextOptions.TextFormattingMode="Display"
-                                                          Margin="5"
-                                                          SelectionMode="Row"
-                                                          ItemsSource="{Binding Path=paramList}"
-                                                          Grid.ColumnSpan="4" >
-                                                    <dxg:GridControl.View>
-                                                        <dxg:TableView Name="paramGridTabelView" AllowColumnFiltering="False" 
-                                                                       AllowColumnMoving="False" AllowDrop="False" 
-                                                                       AllowSorting="True" AllowPerPixelScrolling="True" 
-                                                                       IsColumnChooserVisible="False" AllowEditing="False"  
-                                                                       ShowGroupedColumns="False" AllowFixedColumnMenu="True" 
-                                                                       MaxHeight="1000" ShowGroupPanel="False">
-                                                            <dxmvvm:Interaction.Triggers>
-                                                                <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseLeftButtonDown" Command="{Binding ParamGridMouseDownCommand}" />
-                                                                <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="MouseMove" Command="{Binding ParamGridMouseMoveCommand}" />
-                                                            </dxmvvm:Interaction.Triggers>
-                                                            <dxg:TableView.LayoutCalculatorFactory>
-                                                                <dxg:GridTableViewLayoutCalculatorFactory/>
-                                                            </dxg:TableView.LayoutCalculatorFactory>
-                                                        </dxg:TableView>
-                                                    </dxg:GridControl.View>
-                                                    <dxg:GridControl.Columns>
-                                                        <dxg:GridColumn Header="参数名"
-                                                            Binding="{Binding paramName}" Width="120" />
-                                                        <dxg:GridColumn Header="中文名"
-                                                            Binding="{Binding paramChineseName}" Width="130" />
-                                                        <dxg:GridColumn Header="参数类型"
-                                                            Binding="{Binding calibrateType.calibrateTypeName}"  Width="80" />
-                                                        <dxg:GridColumn Header="校准类型"
-                                                            Binding="{Binding paramSortType.paramSortTypeName}"  Width="80" />  
-                                                    </dxg:GridControl.Columns>
-                                                </dxg:GridControl>
-                                            </Grid>
-                                        </dxdo:LayoutPanel>
                                     </dxdo:TabbedGroup>
                                     
                                     <!--主界面工作区面板-->
-                                    <dxdo:DocumentGroup Name="documentContainer" ItemWidth="4*" ClosePageButtonShowMode="InAllTabPageHeaders">
-                                        <!--硬件工作状态Panel-->
-                                        <dxdo:DocumentPanel Name="document1" Caption="硬件工作状态" ToolTip="硬件工作状态" FooterDescription="硬件工作状态" Description="硬件工作状态" AllowClose="False">
-                                                <dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
-                                                	<Grid Margin="0">
-                                                		<Grid.RowDefinitions>
-                                                			<RowDefinition Height="0.7*"/>
-                                                			<RowDefinition Height="0.3*"/>
-                                                		</Grid.RowDefinitions>
-                                                		<Grid.ColumnDefinitions>
-                                                			<ColumnDefinition Width="0.5*"/>
-                                                			<ColumnDefinition Width="0.5*"/>
-                                                		</Grid.ColumnDefinitions>
-                                                		<dxlc:LayoutGroup Orientation="Horizontal" Margin="0" Grid.ColumnSpan="2">
-                                                			<GroupBox Header="接收机状态" x:Name="groupBox_recState"  >
-                                                				<GroupBox.HeaderTemplate>
-                                                					<DataTemplate >
-                                                						<TextBlock Foreground="Orange"   FontWeight="Medium" Margin="3" Text="接收机状态"/>
-                                                					</DataTemplate>
-                                                				</GroupBox.HeaderTemplate>
-                                                				
-                                                			</GroupBox>
-                                                		</dxlc:LayoutGroup>
-                                                		<dxlc:LayoutGroup Orientation="Horizontal" Margin="0" Grid.Row="1">
-                                                			<GroupBox Header="位同步状态" x:Name="groupBox_bitSyncState" Margin="0,0,5,0"  >
-                                                				<GroupBox.HeaderTemplate>
-                                                					<DataTemplate >
-                                                						<TextBlock Foreground="Orange"   FontWeight="Medium" Margin="3" Text="位同步状态"/>
-                                                					</DataTemplate>
-                                                				</GroupBox.HeaderTemplate>
-                                                				
-                                                			</GroupBox>
-                                                		</dxlc:LayoutGroup>
-                                                		<dxlc:LayoutGroup Orientation="Horizontal" Margin="0" Grid.Row="1" Grid.Column="1">
-                                                			<GroupBox Header="帧同步状态" x:Name="groupBox_frameSyncState" Margin="5,0,0,0" >
-                                                				<GroupBox.HeaderTemplate>
-                                                					<DataTemplate >
-                                                						<TextBlock Foreground="Orange"   FontWeight="Medium" Margin="3" Text="帧同步状态"/>
-                                                					</DataTemplate>
-                                                				</GroupBox.HeaderTemplate>
-                                                				
-                                                			</GroupBox>
-                                                		</dxlc:LayoutGroup>
-
-                                                	</Grid>
-
+                                    <dxdo:DocumentGroup Name="documentContainer"  DestroyContentOnTabSwitching="False" DestroyOnClosingChildren="False"  ItemWidth="4*" ClosePageButtonShowMode="InAllTabPageHeaders"  >
+                                        <!--通道编辑区Panel-->
+                                        <dxdo:DocumentPanel Name="document1" Caption="配置区" ToolTip="通道配置" FooterDescription="通道配置" Description="通道配置" AllowClose="False">
+                                            <dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
+                                                	
                                             </dxlc:LayoutControl>
                                         </dxdo:DocumentPanel>
-                                        <dxdo:DocumentPanel Closed="True" Name="mainControl" HeaderBarContainerControlName="commonControlsPanelBtnBar" AllowDrop="True"  Caption="自定义控件" ToolTip="可拖拽控件至该面板" FooterDescription="自定义工作区" Description="自定义工作区">
+                                        
+                                        <!--<dxdo:DocumentPanel Caption="自定义控件" Closed="True" Name="mainControl" HeaderBarContainerControlName="commonControlsPanelBtnBar" AllowDrop="True"   ToolTip="可拖拽控件至该面板" FooterDescription="自定义工作区" Description="自定义工作区">
                                             <dxmvvm:Interaction.Triggers>
                                                 <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Drop" Command="{Binding dropToolBoxCommand}" />
                                             </dxmvvm:Interaction.Triggers>
@@ -356,7 +205,7 @@
                                                     <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="KeyDown" Command="{Binding CanvasDeleteKeyDownCommand}"  />
                                                 </dxmvvm:Interaction.Triggers>
                                             </Canvas>
-                                        </dxdo:DocumentPanel>
+                                        </dxdo:DocumentPanel>-->
                                     </dxdo:DocumentGroup>
                                 </dxdo:LayoutGroup>
                             </dxdo:LayoutGroup>
@@ -368,23 +217,13 @@
                                     <dxn:NavBarControl x:Name="toolBoxNavBar" Margin="3">
                                         <dxn:NavBarGroup Header="图形控件">
                                             <dxn:NavBarItem Name="toolbox_textCtrl" Content="文本" ImageSource="{dx:DXImage Image=ContentAutoArrange_16x16.png}" />
-                                            <!--ImageSource="/DockingDemo;component/Images/Toolbox/Label.png"-->
                                             <dxn:NavBarItem Name="toolbox_lineCtrl" Content="二维曲线" ImageSource="{dx:DXImage Image=Spline_16x16.png}" />
-                                            <!--ImageSource="/DockingDemo;component/Images/Toolbox/PictureBox.png"-->
                                             <dxn:NavBarItem Name="toolbox_meterCtrl" Content="仪表" ImageSource="{dx:DXImage Image=GaugeStyleFullCircular_16x16.png}" />
-                                            <!--ImageSource="/DockingDemo;component/Images/Toolbox/CheckBox.png"-->
                                             <dxn:NavBarItem Name="toolbox_lightCtrl" Content="工作灯" ImageSource="{dx:DXImage Image=Bubble_16x16.png}" />
-                                            <!--ImageSource="/DockingDemo;component/Images/Toolbox/Panel.png"-->
                                             <dxn:NavBarItem Name="toolbox_timeCtrl" Content="时间" ImageSource="{dx:DXImage Image=NavigationBar_16x16.png}" />
-                                        </dxn:NavBarGroup>
-                                        <dxn:NavBarGroup Header="专业控件">
-                                            <dxn:NavBarItem Content="MatLab" ImageSource="{dx:DXImage Image=IDE_16x16.png}" />
-                                            <!--ImageSource="/DockingDemo;component/Images/Toolbox/Shape.png"-->
                                         </dxn:NavBarGroup>
                                     </dxn:NavBarControl>
                                 </dxdo:LayoutPanel>
-                                <!--<dxdo:LayoutPanel x:Name="paramDic" Caption="" FocusContentOnActivating="False">                       
-                        </dxdo:LayoutPanel>-->
                             </dxdo:TabbedGroup>
                         </dxdo:LayoutGroup>
                         <dxdo:DockLayoutManager.AutoHideGroups>
@@ -402,13 +241,10 @@
                                     </StackPanel>
                                 </dxdo:LayoutPanel>
                             </dxdo:AutoHideGroup>
-
                         </dxdo:DockLayoutManager.AutoHideGroups>
 
-
-                        <dxdo:DockLayoutManager.FloatGroups>
-
-                        </dxdo:DockLayoutManager.FloatGroups>
+                        <dxdo:DockLayoutManager.FloatGroups></dxdo:DockLayoutManager.FloatGroups>
+                        
                     </dxdo:DockLayoutManager>
                 </Grid>
             </DockPanel>

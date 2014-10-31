@@ -166,21 +166,9 @@
     <Compile Include="ViewModels\CommonTools\FrameDumpViewModel.cs" />
     <Compile Include="ViewModels\CustomControls\RFLevelMasterGaugeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\MenuControls\BitSyncUCViewModel.cs" />
     <Compile Include="ViewModels\MenuControls\FrameSyncUCViewModel.cs" />
     <Compile Include="ViewModels\MenuControls\MenuControlsViewModel.cs" />
-    <Compile Include="ViewModels\MenuControls\PlayBackViewModel.cs" />
     <Compile Include="ViewModels\MenuControls\ReceiverUCViewModel.cs" />
-    <Compile Include="ViewModels\MenuControls\TimeUCViewModel.cs" />
-    <Compile Include="Views\CardStateGroup\BitSyncStateGroupBox.xaml.cs">
-      <DependentUpon>BitSyncStateGroupBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardStateGroup\FrameSyncStateGroupBox.xaml.cs">
-      <DependentUpon>FrameSyncStateGroupBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardStateGroup\ReceiverStateGroupBox.xaml.cs">
-      <DependentUpon>ReceiverStateGroupBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CommonControls\TextControl.xaml.cs">
       <DependentUpon>TextControl.xaml</DependentUpon>
     </Compile>
@@ -196,7 +184,6 @@
     <Compile Include="Views\MenuControls\CardMenuConfig.xaml.cs">
       <DependentUpon>CardMenuConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MenuControls\PlayBack.xaml.cs" />
     <Page Include="DXSplashScreen\MainSplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -206,18 +193,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\SliderCustomStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardStateGroup\BitSyncStateGroupBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardStateGroup\FrameSyncStateGroupBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardStateGroup\ReceiverStateGroupBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -289,10 +264,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\MenuControls\BitSyncUC.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\MenuControls\CardMenuConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -305,20 +276,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MenuControls\TimeUC.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\MenuControls\PlayBack.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Views\MenuControls\BitSyncUC.xaml.cs" />
     <Compile Include="Views\MenuControls\FrameSyncUC.xaml.cs" />
     <Compile Include="Views\MenuControls\ReceiverUC.xaml.cs" />
-    <Compile Include="Views\MenuControls\TimeUC.xaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

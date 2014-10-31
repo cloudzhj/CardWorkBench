@@ -22,7 +22,6 @@ using DevExpress.Data;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Bars;
 using CardWorkbench.Views.MenuControls;
-using CardWorkbench.Views.CardStateGroup;
 using System.Threading;
 using DevExpress.Xpf.Core;
 
@@ -46,38 +45,22 @@ namespace CardWorkbench.ViewModels
       //工具panel名称、标题 
       public static readonly string PANEL_FRAMEDUMP_NAME = "frameDumpPanel";
       public static readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
-    
 
       public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
-      public static readonly string DOCUMENTPANEL_WORKSTATE_NAME = "document1"; //工作区硬件工作状态panel名称
+      public static readonly string DOCKLAYOUTMANAGER_NAME = "mainDockManager"; //layoutManager
+      public static readonly string DOCUMENTPANEL_WORKSTATE_NAME = "document1"; //配置区panel名称
       //硬件设置菜单栏对话框名称
       public static readonly string DIALOG_HARDWAR_RECOGNITION_NAME = "hardwareRecognitionDialog";
-      public static readonly string DIALOG_RECEIVER_SETTING_NAME = "receiverSettingDialog";  //接收机设置
-      public static readonly string DIALOG_BITSYNC_SETTING_NAME = "bitSyncSettingDialog";  //位同步设置
-      public static readonly string DIALOG_FRAMESYNC_SETTING_NAME = "frameSyncSettingDialog"; //帧同步设置
-      public static readonly string DIALOG_TIME_SETTING_NAME = "timeSettingDialog"; //时间设置
-      public static readonly string DIALOG_PLAYBACK_SETTING_NAME = "playBackSettingDialog"; //回放设置
-
+      //public static readonly string DIALOG_RECEIVER_SETTING_NAME = "receiverSettingDialog";  //接收机设置
+      //public static readonly string DIALOG_FRAMESYNC_SETTING_NAME = "frameSyncSettingDialog"; //帧同步设置
        
       //注册服务声明
       public IDialogService hardwareRecognitionDialogService { get { return GetService<IDialogService>(DIALOG_HARDWAR_RECOGNITION_NAME); } }  //获得硬件识别对话框服务
-
-      public IDialogService receiverSettingDialogService { get { return GetService<IDialogService>(DIALOG_RECEIVER_SETTING_NAME); } }  //获得接收机设置对话框服务
-
-      public IDialogService bitSyncSettingDialogService { get { return GetService<IDialogService>(DIALOG_BITSYNC_SETTING_NAME); } }  //获得位同步设置对话框服务
-
-      public IDialogService frameSyncSettingDialogService { get { return GetService<IDialogService>(DIALOG_FRAMESYNC_SETTING_NAME); } }  //获得帧同步设置对话框服务
-
-      public IDialogService timeSettingDialogService { get { return GetService<IDialogService>(DIALOG_TIME_SETTING_NAME); } }  //获得时间同步设置对话框服务
-
-      public IDialogService playBackSettingDialogService { get { return GetService<IDialogService>(DIALOG_PLAYBACK_SETTING_NAME); } }  //获得模拟回放设置对话框服务
+      //public IDialogService receiverSettingDialogService { get { return GetService<IDialogService>(DIALOG_RECEIVER_SETTING_NAME); } }  //获得接收机设置对话框服务
+      //public IDialogService frameSyncSettingDialogService { get { return GetService<IDialogService>(DIALOG_FRAMESYNC_SETTING_NAME); } }  //获得帧同步设置对话框服务
       public IOpenFileDialogService OpenFileDialogService { get { return GetService<IOpenFileDialogService>() ; } }  //获得文件选择对话框服务
       public ISplashScreenService SplashScreenService { get { return GetService<ISplashScreenService>(); } } //LOADING splash screen服务
 
-        //参数实体类列表
-      public List<Param> paramList { get; set; }
-      public List<CalibrateType> calibrateTypeList { get; set; }
-      public List<ParamSortType> paramSortTypeList { get; set; }
 
       //参数grid某行是否拖拽开始
       bool _dragStarted = false;
@@ -85,13 +68,7 @@ namespace CardWorkbench.ViewModels
       public static readonly string PARAM_GRID_TABLEVIEW_NAME = "paramGridTabelView"; 
 
       public MainWindowViewModel() {
-          //初始化参数数据
-          SampleData.initData();
-          paramList = SampleData.paramList;
-          calibrateTypeList = SampleData.calibrateTypeList;
-          paramSortTypeList = SampleData.paramSortTypeList;
-
-          //
+         
       }
 
 
@@ -143,15 +120,9 @@ namespace CardWorkbench.ViewModels
       private void onSelectHardwareLoad(LayoutPanel cardMenuPanel)
       {
           cardMenuPanel.Content = new CardMenuConfig();
-
           FrameworkElement root = LayoutHelper.GetRoot(cardMenuPanel);
-          //TEST 显示主页硬件状态////////////////////////////////////////////////
-          GroupBox receiverGrpBox = (GroupBox)root.FindName("groupBox_recState");
-          GroupBox bitSyncGrpBox = (GroupBox)root.FindName("groupBox_bitSyncState");
-          GroupBox frameSyncGrpBox = (GroupBox)root.FindName("groupBox_frameSyncState");
-          receiverGrpBox.Content = new ReceiverStateGroupBox();
-          bitSyncGrpBox.Content = new BitSyncStateGroupBox();
-          frameSyncGrpBox.Content = new FrameSyncStateGroupBox();
+          //TEST///////////////////////////////////////////////
+
           ////////////////////////////////////////////////////
           //开启ribbon工具标签页
           RibbonControl ribbonControl = (RibbonControl)LayoutHelper.FindElementByName(root, RIBBONCONTROL_NAME);
@@ -253,207 +224,85 @@ namespace CardWorkbench.ViewModels
       #region 硬件设置对话框命令绑定
 
       /// <summary>
-      /// 接收机设置对话框命令
+      /// 通道设置命令
       /// </summary>
-      public ICommand receiverSettingCommand
+      public ICommand mcfsSettingCommand
       {
-          get { return new DelegateCommand<object>(onReceiverSettingClick, x => { return true; }); }
+          get { return new DelegateCommand<NavBarControl>(onMcfsSettingClick, x => { return true; }); }
       }
 
-      private void onReceiverSettingClick(object context)
+      private void onMcfsSettingClick(NavBarControl obj)
       {
           DXSplashScreen.Show<SplashScreenView>(); //显示loading框
+          FrameworkElement root = LayoutHelper.GetTopLevelVisual(obj as DependencyObject);
+          DockLayoutManager dockManager = (DockLayoutManager)LayoutHelper.FindElementByName(root, DOCKLAYOUTMANAGER_NAME);
 
-          UICommand okCommand = new UICommand()
-          {
-              Caption = "确定",
-              IsCancel = false,
-              IsDefault = true,
-              Command = new DelegateCommand<CancelEventArgs>(
-                 x => { },
-                 true
-              ),
-          };
-          UICommand cancelCommand = new UICommand()
-          {
-              Id = MessageBoxResult.Cancel,
-              Caption = "取消",
-              IsCancel = true,
-              IsDefault = false,
-          };
-          //DXSplashScreen.Show<SplashScreenView>();
-          UICommand result = receiverSettingDialogService.ShowDialog(
-              dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
-              title: "接收机设置",
-              viewModel: null
-          );
+          DocumentGroup documentGroup = dockManager.GetItem(DOCUMENTGROUP_NAME) as DocumentGroup;
+          DocumentPanel docPanel = dockManager.GetItem(PANEL_CUSTOMCONTROL_NAME) as DocumentPanel;
+          createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_FRAMEDUMP_NAME, PANEL_FRAMEDUMP_CAPTION, new FrameSyncUC());          
 
-          if (result == okCommand)
-          {
-              MessageBox.Show("successfull!!");
-          }
-      }
+         
+         
+          //UICommand result = receiverSettingDialogService.ShowDialog(
+          //    dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
+          //    title: "接收机设置",
+          //    viewModel: null
+          //);
 
-      /// <summary>
-      /// 位同步设置对话框命令
-      /// </summary>
-      public ICommand bitSyncSettingCommand
-      {
-          get { return new DelegateCommand<object>(onBitSyncSettingClick, x => { return true; }); }
-      }
-
-      private void onBitSyncSettingClick(object context)
-      {
-          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
-          UICommand okCommand = new UICommand()
-          {
-              Caption = "确定",
-              IsCancel = false,
-              IsDefault = true,
-              Command = new DelegateCommand<CancelEventArgs>(
-                 x => { },
-                 true
-              ),
-          };
-          UICommand cancelCommand = new UICommand()
-          {
-              Id = MessageBoxResult.Cancel,
-              Caption = "取消",
-              IsCancel = true,
-              IsDefault = false,
-          };
-          UICommand result = bitSyncSettingDialogService.ShowDialog(
-              dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
-              title: "位同步设置",
-              viewModel: null
-          );
-
-          if (result == okCommand)
-          {
-              MessageBox.Show("successfull!!");
-          }
+          //if (result == okCommand)
+          //{
+          //    MessageBox.Show("successfull!!");
+          //}
       }
 
      /// <summary>
-      /// 帧同步设置对话框命令
+      /// 模拟器设置命令
      /// </summary>
-      public ICommand frameSyncSettingCommand
+      public ICommand simulatorSettingCommand
       {
-          get { return new DelegateCommand<object>(onFrameSyncSettingClick, x => { return true; }); }
+          get { return new DelegateCommand<NavBarControl>(onSimulatorSettingClick, x => { return true; }); }
       }
 
-      private void onFrameSyncSettingClick(object context)
+      private void onSimulatorSettingClick(NavBarControl obj)
       {
-          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
+          //DXSplashScreen.Show<SplashScreenView>(); //显示loading框
+          //FrameworkElement root = LayoutHelper.GetTopLevelVisual(obj as DependencyObject);
+          //DockLayoutManager dockManager = (DockLayoutManager)LayoutHelper.FindElementByName(root, DOCKLAYOUTMANAGER_NAME);
 
-          UICommand okCommand = new UICommand()
-          {
-              Caption = "确定",
-              IsCancel = false,
-              IsDefault = true,
-              Command = new DelegateCommand<CancelEventArgs>(
-                 x => { },
-                 true
-              ),
-          };
-          UICommand cancelCommand = new UICommand()
-          {
-              Id = MessageBoxResult.Cancel,
-              Caption = "取消",
-              IsCancel = true,
-              IsDefault = false,
-          };
-          UICommand result = frameSyncSettingDialogService.ShowDialog(
-              dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
-              title: "帧同步设置",
-              viewModel: null
-          );
+          //DocumentGroup documentGroup = dockManager.GetItem(DOCUMENTGROUP_NAME) as DocumentGroup;
+          //DocumentPanel docPanel = dockManager.GetItem(PANEL_CUSTOMCONTROL_NAME) as DocumentPanel;
+          //createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_FRAMEDUMP_NAME, PANEL_FRAMEDUMP_CAPTION, new ReceiverUC());          
 
-          if (result == okCommand)
-          {
-              MessageBox.Show("successfull!!");
-          }
+         
+          //UICommand okCommand = new UICommand()
+          //{
+          //    Caption = "确定",
+          //    IsCancel = false,
+          //    IsDefault = true,
+          //    Command = new DelegateCommand<CancelEventArgs>(
+          //       x => { },
+          //       true
+          //    ),
+          //};
+          //UICommand cancelCommand = new UICommand()
+          //{
+          //    Id = MessageBoxResult.Cancel,
+          //    Caption = "取消",
+          //    IsCancel = true,
+          //    IsDefault = false,
+          //};
+          //UICommand result = frameSyncSettingDialogService.ShowDialog(
+          //    dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
+          //    title: "帧同步设置",
+          //    viewModel: null
+          //);
+
+          //if (result == okCommand)
+          //{
+          //    MessageBox.Show("successfull!!");
+          //}
       }
 
-      /// <summary>
-      /// 时间同步设置对话框命令
-      /// </summary>
-      public ICommand timeSettingCommand
-      {
-          get { return new DelegateCommand<object>(ontimeSyncSettingClick, x => { return true; }); }
-      }
-      private void ontimeSyncSettingClick(object context)
-      {
-          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
-
-          UICommand okCommand = new UICommand()
-          {
-              Caption = "确定",
-              IsCancel = false,
-              IsDefault = true,
-              Command = new DelegateCommand<CancelEventArgs>(
-                 x => { },
-                 true
-              ),
-          };
-          UICommand cancelCommand = new UICommand()
-          {
-              Id = MessageBoxResult.Cancel,
-              Caption = "取消",
-              IsCancel = true,
-              IsDefault = false,
-          };
-          UICommand result = timeSettingDialogService.ShowDialog(
-              dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
-              title: "时间同步设置",
-              viewModel: null
-          );
-
-          if (result == okCommand)
-          {
-              MessageBox.Show("successfull!!");
-          }
-      }
-
-      /// <summary>
-      /// 模拟回放设置对话框命令
-      /// </summary>
-      public ICommand playBackSettingCommand
-      {
-          get { return new DelegateCommand<object>(onPlayBackSettingClick, x => { return true; }); }
-      }
-      private void onPlayBackSettingClick(object context)
-      {
-          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
-
-          UICommand okCommand = new UICommand()
-          {
-              Caption = "确定",
-              IsCancel = false,
-              IsDefault = true,
-              Command = new DelegateCommand<CancelEventArgs>(
-                 x => { },
-                 true
-              ),
-          };
-          UICommand cancelCommand = new UICommand()
-          {
-              Id = MessageBoxResult.Cancel,
-              Caption = "取消",
-              IsCancel = true,
-              IsDefault = false,
-          };
-          UICommand result = playBackSettingDialogService.ShowDialog(
-              dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
-              title: "模拟回放设置",
-              viewModel: null
-          );
-
-          if (result == okCommand)
-          {
-              MessageBox.Show("successfull!!");
-          }
-      }
       #endregion
 
       #region 控件栏拖拽命令绑定
@@ -596,8 +445,6 @@ namespace CardWorkbench.ViewModels
         {
             if (e.Key == Key.Delete)  //删除按键
             {
-                //UserControl control = LayoutHelper.FindParentObject<UserControl>(e.Source as DependencyObject);
-               // FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
                 Canvas workCanvas = e.Source as Canvas;
                 if (workCanvas == null)
                 {

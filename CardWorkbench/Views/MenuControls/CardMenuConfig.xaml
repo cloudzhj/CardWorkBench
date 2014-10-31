@@ -8,45 +8,28 @@
              mc:Ignorable="d" >
     <Grid>
         <dxn:NavBarControl Name="menuNavcontrol">
-            <dxn:NavBarGroup x:Name="menuNavgroup" Header="GDP4425设置" DisplayMode="Default" ImageSource="/CardWorkbench;component/Images/hardware_32.png"
+            <dxn:NavBarGroup x:Name="menuNavgroup" Header="1626P设置" DisplayMode="Default" ImageSource="/CardWorkbench;component/Images/hardware_32.png"
 				                                ItemImageSettings="{dxn:NavBarImageSettings Height=32, Width=32}" >
-                <dxn:NavBarItem  Command="{Binding receiverSettingCommand}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <Image Source="/CardWorkbench;component/Images/2/01.png" />
-                        <Label VerticalAlignment="Center" Margin="5,0,0,0">接收机</Label>
-                    </StackPanel>
-                </dxn:NavBarItem>
-                <dxn:NavBarItem  Command="{Binding bitSyncSettingCommand}" >
+                <dxn:NavBarItem  Command="{Binding mcfsSettingCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/02.png" />
-                        <Label VerticalAlignment="Center" Margin="5,0,0,0">位同步</Label>
+                        <Label VerticalAlignment="Center" Margin="5,0,0,0">通道1</Label>
+                    </StackPanel>
+                </dxn:NavBarItem>
+                <dxn:NavBarItem  Command="{Binding mcfsSettingCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Image Source="/CardWorkbench;component/Images/2/02.png" />
+                        <Label VerticalAlignment="Center" Margin="5,0,0,0">通道2</Label>
                         <!--<dx:WaitIndicator DeferedVisibility="{Binding IsLocked}" Grid.Row="1" />-->
                     </StackPanel>
                 </dxn:NavBarItem>
-                <dxn:NavBarItem  Command="{Binding frameSyncSettingCommand}" >
+                <dxn:NavBarItem  Command="{Binding simulatorSettingCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/03.png" />
-                        <Label VerticalAlignment="Center" Margin="5,0,0,0">帧同步</Label>
+                        <Label VerticalAlignment="Center" Margin="5,0,0,0">模拟器</Label>
                     </StackPanel>
                 </dxn:NavBarItem>
-                <dxn:NavBarItem>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <Image Source="/CardWorkbench;component/Images/2/04.png" />
-                        <Label VerticalAlignment="Center" Margin="5,0,0,0">解码</Label>
-                    </StackPanel>
-                </dxn:NavBarItem>
-                <!--<dxn:NavBarItem Command="{Binding playBackSettingCommand}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <Image Source="/CardWorkbench;component/Images/2/05.png" />
-                        <Label VerticalAlignment="Center" Margin="5,0,0,0">模拟</Label>
-                    </StackPanel>
-                </dxn:NavBarItem>-->
-                <dxn:NavBarItem Command="{Binding timeSettingCommand}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <Image Source="/CardWorkbench;component/Images/2/06.png" />
-                        <Label VerticalAlignment="Center" Margin="5,0,0,0">授时</Label>
-                    </StackPanel>
-                </dxn:NavBarItem>
+                
             </dxn:NavBarGroup>
         </dxn:NavBarControl>
     </Grid>
