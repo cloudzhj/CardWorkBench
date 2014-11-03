@@ -3,27 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.MenuControls"
              xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" >
+             mc:Ignorable="d" 
+             DataContext="{dxmvvm:ViewModelSource Type=viewModels:CardMenuConfigViewModel}" >
     <Grid>
         <dxn:NavBarControl Name="menuNavcontrol">
-            <dxn:NavBarGroup x:Name="menuNavgroup" Header="1626P设置" DisplayMode="Default" ImageSource="/CardWorkbench;component/Images/hardware_32.png"
-				                                ItemImageSettings="{dxn:NavBarImageSettings Height=32, Width=32}" >
-                <dxn:NavBarItem  Command="{Binding mcfsSettingCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
+            <dxmvvm:Interaction.Triggers>
+                <dxmvvm:EventToCommand EventName="MouseDoubleClick" PassEventArgsToCommand="True" Command="{Binding cardMenuDoubleClickCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}" />
+            </dxmvvm:Interaction.Triggers>
+            <dxn:NavBarGroup x:Name="menuNavgroup" Header="1626P设置" DisplayMode="Default" 
+                             ImageSource="/CardWorkbench;component/Images/hardware_32.png"
+				             ItemImageSettings="{dxn:NavBarImageSettings Height=32, Width=32}" >
+                <dxn:NavBarItem Command="{Binding cardMenuItemClickCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/02.png" />
                         <Label VerticalAlignment="Center" Margin="5,0,0,0">通道1</Label>
                     </StackPanel>
                 </dxn:NavBarItem>
-                <dxn:NavBarItem  Command="{Binding mcfsSettingCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
+                <dxn:NavBarItem  Command="{Binding cardMenuItemClickCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/02.png" />
                         <Label VerticalAlignment="Center" Margin="5,0,0,0">通道2</Label>
                         <!--<dx:WaitIndicator DeferedVisibility="{Binding IsLocked}" Grid.Row="1" />-->
                     </StackPanel>
                 </dxn:NavBarItem>
-                <dxn:NavBarItem  Command="{Binding simulatorSettingCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
+                <dxn:NavBarItem  Command="{Binding cardMenuItemClickCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/03.png" />
                         <Label VerticalAlignment="Center" Margin="5,0,0,0">模拟器</Label>

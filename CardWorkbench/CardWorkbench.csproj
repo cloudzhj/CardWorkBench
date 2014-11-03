@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CardWorkbench</RootNamespace>
     <AssemblyName>CardWorkbench</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -124,7 +124,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\DevExpress.Xpf.Ribbon.v14.1.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Microsoft.Expression.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -147,16 +150,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\DialogSizeConverter.cs" />
     <Compile Include="DXSplashScreen\MainSplashScreen.xaml.cs">
       <DependentUpon>MainSplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="DXSplashScreen\SplashScreenView.xaml.cs" />
     <Compile Include="Models\CalibrateType.cs" />
-    <Compile Include="Models\HardwareModel.cs" />
+    <Compile Include="Models\Channel.cs" />
+    <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Param.cs" />
     <Compile Include="Models\paramSortType.cs" />
+    <Compile Include="Models\Simulator.cs" />
     <Compile Include="Utils\NavBarDragDropHelper.cs" />
     <Compile Include="Utils\UIControlHelper.cs" />
+    <Compile Include="Utils\XmlParserUtil.cs" />
     <Compile Include="ViewModels\CommonControls\CirleControlViewModel.cs" />
     <Compile Include="ViewModels\CommonControls\ChartControlViewModel.cs" />
     <Compile Include="ViewModels\CommonControls\CommonControlViewModel.cs" />
@@ -164,8 +171,10 @@
     <Compile Include="ViewModels\CommonControls\TextControlViewModel.cs" />
     <Compile Include="ViewModels\CommonControls\TimeControlViewModel.cs" />
     <Compile Include="ViewModels\CommonTools\FrameDumpViewModel.cs" />
+    <Compile Include="ViewModels\CommonTools\HardwareRecognitionViewModel.cs" />
     <Compile Include="ViewModels\CustomControls\RFLevelMasterGaugeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MenuControls\CardMenuConfigViewModel.cs" />
     <Compile Include="ViewModels\MenuControls\FrameSyncUCViewModel.cs" />
     <Compile Include="ViewModels\MenuControls\MenuControlsViewModel.cs" />
     <Compile Include="ViewModels\MenuControls\ReceiverUCViewModel.cs" />
@@ -358,6 +367,7 @@
     <Content Include="DLL\DevExpress.Xpf.Printing.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Ribbon.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Themes.Office2013DarkGray.v14.1.dll" />
+    <Content Include="DLL\Microsoft.Expression.Drawing.dll" />
     <Resource Include="Images\play\recordFlash.png" />
     <Resource Include="Images\play\record.png" />
     <Resource Include="Images\play\pause.png" />

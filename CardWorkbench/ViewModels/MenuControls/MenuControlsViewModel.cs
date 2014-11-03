@@ -18,7 +18,10 @@ namespace CardWorkbench.ViewModels.MenuControls
 
         private void onstopLoadingSplashLoaded(object context)
         {
-            DXSplashScreen.Close();
+            if (DXSplashScreen.IsActive)
+            {
+                DXSplashScreen.Close();
+            }
         }
     }
 }

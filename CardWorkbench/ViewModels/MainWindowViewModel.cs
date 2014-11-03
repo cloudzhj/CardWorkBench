@@ -47,7 +47,6 @@ namespace CardWorkbench.ViewModels
       public static readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
 
       public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
-      public static readonly string DOCKLAYOUTMANAGER_NAME = "mainDockManager"; //layoutManager
       public static readonly string DOCUMENTPANEL_WORKSTATE_NAME = "document1"; //配置区panel名称
       //硬件设置菜单栏对话框名称
       public static readonly string DIALOG_HARDWAR_RECOGNITION_NAME = "hardwareRecognitionDialog";
@@ -109,7 +108,6 @@ namespace CardWorkbench.ViewModels
 
           if (result == okCommand)
           {
-              //cardMenuConfigPanel
               onSelectHardwareLoad(cardMenuPanel);
           }
       }
@@ -139,11 +137,6 @@ namespace CardWorkbench.ViewModels
 
       private void onOpenHardwareConfigClick(LayoutPanel cardMenuPanel)
       {
-          //System.Windows.Forms.FileDialog dialog = new System.Windows.Forms.OpenFileDialog();
-          //if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-          //{
-          //    onSelectHardwareLoad(cardMenuPanel);
-          //}
           OpenFileDialogService.Filter = "配置文件|*.xml";
           OpenFileDialogService.FilterIndex = 1;
           bool DialogResult = OpenFileDialogService.ShowDialog();
@@ -173,7 +166,7 @@ namespace CardWorkbench.ViewModels
 
       private void onFrameDumpClick(DockLayoutManager dockManager)
       {
-          createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_FRAMEDUMP_NAME, PANEL_FRAMEDUMP_CAPTION, new FrameDump());          
+          UIControlHelper.createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_FRAMEDUMP_NAME, PANEL_FRAMEDUMP_CAPTION, new FrameDump());          
       }
 
 
@@ -194,116 +187,10 @@ namespace CardWorkbench.ViewModels
           dockManager.DockController.Activate(docPanel);
       }
 
-      /// <summary>
-      /// 在工作区document group创建新的document Panel
-      /// </summary>
-      /// <param name="dockManager">dock布局管理器</param>
-      /// <param name="documentGroupName">documentGroup名称</param>
-      /// <param name="addDocPanelName">新增Document panel名称</param>
-      /// <param name="addDocPanelCaption">新增Document Panel显示标题</param>
-      /// <param name="panelContent">新增Document Panel的内容元素</param>
-      private void createWorkDocumentPanel(DockLayoutManager dockManager, string documentGroupName, string addDocPanelName, string addDocPanelCaption, object panelContent)
-      {
-          DocumentGroup documentGroup = dockManager.GetItem(documentGroupName) as DocumentGroup;
-          DocumentPanel docPanel = dockManager.GetItem(addDocPanelName) as DocumentPanel;
-          if (docPanel == null)
-          {
-              docPanel = dockManager.DockController.AddDocumentPanel(documentGroup);
-              docPanel.Caption = addDocPanelCaption;
-              docPanel.Content = panelContent;
-              docPanel.Name = addDocPanelName;
-          }
-          else if (docPanel.IsClosed)
-          {
-              dockManager.DockController.Restore(docPanel);
-          }
-          dockManager.DockController.Activate(docPanel);
-      }
+    
       #endregion
 
-      #region 硬件设置对话框命令绑定
-
-      /// <summary>
-      /// 通道设置命令
-      /// </summary>
-      public ICommand mcfsSettingCommand
-      {
-          get { return new DelegateCommand<NavBarControl>(onMcfsSettingClick, x => { return true; }); }
-      }
-
-      private void onMcfsSettingClick(NavBarControl obj)
-      {
-          DXSplashScreen.Show<SplashScreenView>(); //显示loading框
-          FrameworkElement root = LayoutHelper.GetTopLevelVisual(obj as DependencyObject);
-          DockLayoutManager dockManager = (DockLayoutManager)LayoutHelper.FindElementByName(root, DOCKLAYOUTMANAGER_NAME);
-
-          DocumentGroup documentGroup = dockManager.GetItem(DOCUMENTGROUP_NAME) as DocumentGroup;
-          DocumentPanel docPanel = dockManager.GetItem(PANEL_CUSTOMCONTROL_NAME) as DocumentPanel;
-          createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_FRAMEDUMP_NAME, PANEL_FRAMEDUMP_CAPTION, new FrameSyncUC());          
-
-         
-         
-          //UICommand result = receiverSettingDialogService.ShowDialog(
-          //    dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
-          //    title: "接收机设置",
-          //    viewModel: null
-          //);
-
-          //if (result == okCommand)
-          //{
-          //    MessageBox.Show("successfull!!");
-          //}
-      }
-
-     /// <summary>
-      /// 模拟器设置命令
-     /// </summary>
-      public ICommand simulatorSettingCommand
-      {
-          get { return new DelegateCommand<NavBarControl>(onSimulatorSettingClick, x => { return true; }); }
-      }
-
-      private void onSimulatorSettingClick(NavBarControl obj)
-      {
-          //DXSplashScreen.Show<SplashScreenView>(); //显示loading框
-          //FrameworkElement root = LayoutHelper.GetTopLevelVisual(obj as DependencyObject);
-          //DockLayoutManager dockManager = (DockLayoutManager)LayoutHelper.FindElementByName(root, DOCKLAYOUTMANAGER_NAME);
-
-          //DocumentGroup documentGroup = dockManager.GetItem(DOCUMENTGROUP_NAME) as DocumentGroup;
-          //DocumentPanel docPanel = dockManager.GetItem(PANEL_CUSTOMCONTROL_NAME) as DocumentPanel;
-          //createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_FRAMEDUMP_NAME, PANEL_FRAMEDUMP_CAPTION, new ReceiverUC());          
-
-         
-          //UICommand okCommand = new UICommand()
-          //{
-          //    Caption = "确定",
-          //    IsCancel = false,
-          //    IsDefault = true,
-          //    Command = new DelegateCommand<CancelEventArgs>(
-          //       x => { },
-          //       true
-          //    ),
-          //};
-          //UICommand cancelCommand = new UICommand()
-          //{
-          //    Id = MessageBoxResult.Cancel,
-          //    Caption = "取消",
-          //    IsCancel = true,
-          //    IsDefault = false,
-          //};
-          //UICommand result = frameSyncSettingDialogService.ShowDialog(
-          //    dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
-          //    title: "帧同步设置",
-          //    viewModel: null
-          //);
-
-          //if (result == okCommand)
-          //{
-          //    MessageBox.Show("successfull!!");
-          //}
-      }
-
-      #endregion
+    
 
       #region 控件栏拖拽命令绑定
         public ICommand dropToolBoxCommand

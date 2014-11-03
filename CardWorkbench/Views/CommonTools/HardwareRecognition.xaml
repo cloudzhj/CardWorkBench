@@ -6,12 +6,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:viewModels="clr-namespace:CardWorkbench.ViewModels.CommonTools"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
-
+             d:DesignHeight="600" d:DesignWidth="800"
+             DataContext="{dxmvvm:ViewModelSource Type=viewModels:HardwareRecognitionViewModel}">
+            <dxmvvm:Interaction.Triggers>
+                <dxmvvm:EventToCommand PassEventArgsToCommand="True" EventName="Loaded" Command="{Binding hardwareRecognitionLoadedCommand}" />
+            </dxmvvm:Interaction.Triggers>
 			<dxlc:LayoutGroup View="Group" >
-				<GroupBox Header="当前硬件" x:Name="groupBox_hardwareRecognition" Margin="10" >
-                    <dxg:GridControl  Name="hardwareRecognitionGrid" SelectionMode="Row" EnableSmartColumnsGeneration="True" >
+				<GroupBox Header="当前设备" x:Name="groupBox_hardwareRecognition" Margin="10" >
+                    <dxg:GridControl Name="hardwareRecognitionGrid" SelectionMode="Row" EnableSmartColumnsGeneration="True" >
                     <dxg:GridControl.View>
                             <dxg:SelectionView AutoWidth="True" AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="true"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" ShowGroupPanel="False" />
                         <!--<dxg:TableView AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="true"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" MaxHeight="1000" ShowGroupPanel="False">
@@ -22,10 +27,10 @@
                         </dxg:GridControl.View>
                     <dxg:GridControl.Columns>
                         <dxg:SelectAllColumn Header="选择" />
-                        <dxg:GridColumn x:Name="cardID" Header="板卡ID"  HorizontalHeaderContentAlignment="Center" FieldName="cardID"  AllowResizing="False"  />
-                        <dxg:GridColumn x:Name="cardModel" Header="板卡型号" HorizontalHeaderContentAlignment="Center" FieldName="cardModel"    />
-                        <dxg:GridColumn x:Name="cardDescription" Header="板卡功能描述" HorizontalHeaderContentAlignment="Center" FieldName="cardDescription"  />
-                    </dxg:GridControl.Columns>
+                            <dxg:GridColumn x:Name="deviceID" Header="设备ID"  HorizontalHeaderContentAlignment="Center" FieldName="deviceID"  AllowResizing="False"  />
+                            <dxg:GridColumn x:Name="deviceModel" Header="设备型号" HorizontalHeaderContentAlignment="Center" FieldName="deviceModel" />
+                            <dxg:GridColumn x:Name="deviceDescription" Header="设备结构" HorizontalHeaderContentAlignment="Center" FieldName="deviceDescription"  />
+                        </dxg:GridControl.Columns>
                 </dxg:GridControl>
                     
                                                 				

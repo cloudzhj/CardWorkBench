@@ -1,4 +1,6 @@
-﻿using DevExpress.Xpf.Core.Native;
+﻿using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Core.Native;
+using DevExpress.Xpf.Docking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +67,36 @@ namespace CardWorkbench.Utils
                 return;
             }
             Canvas.SetZIndex(pane, maxZ + 1);
+        }
+
+        /// <summary>
+        /// 在dock工作区document group创建新的document Panel
+        /// </summary>
+        /// <param name="dockManager">dock布局管理器</param>
+        /// <param name="documentGroupName">documentGroup名称</param>
+        /// <param name="addDocPanelName">新增Document panel名称</param>
+        /// <param name="addDocPanelCaption">新增Document Panel显示标题</param>
+        /// <param name="panelContent">新增Document Panel的内容元素</param>
+        /// <returns>创建的document panel对象</returns>
+        public static DocumentPanel createWorkDocumentPanel(DockLayoutManager dockManager, string documentGroupName, string addDocPanelName, string addDocPanelCaption, object panelContent)
+        {
+            DocumentGroup documentGroup = dockManager.GetItem(documentGroupName) as DocumentGroup;
+            DocumentPanel docPanel = dockManager.GetItem(addDocPanelName) as DocumentPanel;
+            if (docPanel == null)
+            {
+                DXSplashScreen.Show<SplashScreenView>(); //显示loading框
+                docPanel = dockManager.DockController.AddDocumentPanel(documentGroup);
+                docPanel.Caption = addDocPanelCaption;
+                docPanel.Content = panelContent;
+                docPanel.Name = addDocPanelName;
+            }
+            else if (docPanel.IsClosed)
+            {
+                dockManager.DockController.Restore(docPanel);
+            }
+            dockManager.DockController.Activate(docPanel);
+
+            return docPanel;
         }
     }
 }

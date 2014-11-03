@@ -24,11 +24,7 @@ namespace CardWorkbench.Views.CommonTools
         public HardwareRecognition()
         {
             InitializeComponent();
-            insertTestData();
         }
 
-        public void insertTestData() {
-            hardwareRecognitionGrid.ItemsSource = HardwareModelTestCase.generateData();
-        }
     }
 }

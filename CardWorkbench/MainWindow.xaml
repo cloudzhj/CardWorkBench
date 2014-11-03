@@ -1,4 +1,5 @@
 ﻿<dxr:DXRibbonWindow
+        Name="mainWindow"
         x:Class="CardWorkbench.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -20,13 +21,13 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         dx:DXSplashScreen.SplashScreenType="{x:Type proj:MainSplashScreen}" 
-        Title="MCFS配置监控软件" Height="768" Width="1024" WindowState="Maximized"
+        Title="MCFS配置监控软件" WindowState="Maximized"
         DataContext="{dxmvvm:ViewModelSource Type=viewModels:MainWindowViewModel}" >
-    
+
     <!--服务注册-->
     <dxmvvm:Interaction.Behaviors>
         <!--硬件识别对话框-->
-        <dx:DialogService Name="hardwareRecognitionDialog" DialogWindowStartupLocation="CenterOwner">
+        <dx:DialogService Name="hardwareRecognitionDialog" DialogWindowStartupLocation="CenterOwner" >
             <dx:DialogService.ViewTemplate>
                 <DataTemplate>
                     <local:HardwareRecognition />
@@ -34,8 +35,10 @@
             </dx:DialogService.ViewTemplate>
             <dx:DialogService.DialogStyle>
                 <Style TargetType="dx:DXDialogWindow">
-                    <Setter Property="Width" Value="800"/>
-                    <Setter Property="Height" Value="600"/>
+                    <!-- 注释后自动调整窗口大小
+                    <Setter Property="Width" Value="640" />
+                    <Setter Property="Height" Value="480" />
+                    -->
                 </Style>
             </dx:DialogService.DialogStyle>
         </dx:DialogService>
@@ -110,7 +113,7 @@
                 </dxb:BarButtonItem>
             </dxb:BarManager.Items>
             <!--主界面dock面板-->
-            <DockPanel>
+            <DockPanel LastChildFill="True">
                 <dxr:RibbonControl Name="ribbonControl" DockPanel.Dock="Top" AllowCustomization="False"  RibbonStyle="Office2010" RibbonTitleBarVisibility="Collapsed" ToolbarShowMode="Hide" AllowKeyTips="False" BorderThickness="5">
                     <dxr:RibbonControl.ApplicationMenu>
                         <dxr:ApplicationMenu RightPaneWidth="280" ShowRightPane="False">
@@ -127,7 +130,7 @@
                         </dxr:ApplicationMenu>
                     </dxr:RibbonControl.ApplicationMenu>
                     <dxr:RibbonDefaultPageCategory>
-                        <dxr:RibbonPage Caption="设置">
+                        <dxr:RibbonPage Name="setupRibbonPage" Caption="设置">
                             <dxr:RibbonPageGroup Caption="设备设置">
                                 <dxb:BarButtonItem x:Name="barButtonItem1" Content="设备识别" LargeGlyph="{dx:DXImage Image=Find_32x32.png}" >
                                     <dxmvvm:Interaction.Triggers>
@@ -138,7 +141,7 @@
 							 </dxb:BarButtonItem>
                             </dxr:RibbonPageGroup>
                             
-							<dxr:RibbonPageGroup Caption="通道设置">
+							<dxr:RibbonPageGroup Name="channelSetupRibbonGroup" Caption="通道设置" IsEnabled="False">
                                 <dxb:BarButtonItem x:Name="startChannelButton" Content="运行通道" LargeGlyph="{dx:DXImage Image=Apply_32x32.png}">
 								</dxb:BarButtonItem>
                                 <dxb:BarButtonItem x:Name="stopChannelButton" Content="停止通道" LargeGlyph="{dx:DXImage Image=Cancel_32x32.png}">
@@ -190,7 +193,7 @@
                                     <!--主界面工作区面板-->
                                     <dxdo:DocumentGroup Name="documentContainer"  DestroyContentOnTabSwitching="False" DestroyOnClosingChildren="False"  ItemWidth="4*" ClosePageButtonShowMode="InAllTabPageHeaders"  >
                                         <!--通道编辑区Panel-->
-                                        <dxdo:DocumentPanel Name="document1" Caption="配置区" ToolTip="通道配置" FooterDescription="通道配置" Description="通道配置" AllowClose="False">
+                                        <dxdo:DocumentPanel Name="document1" Caption="工作状态" ToolTip="通道配置" FooterDescription="通道配置" Description="通道配置" AllowClose="False">
                                             <dxlc:LayoutControl Header="Header" Orientation="Vertical" UseLayoutRounding="True" View="GroupBox">
                                                 	
                                             </dxlc:LayoutControl>
@@ -211,20 +214,7 @@
                             </dxdo:LayoutGroup>
 
 
-                            <dxdo:TabbedGroup Name="tabbedGroup2" SelectedTabIndex="0" ItemWidth="180">
-                                <dxdo:LayoutPanel x:Name="propertiesPanel" Caption="控件" >
-                                    <!--CaptionImage="/DockingDemo;component/Images/BO_Task.png"-->
-                                    <dxn:NavBarControl x:Name="toolBoxNavBar" Margin="3">
-                                        <dxn:NavBarGroup Header="图形控件">
-                                            <dxn:NavBarItem Name="toolbox_textCtrl" Content="文本" ImageSource="{dx:DXImage Image=ContentAutoArrange_16x16.png}" />
-                                            <dxn:NavBarItem Name="toolbox_lineCtrl" Content="二维曲线" ImageSource="{dx:DXImage Image=Spline_16x16.png}" />
-                                            <dxn:NavBarItem Name="toolbox_meterCtrl" Content="仪表" ImageSource="{dx:DXImage Image=GaugeStyleFullCircular_16x16.png}" />
-                                            <dxn:NavBarItem Name="toolbox_lightCtrl" Content="工作灯" ImageSource="{dx:DXImage Image=Bubble_16x16.png}" />
-                                            <dxn:NavBarItem Name="toolbox_timeCtrl" Content="时间" ImageSource="{dx:DXImage Image=NavigationBar_16x16.png}" />
-                                        </dxn:NavBarGroup>
-                                    </dxn:NavBarControl>
-                                </dxdo:LayoutPanel>
-                            </dxdo:TabbedGroup>
+                            
                         </dxdo:LayoutGroup>
                         <dxdo:DockLayoutManager.AutoHideGroups>
                             <dxdo:AutoHideGroup Name="tabbedGroup1" ItemHeight="150" DockType="Bottom">
@@ -241,6 +231,22 @@
                                     </StackPanel>
                                 </dxdo:LayoutPanel>
                             </dxdo:AutoHideGroup>
+                            
+                            <dxdo:AutoHideGroup Name="tabbedGroup2" SelectedTabIndex="0" ItemWidth="150" DockType="Right">
+                                <dxdo:LayoutPanel x:Name="propertiesPanel" Caption="控件" >
+                                    <!--CaptionImage="/DockingDemo;component/Images/BO_Task.png"-->
+                                    <dxn:NavBarControl x:Name="toolBoxNavBar" Margin="3">
+                                        <dxn:NavBarGroup Header="图形控件">
+                                            <dxn:NavBarItem Name="toolbox_textCtrl" Content="文本" ImageSource="{dx:DXImage Image=ContentAutoArrange_16x16.png}" />
+                                            <dxn:NavBarItem Name="toolbox_lineCtrl" Content="二维曲线" ImageSource="{dx:DXImage Image=Spline_16x16.png}" />
+                                            <dxn:NavBarItem Name="toolbox_meterCtrl" Content="仪表" ImageSource="{dx:DXImage Image=GaugeStyleFullCircular_16x16.png}" />
+                                            <dxn:NavBarItem Name="toolbox_lightCtrl" Content="工作灯" ImageSource="{dx:DXImage Image=Bubble_16x16.png}" />
+                                            <dxn:NavBarItem Name="toolbox_timeCtrl" Content="时间" ImageSource="{dx:DXImage Image=NavigationBar_16x16.png}" />
+                                        </dxn:NavBarGroup>
+                                    </dxn:NavBarControl>
+                                </dxdo:LayoutPanel>
+                            </dxdo:AutoHideGroup>
+                            
                         </dxdo:DockLayoutManager.AutoHideGroups>
 
                         <dxdo:DockLayoutManager.FloatGroups></dxdo:DockLayoutManager.FloatGroups>
