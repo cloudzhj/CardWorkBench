@@ -9,7 +9,7 @@ namespace CardWorkbench.Models
     public class Device
     {
         //设备ID
-        public int deviceID { get; set; }
+        public string deviceID { get; set; }
 
         //设备型号
         public string deviceModel { get; set; }
@@ -18,10 +18,10 @@ namespace CardWorkbench.Models
         public string deviceDescription { get; set; }
 
         //设备通道
-        
+        public IList<Channel> channelList { get; set; }
 
         //设备模拟器
-       
+        public Simulator simulator { get; set; }
     }
 
     //public static class HardwareModelTestCase

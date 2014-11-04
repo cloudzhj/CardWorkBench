@@ -113,7 +113,7 @@
                 </dxb:BarButtonItem>
             </dxb:BarManager.Items>
             <!--主界面dock面板-->
-            <DockPanel LastChildFill="True">
+            <DockPanel LastChildFill="True">  <!--DockPanel 可自适应屏幕-->
                 <dxr:RibbonControl Name="ribbonControl" DockPanel.Dock="Top" AllowCustomization="False"  RibbonStyle="Office2010" RibbonTitleBarVisibility="Collapsed" ToolbarShowMode="Hide" AllowKeyTips="False" BorderThickness="5">
                     <dxr:RibbonControl.ApplicationMenu>
                         <dxr:ApplicationMenu RightPaneWidth="280" ShowRightPane="False">
@@ -132,12 +132,12 @@
                     <dxr:RibbonDefaultPageCategory>
                         <dxr:RibbonPage Name="setupRibbonPage" Caption="设置">
                             <dxr:RibbonPageGroup Caption="设备设置">
-                                <dxb:BarButtonItem x:Name="barButtonItem1" Content="设备识别" LargeGlyph="{dx:DXImage Image=Find_32x32.png}" >
+                                <dxb:BarButtonItem x:Name="barButtonItem1" Content="设备识别" Hint="选择已识别的设备到硬件配置栏" LargeGlyph="{dx:DXImage Image=Find_32x32.png}" >
                                     <dxmvvm:Interaction.Triggers>
                                         <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding hardwareRecognitionCommand}" CommandParameter="{Binding ElementName=cardMenuConfigPanel}"/>
                                     </dxmvvm:Interaction.Triggers>
                                 </dxb:BarButtonItem>
-						     <dxb:BarButtonItem x:Name="resetDeviceButton" Content="重置设备" LargeGlyph="{dx:DXImage Image=HistoryItem_32x32.png}">
+                                <dxb:BarButtonItem x:Name="resetDeviceButton" Content="重置设备" Hint="重置设备" LargeGlyph="{dx:DXImage Image=HistoryItem_32x32.png}">
 							 </dxb:BarButtonItem>
                             </dxr:RibbonPageGroup>
                             
@@ -177,7 +177,7 @@
                             <dxdo:LayoutGroup ItemWidth="4*" Orientation="Vertical">
                                 <dxdo:LayoutGroup Name="group1" ItemHeight="4*">
                                     <!--左侧dock 硬件配置菜单/参数信息 面板组-->
-                                    <dxdo:TabbedGroup Name="dataTabbedGroup" ItemWidth="220">
+                                    <dxdo:TabbedGroup Name="dataTabbedGroup" ItemWidth="200">
                                         <!--硬件配置菜单面板-->
                                         <dxdo:LayoutPanel Name="cardMenuConfigPanel" Caption="硬件设备" BorderThickness="0" >
                                             <!--<setting:CardMenuConfig />-->

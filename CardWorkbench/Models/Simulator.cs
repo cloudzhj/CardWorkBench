@@ -10,5 +10,10 @@ namespace CardWorkbench.Models
     /// </summary>
     public class Simulator
     {
+        //模拟器ID
+        public string simulatorID { get; set; }
+
+        //模拟器名称
+        public string simulatorName { get; set; }
     }
 }

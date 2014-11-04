@@ -29,7 +29,7 @@ namespace CardWorkbench.Utils
         }
 
         //根据唯一的节点名获取xml所有的子节点对象
-        public static XmlNodeList getChildNodesListByParentNodeName(string nodeName)
+        public static XmlNodeList getChildNodesListBySingleParentNodeName(string nodeName)
         {
             return xmlDocument.SelectSingleNode(nodeName).ChildNodes;           
         }

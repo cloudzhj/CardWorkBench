@@ -162,6 +162,7 @@
     <Compile Include="Models\paramSortType.cs" />
     <Compile Include="Models\Simulator.cs" />
     <Compile Include="Utils\NavBarDragDropHelper.cs" />
+    <Compile Include="Utils\SelectionHelper.cs" />
     <Compile Include="Utils\UIControlHelper.cs" />
     <Compile Include="Utils\XmlParserUtil.cs" />
     <Compile Include="ViewModels\CommonControls\CirleControlViewModel.cs" />

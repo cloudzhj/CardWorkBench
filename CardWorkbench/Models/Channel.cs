@@ -10,5 +10,10 @@ namespace CardWorkbench.Models
     /// </summary>
     public class Channel
     {
+        //通道ID
+        public string channelID { get; set; }
+
+        //通道名称
+        public string channelName { get; set; }
     }
 }

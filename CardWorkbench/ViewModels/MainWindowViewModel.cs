@@ -24,6 +24,8 @@ using DevExpress.Xpf.Bars;
 using CardWorkbench.Views.MenuControls;
 using System.Threading;
 using DevExpress.Xpf.Core;
+using CardWorkbench.ViewModels.CommonTools;
+using System.Collections.ObjectModel;
 
 namespace CardWorkbench.ViewModels
 {
@@ -55,8 +57,6 @@ namespace CardWorkbench.ViewModels
        
       //注册服务声明
       public IDialogService hardwareRecognitionDialogService { get { return GetService<IDialogService>(DIALOG_HARDWAR_RECOGNITION_NAME); } }  //获得硬件识别对话框服务
-      //public IDialogService receiverSettingDialogService { get { return GetService<IDialogService>(DIALOG_RECEIVER_SETTING_NAME); } }  //获得接收机设置对话框服务
-      //public IDialogService frameSyncSettingDialogService { get { return GetService<IDialogService>(DIALOG_FRAMESYNC_SETTING_NAME); } }  //获得帧同步设置对话框服务
       public IOpenFileDialogService OpenFileDialogService { get { return GetService<IOpenFileDialogService>() ; } }  //获得文件选择对话框服务
       public ISplashScreenService SplashScreenService { get { return GetService<ISplashScreenService>(); } } //LOADING splash screen服务
 
@@ -64,7 +64,9 @@ namespace CardWorkbench.ViewModels
       //参数grid某行是否拖拽开始
       bool _dragStarted = false;
       //参数grid面板table view的名称
-      public static readonly string PARAM_GRID_TABLEVIEW_NAME = "paramGridTabelView"; 
+      public static readonly string PARAM_GRID_TABLEVIEW_NAME = "paramGridTabelView";
+
+      private HardwareRecognitionViewModel hardwareViewModel = null;
 
       public MainWindowViewModel() {
          
@@ -83,14 +85,19 @@ namespace CardWorkbench.ViewModels
 
       private void onHardwareRecognitionClick(LayoutPanel cardMenuPanel)
       {
+          if (hardwareViewModel == null)
+          {
+            hardwareViewModel = new HardwareRecognitionViewModel();
+          }
+   
           UICommand okCommand = new UICommand()
           {
-              Caption = "确定",
+              Caption = "添加",
               IsCancel = false,
               IsDefault = true,
               Command = new DelegateCommand<CancelEventArgs>(
                  x => { },
-                 true
+                 x => { return true; }
               ),
           };
           UICommand cancelCommand = new UICommand()
@@ -103,11 +110,15 @@ namespace CardWorkbench.ViewModels
           UICommand result = hardwareRecognitionDialogService.ShowDialog(
               dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
               title: "设备识别",
-              viewModel: null
+              viewModel: hardwareViewModel
           );
 
           if (result == okCommand)
           {
+              int count = hardwareViewModel.SelectionDevices.Count;
+              Console.WriteLine(count);
+                  //object obj = hardwareGrid.ItemsSource;
+               
               onSelectHardwareLoad(cardMenuPanel);
           }
       }

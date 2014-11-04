@@ -5,6 +5,8 @@ using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -15,7 +17,19 @@ namespace CardWorkbench.ViewModels.CommonTools
 {
     public class HardwareRecognitionViewModel
     {
+       
         public readonly string GRID_HARDWARERECOGNITION_NAME = "hardwareRecognitionGrid";   //硬件设备grid名称
+
+        public ObservableCollection<Device> SelectionDevices { get; private set;  } //选中的硬件
+
+        public HardwareRecognitionViewModel() {
+            if (SelectionDevices == null)
+            {
+                SelectionDevices = new ObservableCollection<Device>();               
+            }
+            
+        }
+
 
         public ICommand hardwareRecognitionLoadedCommand
         {
@@ -27,29 +41,83 @@ namespace CardWorkbench.ViewModels.CommonTools
             FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
             GridControl grid = LayoutHelper.FindElementByName(root, GRID_HARDWARERECOGNITION_NAME) as GridControl;
             grid.ItemsSource = findDevice();
+            //foreach (var data in grid.SelectedItems)
+            //{
+            //    Device device = data as Device;
+            //    SelectionDevices.Add(device);
+            //}
+            Console.WriteLine(SelectionDevices.Count+"@@@");
         }
 
+        /// <summary>
+        /// 查找设备清单
+        /// </summary>
+        /// <returns>返回设备清单列表</returns>
         private static IList<Device> findDevice()
         {
             List<Device> hardwareList = new List<Device>();
+            ////////// TODO: 以下xml查询代码还可以优化 ///////////
             try
             {
-                XmlDocument testXmlDoc = XmlParserUtil.getXmlDocumnetInstance("C:\\Users\\Neptune\\Desktop\\HardWare.xml");
-                //XmlNode xmlNode = XmlParserUtil.getXmlSingleNodeByName("Module");
-                //Console.WriteLine(XmlParserUtil.getNodeAttributeValue(xmlNode, "Name"));
-                XmlNodeList nodeList = XmlParserUtil.getChildNodesListByParentNodeName("Box");
+                string deviceID, deviceModel;
+                XmlDocument testXmlDoc = XmlParserUtil.getXmlDocumnetInstance("C:\\Users\\Neptune\\Desktop\\Hardware.xml");
+                XmlNodeList nodeList = XmlParserUtil.getChildNodesListBySingleParentNodeName("Box");
                 foreach (XmlNode deviceNode in nodeList)
                 {
                     Device device = new Device();
-                    string deviceID = XmlParserUtil.getNodeAttributeValue(deviceNode, "id");
-                    string deviceModel = XmlParserUtil.getNodeAttributeValue(deviceNode, "model");
-                    device.deviceID = int.Parse(deviceID);
+                    deviceID = XmlParserUtil.getNodeAttributeValue(deviceNode, "id");
+                    deviceModel = XmlParserUtil.getNodeAttributeValue(deviceNode, "model");
+                    StringBuilder deviceDescrptionBuilder = new StringBuilder();
+                    device.deviceID = deviceID;
                     device.deviceModel = deviceModel;
+                    
+                    //获得设备是否含通道或模拟器
+                    if (deviceNode.HasChildNodes)
+                    {
+                        foreach (XmlNode node in deviceNode.ChildNodes)
+                        {
+                            if ("Channels".Equals(node.Name) && node.HasChildNodes)
+                            {
+                                IList<Channel> channelList = new List<Channel>();
+                                foreach (XmlNode channelNode in node.ChildNodes)
+                                {
+                                    //设置设备通道列表
+                                    Channel channel = new Channel();
+                                    channel.channelName = XmlParserUtil.getNodeAttributeValue(channelNode, "name");
+                                    channel.channelID = XmlParserUtil.getNodeAttributeValue(channelNode, "id");
+                                    channelList.Add(channel);
+                                    device.channelList = channelList;
+                                    //通道名称加入设备描述
+                                    deviceDescrptionBuilder.Append(XmlParserUtil.getNodeAttributeValue(channelNode, "name"));
+                                    deviceDescrptionBuilder.Append(",");
+                                }
+                            }
+                            else if ("Simulator".Equals(node.Name))
+                            {
+                                //设置设备模拟器
+                                Simulator simulator = new Simulator();
+                                simulator.simulatorID = XmlParserUtil.getNodeAttributeValue(node, "id");
+                                simulator.simulatorName = XmlParserUtil.getNodeAttributeValue(node, "name");
+                                device.simulator = simulator;
+                                //模拟器名称加入设备描述
+                                deviceDescrptionBuilder.Append(XmlParserUtil.getNodeAttributeValue(node, "name"));
+                                deviceDescrptionBuilder.Append(",");
+
+                            }
+                        }
+                    }
+                    device.deviceDescription = deviceDescrptionBuilder.ToString(0, deviceDescrptionBuilder.Length - 1);
                     hardwareList.Add(device);
                 }
             }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("获取设备配置信息失败!");
+            }
             catch (Exception e)
             {
+                if (e.Source != null)
+                    Console.WriteLine(e.Message);
                 throw e;
             }
             

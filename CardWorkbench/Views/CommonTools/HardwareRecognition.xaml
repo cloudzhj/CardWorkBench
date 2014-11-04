@@ -16,17 +16,17 @@
             </dxmvvm:Interaction.Triggers>
 			<dxlc:LayoutGroup View="Group" >
 				<GroupBox Header="当前设备" x:Name="groupBox_hardwareRecognition" Margin="10" >
-                    <dxg:GridControl Name="hardwareRecognitionGrid" SelectionMode="Row" EnableSmartColumnsGeneration="True" >
+            <dxg:GridControl Name="hardwareRecognitionGrid" SelectionMode="Row" EnableSmartColumnsGeneration="True" >
                     <dxg:GridControl.View>
-                            <dxg:SelectionView AutoWidth="True" AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="true"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" ShowGroupPanel="False" />
+                    <dxg:SelectionView SelectedRowsSource="{Binding SelectionDevices}" NavigationStyle="Row" AllowEditing="False" AutoWidth="True" AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" ShowGroupPanel="False" />
                         <!--<dxg:TableView AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="true"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" MaxHeight="1000" ShowGroupPanel="False">
                             <dxg:TableView.LayoutCalculatorFactory>
                                 <dxg:GridTableViewLayoutCalculatorFactory/>
                             </dxg:TableView.LayoutCalculatorFactory>
                         </dxg:TableView>-->
                         </dxg:GridControl.View>
-                    <dxg:GridControl.Columns>
-                        <dxg:SelectAllColumn Header="选择" />
+                        <dxg:GridControl.Columns>
+                            <dxg:SelectAllColumn Header="选择" AllowEditing="True" />
                             <dxg:GridColumn x:Name="deviceID" Header="设备ID"  HorizontalHeaderContentAlignment="Center" FieldName="deviceID"  AllowResizing="False"  />
                             <dxg:GridColumn x:Name="deviceModel" Header="设备型号" HorizontalHeaderContentAlignment="Center" FieldName="deviceModel" />
                             <dxg:GridColumn x:Name="deviceDescription" Header="设备结构" HorizontalHeaderContentAlignment="Center" FieldName="deviceDescription"  />
