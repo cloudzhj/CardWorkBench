@@ -6,6 +6,7 @@ using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,17 +21,14 @@ namespace CardWorkbench.ViewModels.CommonTools
        
         public readonly string GRID_HARDWARERECOGNITION_NAME = "hardwareRecognitionGrid";   //硬件设备grid名称
 
-        public ObservableCollection<Device> SelectionDevices { get; private set;  } //选中的硬件
+        public static GridControl grid ;  //此变量在mainwindow的对话框点击"添加"时可获取
 
         public HardwareRecognitionViewModel() {
-            if (SelectionDevices == null)
-            {
-                SelectionDevices = new ObservableCollection<Device>();               
-            }
-            
         }
 
-
+        /// <summary>
+        /// 设备Grid加载时命令
+        /// </summary>
         public ICommand hardwareRecognitionLoadedCommand
         {
             get { return new DelegateCommand<RoutedEventArgs>(onHardwareRecognitionLoaded, x => { return true; }); }
@@ -39,18 +37,12 @@ namespace CardWorkbench.ViewModels.CommonTools
         private void onHardwareRecognitionLoaded(RoutedEventArgs e)
         {
             FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
-            GridControl grid = LayoutHelper.FindElementByName(root, GRID_HARDWARERECOGNITION_NAME) as GridControl;
+            grid = LayoutHelper.FindElementByName(root, GRID_HARDWARERECOGNITION_NAME) as GridControl;
             grid.ItemsSource = findDevice();
-            //foreach (var data in grid.SelectedItems)
-            //{
-            //    Device device = data as Device;
-            //    SelectionDevices.Add(device);
-            //}
-            Console.WriteLine(SelectionDevices.Count+"@@@");
         }
 
         /// <summary>
-        /// 查找设备清单
+        /// 从xml查找设备清单
         /// </summary>
         /// <returns>返回设备清单列表</returns>
         private static IList<Device> findDevice()

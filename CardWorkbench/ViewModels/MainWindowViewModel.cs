@@ -26,6 +26,9 @@ using System.Threading;
 using DevExpress.Xpf.Core;
 using CardWorkbench.ViewModels.CommonTools;
 using System.Collections.ObjectModel;
+using CardWorkbench.ViewModels.MenuControls;
+using System.Windows.Media.Imaging;
+using System.Collections;
 
 namespace CardWorkbench.ViewModels
 {
@@ -84,12 +87,7 @@ namespace CardWorkbench.ViewModels
       }
 
       private void onHardwareRecognitionClick(LayoutPanel cardMenuPanel)
-      {
-          if (hardwareViewModel == null)
-          {
-            hardwareViewModel = new HardwareRecognitionViewModel();
-          }
-   
+      {   
           UICommand okCommand = new UICommand()
           {
               Caption = "添加",
@@ -97,7 +95,14 @@ namespace CardWorkbench.ViewModels
               IsDefault = true,
               Command = new DelegateCommand<CancelEventArgs>(
                  x => { },
-                 x => { return true; }
+                 x => {
+                     if (HardwareRecognitionViewModel.grid != null 
+                         && HardwareRecognitionViewModel.grid.SelectedItems.Count != 0)
+                     {
+                         return true;
+                     }
+                     return false;
+                 }
               ),
           };
           UICommand cancelCommand = new UICommand()
@@ -110,25 +115,63 @@ namespace CardWorkbench.ViewModels
           UICommand result = hardwareRecognitionDialogService.ShowDialog(
               dialogCommands: new List<UICommand>() { okCommand, cancelCommand },
               title: "设备识别",
-              viewModel: hardwareViewModel
+              viewModel: null
           );
 
           if (result == okCommand)
           {
-              int count = hardwareViewModel.SelectionDevices.Count;
-              Console.WriteLine(count);
-                  //object obj = hardwareGrid.ItemsSource;
-               
-              onSelectHardwareLoad(cardMenuPanel);
+              IList devicelist = null;
+              if (HardwareRecognitionViewModel.grid != null)
+              {
+                  devicelist = HardwareRecognitionViewModel.grid.SelectedItems as IList;
+              }
+
+              onSelectHardwareLoad(cardMenuPanel, devicelist);
           }
       }
 
       /// <summary>
       /// 加载选中板卡显示配置菜单命令
       /// </summary>
-      private void onSelectHardwareLoad(LayoutPanel cardMenuPanel)
+      /// <param name="cardMenuPanel">配置菜单layout panel</param>
+      /// <param name="devicelist">设备清单列表</param>
+      private void onSelectHardwareLoad(LayoutPanel cardMenuPanel, IList devicelist)
       {
-          cardMenuPanel.Content = new CardMenuConfig();
+          CardMenuConfig cardMenu = new CardMenuConfig();
+          //CardMenuConfigViewModel cardMenuViewModel = cardMenu.DataContext as CardMenuConfigViewModel;
+          NavBarControl menuNavBarControl = cardMenu.FindName("menuNavcontrol") as NavBarControl;
+          if (devicelist != null)
+          {
+              foreach (var obj in devicelist)
+              {
+                  Device device = obj as Device;
+                  //构建设备菜单组
+                  NavBarGroup deviceGroup = new NavBarGroup();
+                  deviceGroup.Name = "deviceNavBar" + device.deviceID;
+                  deviceGroup.Header = device.deviceModel;
+                  BitmapImage myBitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/hardware_32.png"));
+                  deviceGroup.ImageSource = myBitmapImage;
+                  ImageSettings deviceItemImageSetting = new ImageSettings();
+                  deviceItemImageSetting.Height = 32;
+                  deviceItemImageSetting.Width = 32;
+                  deviceGroup.ItemImageSettings = deviceItemImageSetting;
+                  //构建设备菜单组下通道菜单
+                  if (device.channelList != null)
+	              {
+		            foreach (Channel channel in device.channelList)
+	                {
+                        NavBarItem channelItem = new NavBarItem();
+                        channelItem.Name = "channelNavItem" + channel.channelID;
+
+                    }
+	              }
+
+                  menuNavBarControl.Groups.Add(deviceGroup);
+              }
+
+          }
+
+          cardMenuPanel.Content = cardMenu;
           FrameworkElement root = LayoutHelper.GetRoot(cardMenuPanel);
           //TEST///////////////////////////////////////////////
 
@@ -140,7 +183,7 @@ namespace CardWorkbench.ViewModels
       }
 
       /// <summary>
-      /// 打开读取本地硬件配置文件对话框
+      /// 打开读取本地硬件配置文件对话框  TODO:应修改为读取通道配置文件信息
       /// </summary>
       public ICommand openHardwareConfigCommand {
           get { return new DelegateCommand<LayoutPanel>(onOpenHardwareConfigClick, x => { return true; }); }
@@ -157,7 +200,7 @@ namespace CardWorkbench.ViewModels
           }
           else
           {
-              onSelectHardwareLoad(cardMenuPanel);
+              //onSelectHardwareLoad(cardMenuPanel);
 
               //IFileInfo file = OpenFileDialogService.Files.First();
               //ResultFileName = file.Name;

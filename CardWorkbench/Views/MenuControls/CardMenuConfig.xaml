@@ -14,7 +14,8 @@
             <dxmvvm:Interaction.Triggers>
                 <dxmvvm:EventToCommand EventName="MouseDoubleClick" PassEventArgsToCommand="True" Command="{Binding cardMenuDoubleClickCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}" />
             </dxmvvm:Interaction.Triggers>
-            <dxn:NavBarGroup x:Name="menuNavgroup" Header="1626P设置" DisplayMode="Default" 
+            
+            <!--<dxn:NavBarGroup x:Name="menuNavgroup" Header="1626P设置" DisplayMode="Default" 
                              ImageSource="/CardWorkbench;component/Images/hardware_32.png"
 				             ItemImageSettings="{dxn:NavBarImageSettings Height=32, Width=32}" >
                 <dxn:NavBarItem Command="{Binding cardMenuItemClickCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
@@ -27,7 +28,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <Image Source="/CardWorkbench;component/Images/2/02.png" />
                         <Label VerticalAlignment="Center" Margin="5,0,0,0">通道2</Label>
-                        <!--<dx:WaitIndicator DeferedVisibility="{Binding IsLocked}" Grid.Row="1" />-->
+                        --><!--<dx:WaitIndicator DeferedVisibility="{Binding IsLocked}" Grid.Row="1" />--><!--
                     </StackPanel>
                 </dxn:NavBarItem>
                 <dxn:NavBarItem  Command="{Binding cardMenuItemClickCommand}" CommandParameter="{Binding ElementName=menuNavcontrol}">
@@ -36,8 +37,8 @@
                         <Label VerticalAlignment="Center" Margin="5,0,0,0">模拟器</Label>
                     </StackPanel>
                 </dxn:NavBarItem>
-                
-            </dxn:NavBarGroup>
+            </dxn:NavBarGroup>-->
+            
         </dxn:NavBarControl>
     </Grid>
 </UserControl>

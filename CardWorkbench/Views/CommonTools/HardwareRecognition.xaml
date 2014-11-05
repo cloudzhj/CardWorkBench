@@ -18,7 +18,7 @@
 				<GroupBox Header="当前设备" x:Name="groupBox_hardwareRecognition" Margin="10" >
             <dxg:GridControl Name="hardwareRecognitionGrid" SelectionMode="Row" EnableSmartColumnsGeneration="True" >
                     <dxg:GridControl.View>
-                    <dxg:SelectionView SelectedRowsSource="{Binding SelectionDevices}" NavigationStyle="Row" AllowEditing="False" AutoWidth="True" AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" ShowGroupPanel="False" />
+                    <dxg:SelectionView AllowEditing="False" AutoWidth="True" AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" ShowGroupPanel="False" />
                         <!--<dxg:TableView AllowSorting="False" AllowPerPixelScrolling="True" IsColumnChooserVisible="False" AllowEditing="true"  ShowGroupedColumns="False" AllowFixedColumnMenu="True" MaxHeight="1000" ShowGroupPanel="False">
                             <dxg:TableView.LayoutCalculatorFactory>
                                 <dxg:GridTableViewLayoutCalculatorFactory/>

@@ -31,8 +31,7 @@ namespace CardWorkbench.ViewModels.MenuControls
         public static readonly string RIBBONCONTROL_NAME = "ribbonControl";
         public static readonly string RIBBONPAGE_TOOLS_NAME = "toolsRibbonPage";
         public static readonly string RIBBONPAGE_SETUP_NAME = "setupRibbonPage";
-        public static readonly string RIBBONPAGEGROUP_CHANNELSETUP_NAME = "channelSetupRibbonGroup";  
-
+        public static readonly string RIBBONPAGEGROUP_CHANNELSETUP_NAME = "channelSetupRibbonGroup";
 
         #region 硬件设置对话框命令绑定
 
