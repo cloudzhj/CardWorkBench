@@ -130,7 +130,7 @@
                         </dxr:ApplicationMenu>
                     </dxr:RibbonControl.ApplicationMenu>
                     <dxr:RibbonDefaultPageCategory>
-                        <dxr:RibbonPage Name="setupRibbonPage" Caption="设置">
+                        <dxr:RibbonPage Name="setupRibbonPage" Caption="设备">
                             <dxr:RibbonPageGroup Caption="设备设置">
                                 <dxb:BarButtonItem x:Name="barButtonItem1" Content="设备识别" Hint="选择已识别的设备到硬件配置栏" LargeGlyph="{dx:DXImage Image=Find_32x32.png}" >
                                     <dxmvvm:Interaction.Triggers>
@@ -140,19 +140,40 @@
                                 <dxb:BarButtonItem x:Name="resetDeviceButton" Content="重置设备" Hint="重置设备" LargeGlyph="{dx:DXImage Image=HistoryItem_32x32.png}">
 							 </dxb:BarButtonItem>
                             </dxr:RibbonPageGroup>
-                            
-							<dxr:RibbonPageGroup Name="channelSetupRibbonGroup" Caption="通道设置" IsEnabled="False">
-                                <dxb:BarButtonItem x:Name="startChannelButton" Content="运行通道" LargeGlyph="{dx:DXImage Image=Apply_32x32.png}">
-								</dxb:BarButtonItem>
-                                <dxb:BarButtonItem x:Name="stopChannelButton" Content="停止通道" LargeGlyph="{dx:DXImage Image=Cancel_32x32.png}">
-								</dxb:BarButtonItem>
-								<dxb:BarButtonItem x:Name="resetChannelButton" Content="重置通道" LargeGlyph="{dx:DXImage Image=Convert_32x32.png}">
-								</dxb:BarButtonItem>
-								<dxb:BarButtonItemLink BarItemName="biOpen"/>
-                                <dxb:BarButtonItemLink BarItemName="biNew"/>
-							</dxr:RibbonPageGroup>
-						
                         </dxr:RibbonPage>
+
+                        <dxr:RibbonPage Name="channelRibbonPage" Caption="通道" IsEnabled="False">
+                            <dxr:RibbonPageGroup Name="channelControlRibbonGroup" Caption="通道控制">
+                                <dxb:BarButtonItem x:Name="startChannelButton" Content="运行通道" LargeGlyph="{dx:DXImage Image=Apply_32x32.png}">
+                                </dxb:BarButtonItem>
+                                <dxb:BarButtonItem x:Name="stopChannelButton" Content="停止通道" LargeGlyph="{dx:DXImage Image=Cancel_32x32.png}">
+                                </dxb:BarButtonItem>
+                                <dxb:BarButtonItem x:Name="resetChannelButton" Content="重置通道" LargeGlyph="{dx:DXImage Image=Convert_32x32.png}">
+                                </dxb:BarButtonItem>
+                            </dxr:RibbonPageGroup>
+                            <dxr:RibbonPageGroup Name="channelSetupFileRibbonGroup" Caption="配置文件">
+                                <dxb:BarButtonItemLink BarItemName="biOpen"/>
+                                <dxb:BarButtonItemLink BarItemName="biNew"/>
+                            </dxr:RibbonPageGroup>
+                            <dxr:RibbonPageGroup Name="channelDataHandleRibbonGroup" Caption="数据处理">
+
+                                <dxb:BarEditItem Name="channelNameLabel" IsEnabled="False" EditWidth="100" EditHeight="27" RibbonStyle="Large" Content="当前通道">
+                                    <dxb:BarEditItem.EditSettings>
+                                        <dxe:TextEditSettings />
+                                    </dxb:BarEditItem.EditSettings>
+                                </dxb:BarEditItem>
+                                <dxb:BarEditItem Name="taskNameEditItem" EditWidth="100" EditHeight="27" RibbonStyle="Large" Content="飞行任务">
+                                    <dxb:BarEditItem.EditSettings>
+                                        <dxe:TextEditSettings />
+                                    </dxb:BarEditItem.EditSettings>
+                                </dxb:BarEditItem>
+                                <dxb:BarEditItem></dxb:BarEditItem>
+
+                                <dxb:BarButtonItem x:Name="recordChannelButton" Content="数据记录" LargeGlyph="pack://application:,,,/Images/record_32.png">
+                                </dxb:BarButtonItem>
+                            </dxr:RibbonPageGroup>
+                        </dxr:RibbonPage>
+                        
                         <dxr:RibbonPage Name="toolsRibbonPage" Caption="监控" IsEnabled="False">
                             <dxr:RibbonPageGroup Caption="数据显示">
                                 <dxb:BarButtonItem x:Name="barButtonItem10" Content="原始帧显示" LargeGlyph="{dx:DXImage Image=Grid_32x32.png}" >
@@ -160,11 +181,11 @@
                                         <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding frameDumpCommand}" CommandParameter="{Binding ElementName=mainDockManager}"/>
                                     </dxmvvm:Interaction.Triggers>
                                 </dxb:BarButtonItem>
-                                <dxb:BarButtonItem x:Name="barButtonItem2" Content="自定义控件显示" LargeGlyph="{dx:DXImage Image=BringToFrontOfText_32x32.png}" >
+                                <!--<dxb:BarButtonItem x:Name="barButtonItem2" Content="自定义控件显示" LargeGlyph="{dx:DXImage Image=BringToFrontOfText_32x32.png}" >
                                     <dxmvvm:Interaction.Triggers>
                                         <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding customControlCommand}" CommandParameter="{Binding ElementName=mainDockManager}"/>
                                     </dxmvvm:Interaction.Triggers>
-                                </dxb:BarButtonItem>
+                                </dxb:BarButtonItem>-->
                             </dxr:RibbonPageGroup>
                            
                         </dxr:RibbonPage>
@@ -218,12 +239,12 @@
                         </dxdo:LayoutGroup>
                         <dxdo:DockLayoutManager.AutoHideGroups>
                             <dxdo:AutoHideGroup Name="tabbedGroup1" ItemHeight="150" DockType="Bottom">
-                                <dxdo:LayoutPanel Name="outputPanel" Caption="输出" >
-                                    <!--CaptionImage="/DockingDemo;component/Images/BO_Note.png"-->
-                                    <StackPanel Background="White" x:Name="outputList">
+                                <!--<dxdo:LayoutPanel Name="outputPanel" Caption="输出" >
+                                    CaptionImage="/DockingDemo;component/Images/BO_Note.png"
+                                    <SdtackPanel Background="White" x:Name="outputList">
                                         <TextBlock></TextBlock>
                                     </StackPanel>
-                                </dxdo:LayoutPanel>
+                                </dxdo:LayoutPanel>-->
                                 <dxdo:LayoutPanel Name="findPanel" Caption="日志" >
                                     <!--CaptionImage="/DockingDemo;component/Images/Find_16x16.png"-->
                                     <StackPanel Background="White" x:Name="findList">
@@ -232,9 +253,8 @@
                                 </dxdo:LayoutPanel>
                             </dxdo:AutoHideGroup>
                             
-                            <dxdo:AutoHideGroup Name="tabbedGroup2" SelectedTabIndex="0" ItemWidth="150" DockType="Right">
+                            <!--<dxdo:AutoHideGroup Name="tabbedGroup2" SelectedTabIndex="0" ItemWidth="150" DockType="Right">
                                 <dxdo:LayoutPanel x:Name="propertiesPanel" Caption="控件" >
-                                    <!--CaptionImage="/DockingDemo;component/Images/BO_Task.png"-->
                                     <dxn:NavBarControl x:Name="toolBoxNavBar" Margin="3">
                                         <dxn:NavBarGroup Header="图形控件">
                                             <dxn:NavBarItem Name="toolbox_textCtrl" Content="文本" ImageSource="{dx:DXImage Image=ContentAutoArrange_16x16.png}" />
@@ -245,7 +265,7 @@
                                         </dxn:NavBarGroup>
                                     </dxn:NavBarControl>
                                 </dxdo:LayoutPanel>
-                            </dxdo:AutoHideGroup>
+                            </dxdo:AutoHideGroup>-->
                             
                         </dxdo:DockLayoutManager.AutoHideGroups>
 

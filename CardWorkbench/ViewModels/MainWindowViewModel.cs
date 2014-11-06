@@ -50,26 +50,31 @@ namespace CardWorkbench.ViewModels
       //工具panel名称、标题 
       public static readonly string PANEL_FRAMEDUMP_NAME = "frameDumpPanel";
       public static readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
-
-      public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";  //自定义控件     
-      public static readonly string DOCUMENTPANEL_WORKSTATE_NAME = "document1"; //配置区panel名称
+      //自定义控件panel和document panel名称
+      public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";    
+      public static readonly string DOCUMENTPANEL_WORKSTATE_NAME = "document1"; 
       //硬件设置菜单栏对话框名称
       public static readonly string DIALOG_HARDWAR_RECOGNITION_NAME = "hardwareRecognitionDialog";
-      //public static readonly string DIALOG_RECEIVER_SETTING_NAME = "receiverSettingDialog";  //接收机设置
-      //public static readonly string DIALOG_FRAMESYNC_SETTING_NAME = "frameSyncSettingDialog"; //帧同步设置
-       
+      //硬件菜单栏
+      public static readonly string NAVBARGROUP_DEVICE_NAME_PREFIX = "deviceNavBar"; //设备菜单组名称前缀
+      public static readonly string NAVBARITEM_CHANNEL_NAME_PREFIX = "channelNavItem"; //通道菜单项名称前缀  
+      public static readonly string NAVBARITEM_SIMULATOR_NAME_PREFIX = "simulatorNavItem"; //模拟器菜单项名称前缀  
+      public static readonly string NAVBARGROUP_IMAGE_URI_PATH = "pack://application:,,,/Images/hardware_32.png"; //设备菜单组图标资源路径
+      public static readonly string NAVBARITEM_CHANNEL_IMAGE_URI_PATH = "pack://application:,,,/Images/2/02.png"; //通道菜单项图标资源路径
+      public static readonly string NAVBARITEM_SIMULATOR_IMAGE_URI_PATH = "pack://application:,,,/Images/2/03.png"; //模拟器菜单项图标资源路径
+
+
+
       //注册服务声明
       public IDialogService hardwareRecognitionDialogService { get { return GetService<IDialogService>(DIALOG_HARDWAR_RECOGNITION_NAME); } }  //获得硬件识别对话框服务
       public IOpenFileDialogService OpenFileDialogService { get { return GetService<IOpenFileDialogService>() ; } }  //获得文件选择对话框服务
-      public ISplashScreenService SplashScreenService { get { return GetService<ISplashScreenService>(); } } //LOADING splash screen服务
+      public ISplashScreenService SplashScreenService { get { return GetService<ISplashScreenService>(); } } //获得splash screen服务
 
 
       //参数grid某行是否拖拽开始
       bool _dragStarted = false;
       //参数grid面板table view的名称
       public static readonly string PARAM_GRID_TABLEVIEW_NAME = "paramGridTabelView";
-
-      private HardwareRecognitionViewModel hardwareViewModel = null;
 
       public MainWindowViewModel() {
          
@@ -138,49 +143,126 @@ namespace CardWorkbench.ViewModels
       private void onSelectHardwareLoad(LayoutPanel cardMenuPanel, IList devicelist)
       {
           CardMenuConfig cardMenu = new CardMenuConfig();
-          //CardMenuConfigViewModel cardMenuViewModel = cardMenu.DataContext as CardMenuConfigViewModel;
           NavBarControl menuNavBarControl = cardMenu.FindName("menuNavcontrol") as NavBarControl;
           if (devicelist != null)
           {
+              CardMenuConfigViewModel cardMenuViewModel = new CardMenuConfigViewModel();  //绑定命令所在的viewmodel
+
               foreach (var obj in devicelist)
               {
                   Device device = obj as Device;
-                  //构建设备菜单组
-                  NavBarGroup deviceGroup = new NavBarGroup();
-                  deviceGroup.Name = "deviceNavBar" + device.deviceID;
-                  deviceGroup.Header = device.deviceModel;
-                  BitmapImage myBitmapImage = new BitmapImage(new Uri("pack://application:,,,/Images/hardware_32.png"));
-                  deviceGroup.ImageSource = myBitmapImage;
-                  ImageSettings deviceItemImageSetting = new ImageSettings();
-                  deviceItemImageSetting.Height = 32;
-                  deviceItemImageSetting.Width = 32;
-                  deviceGroup.ItemImageSettings = deviceItemImageSetting;
-                  //构建设备菜单组下通道菜单
+                  //1.构建设备菜单组
+                  NavBarGroup deviceGroup = buildDeviceNavBarGroup(device);
+                  //2.构建通道菜单项
                   if (device.channelList != null)
 	              {
-		            foreach (Channel channel in device.channelList)
-	                {
-                        NavBarItem channelItem = new NavBarItem();
-                        channelItem.Name = "channelNavItem" + channel.channelID;
-
-                    }
+                      foreach (Channel channel in device.channelList)
+                      { 
+                          NavBarItem channelItem = buildChannelNavBarItem(device, channel, cardMenuViewModel, menuNavBarControl);
+                          deviceGroup.Items.Add(channelItem);
+                      }
 	              }
+                  //3.构建模拟器菜单项
+                  if (device.simulator != null)
+                  {
+                      NavBarItem simulatorItem = buildSimulatorNavBarItem(device, device.simulator, cardMenuViewModel, menuNavBarControl);
+                      deviceGroup.Items.Add(simulatorItem);
+                  }
 
-                  menuNavBarControl.Groups.Add(deviceGroup);
+                  menuNavBarControl.Groups.Add(deviceGroup);    //设置设备菜单组到菜单控件
               }
-
           }
-
-          cardMenuPanel.Content = cardMenu;
+          cardMenuPanel.Content = cardMenu; //添加到页面
           FrameworkElement root = LayoutHelper.GetRoot(cardMenuPanel);
-          //TEST///////////////////////////////////////////////
-
-          ////////////////////////////////////////////////////
           //开启ribbon工具标签页
           RibbonControl ribbonControl = (RibbonControl)LayoutHelper.FindElementByName(root, RIBBONCONTROL_NAME);
           RibbonPage ribbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_TOOLS_NAME) as RibbonPage;
           ribbonPage.IsEnabled = true;
       }
+
+      /// <summary>
+      /// 构建设备菜单组
+      /// </summary>
+      /// <param name="device">设备对象</param>
+      /// <returns>设备菜单组</returns>
+      private NavBarGroup buildDeviceNavBarGroup(Device device)
+      {
+          NavBarGroup deviceGroup = new NavBarGroup();
+          deviceGroup.Name = NAVBARGROUP_DEVICE_NAME_PREFIX + device.deviceID;
+          deviceGroup.Header = device.deviceModel;
+          BitmapImage myBitmapImage = new BitmapImage(new Uri(NAVBARGROUP_IMAGE_URI_PATH));
+          deviceGroup.ImageSource = myBitmapImage;
+          ImageSettings deviceItemImageSetting = new ImageSettings();
+          deviceItemImageSetting.Height = 32;
+          deviceItemImageSetting.Width = 32;
+          deviceGroup.ItemImageSettings = deviceItemImageSetting;
+          return deviceGroup;
+      }
+
+      /// <summary>
+      /// 构建通道菜单项
+      /// </summary>
+      /// <param name="device">设备对象</param>
+      /// <param name="channel">通道对象</param>
+      /// <param name="cardMenuViewModel">设备菜单viewmodel</param>
+      /// <param name="menuNavBarControl">设备菜单navControl</param>
+      /// <returns></returns>
+      private NavBarItem buildChannelNavBarItem(Device device, Channel channel, CardMenuConfigViewModel cardMenuViewModel, NavBarControl menuNavBarControl)
+      {
+              NavBarItem channelItem = new NavBarItem();
+              string itemName = NAVBARITEM_CHANNEL_NAME_PREFIX + channel.channelID; //通道item名称
+              //设置菜单项属性
+              setNavBarItemProp(channelItem, itemName, NAVBARITEM_CHANNEL_IMAGE_URI_PATH, 
+                  channel.channelName, cardMenuViewModel.cardMenuItemClickCommand, menuNavBarControl);
+              return channelItem;
+      }
+
+      /// <summary>
+      /// 构建模拟器菜单项
+      /// </summary>
+      /// <param name="device">设备对象</param>
+      /// <param name="simulator">模拟器对象</param>
+      /// <param name="cardMenuViewModel">设备菜单viewmodel</param>
+      /// <param name="menuNavBarControl">设备菜单navControl</param>
+      /// <returns></returns>
+      private NavBarItem buildSimulatorNavBarItem(Device device, Simulator simulator, CardMenuConfigViewModel cardMenuViewModel, NavBarControl menuNavBarControl)
+      {
+          NavBarItem simulatorItem = new NavBarItem();
+          string itemName = NAVBARITEM_SIMULATOR_NAME_PREFIX + device.simulator.simulatorID; //模拟器item名称
+          //设置菜单项属性
+          setNavBarItemProp(simulatorItem, itemName, NAVBARITEM_SIMULATOR_IMAGE_URI_PATH, 
+              device.simulator.simulatorName, cardMenuViewModel.cardMenuItemClickCommand, menuNavBarControl);
+          return simulatorItem;
+      }
+      /// <summary>
+      /// 设置菜单项属性
+      /// </summary>
+      /// <param name="item">菜单项对象</param>
+      /// <param name="item_Name">菜单项控件名称</param>
+      /// <param name="item_image_path">菜单项图标资源路径</param>
+      /// <param name="item_label">菜单项显示名</param>
+      /// <param name="item_Bind_Command">菜单项点击命令</param>
+      /// <param name="command_Paramter">菜单项点击命令参数</param>
+      private void setNavBarItemProp(NavBarItem item, string item_Name, string item_image_path, string item_label, ICommand item_Bind_Command, object command_Paramter)
+      {
+          item.Name = item_Name;
+          item.Command = item_Bind_Command;
+          //item.CommandParameter = command_Paramter;
+          StackPanel StackPanel = new StackPanel();
+          StackPanel.Orientation = Orientation.Horizontal;
+          StackPanel.HorizontalAlignment = HorizontalAlignment.Center;
+          Image image = new Image();
+          BitmapImage imageSource = new BitmapImage(new Uri(item_image_path));
+          image.Source = imageSource;
+          Label itemLabel = new Label();
+          itemLabel.VerticalAlignment = VerticalAlignment.Center;
+          itemLabel.Margin = new Thickness(5, 0, 0, 0);
+          itemLabel.Content = item_label;
+          StackPanel.Children.Add(image);
+          StackPanel.Children.Add(itemLabel);
+          item.Content = StackPanel;
+      }
+
 
       /// <summary>
       /// 打开读取本地硬件配置文件对话框  TODO:应修改为读取通道配置文件信息
@@ -242,9 +324,7 @@ namespace CardWorkbench.ViewModels
       }
 
     
-      #endregion
-
-    
+      #endregion 
 
       #region 控件栏拖拽命令绑定
         public ICommand dropToolBoxCommand

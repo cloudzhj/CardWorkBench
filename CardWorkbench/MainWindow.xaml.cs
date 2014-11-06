@@ -28,7 +28,7 @@ namespace CardWorkbench
         public MainWindow()
         {
             InitializeComponent();
-            new NavBarDragDropHelper(toolBoxNavBar);  //注册右侧导航工具栏可拖动
+            //new NavBarDragDropHelper(toolBoxNavBar);  //注册右侧导航工具栏可拖动
 
         }
 

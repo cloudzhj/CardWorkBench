@@ -369,6 +369,7 @@
     <Content Include="DLL\DevExpress.Xpf.Ribbon.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Themes.Office2013DarkGray.v14.1.dll" />
     <Content Include="DLL\Microsoft.Expression.Drawing.dll" />
+    <Resource Include="Images\record_32.png" />
     <Resource Include="Images\play\recordFlash.png" />
     <Resource Include="Images\play\record.png" />
     <Resource Include="Images\play\pause.png" />
