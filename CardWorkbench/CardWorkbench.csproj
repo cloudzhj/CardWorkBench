@@ -161,6 +161,7 @@
     <Compile Include="Models\Param.cs" />
     <Compile Include="Models\paramSortType.cs" />
     <Compile Include="Models\Simulator.cs" />
+    <Compile Include="Utils\DevicesManager.cs" />
     <Compile Include="Utils\NavBarDragDropHelper.cs" />
     <Compile Include="Utils\SelectionHelper.cs" />
     <Compile Include="Utils\UIControlHelper.cs" />

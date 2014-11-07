@@ -24,17 +24,5 @@ namespace CardWorkbench.Models
         public Simulator simulator { get; set; }
     }
 
-    //public static class HardwareModelTestCase
-    //{
-    //    public static IList<Device> generateData()
-    //    {
-    //        List<Device> hardwareList = new List<Device>();
-    //        for (int i = 1; i < 4; i++)
-    //        {
-    //            hardwareList.Add(new Device() { cardID = i, cardModel = "1626P", cardDescription = "通道1, 通道2，模拟器" });
-    //        }
-    //        return hardwareList;
-
-    //    }
-    //}
+  
 }

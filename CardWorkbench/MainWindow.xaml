@@ -42,9 +42,10 @@
                 </Style>
             </dx:DialogService.DialogStyle>
         </dx:DialogService>
-        <!--通道配置文件选择对话框--><!--
+        <!--通道配置文件选择对话框-->
         <dxmvvm:OpenFileDialogService Title="选择通道配置文件" RestorePreviouslySelectedDirectory="True"/>
-        --><!--通道设置对话框--><!--
+        
+        <!--通道设置对话框--><!--
         <dx:DialogService Name="receiverSettingDialog" DialogWindowStartupLocation="CenterOwner">
             <dx:DialogService.ViewTemplate>
                 <DataTemplate>
@@ -157,7 +158,7 @@
                             </dxr:RibbonPageGroup>
                             <dxr:RibbonPageGroup Name="channelDataHandleRibbonGroup" Caption="数据处理">
 
-                                <dxb:BarEditItem Name="channelNameLabel" IsEnabled="False" EditWidth="100" EditHeight="27" RibbonStyle="Large" Content="当前通道">
+                                <dxb:BarEditItem Name="channelNameEditItem" IsEnabled="False" EditWidth="100" EditHeight="27" RibbonStyle="Large" Content="当前通道">
                                     <dxb:BarEditItem.EditSettings>
                                         <dxe:TextEditSettings />
                                     </dxb:BarEditItem.EditSettings>
@@ -187,8 +188,15 @@
                                     </dxmvvm:Interaction.Triggers>
                                 </dxb:BarButtonItem>-->
                             </dxr:RibbonPageGroup>
-                           
                         </dxr:RibbonPage>
+
+                        <dxr:RibbonPage Name="playBackRibbonPage" Caption="回放" IsEnabled="False">
+                            <dxr:RibbonPageGroup Caption="回放配置">
+                                <dxb:BarButtonItem x:Name="playBackBarButton" Content="回放" LargeGlyph="{dx:DXImage Image=Video_32x32.png}" >
+                                </dxb:BarButtonItem>
+                            </dxr:RibbonPageGroup>
+                        </dxr:RibbonPage>
+
                     </dxr:RibbonDefaultPageCategory>
                 </dxr:RibbonControl>
                

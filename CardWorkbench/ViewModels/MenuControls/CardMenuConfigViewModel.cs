@@ -1,6 +1,8 @@
-﻿using CardWorkbench.Utils;
+﻿using CardWorkbench.Models;
+using CardWorkbench.Utils;
 using CardWorkbench.Views.MenuControls;
 using DevExpress.Mvvm;
+using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Docking;
@@ -12,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace CardWorkbench.ViewModels.MenuControls
@@ -28,9 +31,11 @@ namespace CardWorkbench.ViewModels.MenuControls
         public static readonly string PANEL_CHANNELSETUP_CAPTION = "通道配置";
         //Ribbon标签栏及其组件名称
         public static readonly string RIBBONCONTROL_NAME = "ribbonControl";
-        public static readonly string RIBBONPAGE_TOOLS_NAME = "toolsRibbonPage";
-        public static readonly string RIBBONPAGE_CHANNEL_NAME = "channelRibbonPage";
-        public static readonly string RIBBONPAGEGROUP_CHANNELSETUP_NAME = "channelSetupRibbonGroup";
+        public static readonly string RIBBONPAGE_TOOLS_NAME = "toolsRibbonPage";  //监控设置页
+        public static readonly string RIBBONPAGE_CHANNEL_NAME = "channelRibbonPage"; //通道设置页
+        public static readonly string RIBBONPAGEGROUP_CHANNEL_DATA_HANDLE_NAME = "channelDataHandleRibbonGroup"; //数据处理设置组
+        public static readonly string BAREDITITEM_CHANNEL_NAME = "channelNameEditItem"; //通道显示编辑框名称
+        public static readonly string RIBBONPAGE_PLAYBACK_NAME = "playBackRibbonPage"; //回放设置页
 
         #region 硬件设置对话框命令绑定
 
@@ -54,7 +59,7 @@ namespace CardWorkbench.ViewModels.MenuControls
                     UIControlHelper.createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_CHANNELSETUP_NAME, PANEL_CHANNELSETUP_CAPTION, new FrameSyncUC());
                 }
                 else { 
-                    Console.WriteLine("####");
+                    //TODO 模拟器菜单项......
                 }
             }
             
@@ -82,28 +87,37 @@ namespace CardWorkbench.ViewModels.MenuControls
         /// </summary>
         public ICommand cardMenuItemClickCommand
         {
-            get { return new DelegateCommand<object>(onCardMenuItemClick, x => { return true; }); }
+            get { return new DelegateCommand<NavBarControl>(onCardMenuItemClick, x => { return true; }); }
         }
 
-        private void onCardMenuItemClick(object obj)
+        private void onCardMenuItemClick(NavBarControl navBarControl)
         {
-            //FrameworkElement root = LayoutHelper.GetTopLevelVisual(navBarControl as DependencyObject);
-            //RibbonControl ribbonControl = (RibbonControl)LayoutHelper.FindElementByName(root, RIBBONCONTROL_NAME);
-            //RibbonPage channelRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_CHANNEL_NAME) as RibbonPage;
-            ////开启通道设置的设置页，并获取焦点
-            //channelRibbonPage.IsEnabled = true;
-            //if (!channelRibbonPage.IsSelected)
-            //{
-            //    channelRibbonPage.IsSelected = true;
-            //}
-            ////设置页上显示通道名称
-            Console.WriteLine();
+            FrameworkElement root = LayoutHelper.GetTopLevelVisual(navBarControl as DependencyObject);
+            RibbonControl ribbonControl = (RibbonControl)LayoutHelper.FindElementByName(root, RIBBONCONTROL_NAME);
+            RibbonPage channelRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_CHANNEL_NAME) as RibbonPage;
+            RibbonPage playBackRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_PLAYBACK_NAME) as RibbonPage;
 
-            //RibbonPageGroup channelSetupRibbonPageGroup = setupRibbonPage.FindName(RIBBONPAGEGROUP_CHANNELSETUP_NAME) as RibbonPageGroup;
-            //if (!channelSetupRibbonPageGroup.IsEnabled) 
-            //{
-            //    channelSetupRibbonPageGroup.IsEnabled = true;   //开启通道设置按钮栏
-            //}
+            //开启通道和回放的设置页，并获取焦点
+            playBackRibbonPage.IsEnabled = true;
+            channelRibbonPage.IsEnabled = true;
+            if (!channelRibbonPage.IsSelected)
+            {
+                channelRibbonPage.IsSelected = true;
+            }
+            //如果选择项时通道item，则设置页上显示通道名称
+            NavBarItem selectChannelItem = navBarControl.SelectedItem as NavBarItem;
+            if (selectChannelItem.Name.Contains(MainWindowViewModel.NAVBARITEM_CHANNEL_NAME_PREFIX))
+            {
+                string channelID = selectChannelItem.Tag as string;
+                Channel selectChannel = DevicesManager.getChannelByID(channelID);
+                if (selectChannel != null)
+                {
+                    RibbonPageGroup channelSetupRibbonPageGroup = ribbonControl.FindName(RIBBONPAGEGROUP_CHANNEL_DATA_HANDLE_NAME) as RibbonPageGroup;
+                    BarEditItem taskBarEditItem = channelSetupRibbonPageGroup.FindName(BAREDITITEM_CHANNEL_NAME) as BarEditItem;
+                    taskBarEditItem.EditValue = selectChannel.channelName;
+                }
+            }
+           
         }
 
         #endregion
