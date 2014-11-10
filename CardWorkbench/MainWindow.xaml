@@ -152,13 +152,18 @@
                                 <dxb:BarButtonItem x:Name="resetChannelButton" Content="重置通道" LargeGlyph="{dx:DXImage Image=Convert_32x32.png}">
                                 </dxb:BarButtonItem>
                             </dxr:RibbonPageGroup>
-                            <dxr:RibbonPageGroup Name="channelSetupFileRibbonGroup" Caption="配置文件">
+                            <dxr:RibbonPageGroup Name="channelSetupFileRibbonGroup" Caption="配置">
+                                <dxb:BarButtonItem x:Name="configChannelButton" Content="通道设置" LargeGlyph="{dx:DXImage Image=Properties_32x32.png}">
+                                    <dxmvvm:Interaction.Triggers>
+                                        <dxmvvm:EventToCommand EventName="ItemClick" PassEventArgsToCommand="True" Command="{Binding configChannelCommand}" CommandParameter="{Binding ElementName=mainDockManager}"/>
+                                    </dxmvvm:Interaction.Triggers>
+                                </dxb:BarButtonItem>
                                 <dxb:BarButtonItemLink BarItemName="biOpen"/>
                                 <dxb:BarButtonItemLink BarItemName="biNew"/>
                             </dxr:RibbonPageGroup>
                             <dxr:RibbonPageGroup Name="channelDataHandleRibbonGroup" Caption="数据处理">
 
-                                <dxb:BarEditItem Name="channelNameEditItem" IsEnabled="False" EditWidth="100" EditHeight="27" RibbonStyle="Large" Content="当前通道">
+                                <dxb:BarEditItem Name="channelNameEditItem" IsEnabled="False" EditWidth="100" EditHeight="27" RibbonStyle="Large" Content="所选通道">
                                     <dxb:BarEditItem.EditSettings>
                                         <dxe:TextEditSettings />
                                     </dxb:BarEditItem.EditSettings>
@@ -174,7 +179,18 @@
                                 </dxb:BarButtonItem>
                             </dxr:RibbonPageGroup>
                         </dxr:RibbonPage>
-                        
+
+                        <dxr:RibbonPage Name="simulatorRibbonPage" Caption="模拟器" IsEnabled="False">
+                            <dxr:RibbonPageGroup Caption="配置">
+                                <dxb:BarButtonItem x:Name="configSimulatorButton" Content="模拟器设置" LargeGlyph="{dx:DXImage Image=EditTask_32x32.png}" >
+                                </dxb:BarButtonItem>
+                                <dxb:BarButtonItem x:Name="startSimulatorButton" Content="运行模拟器" LargeGlyph="{dx:DXImage Image=CheckBox_32x32.png}" >
+                                </dxb:BarButtonItem>
+                                <dxb:BarButtonItem x:Name="stopSimulatorButton" Content="停止模拟器" LargeGlyph="{dx:DXImage Image=Close_32x32.png}" >
+                                </dxb:BarButtonItem>
+                            </dxr:RibbonPageGroup>
+                        </dxr:RibbonPage>
+
                         <dxr:RibbonPage Name="toolsRibbonPage" Caption="监控" IsEnabled="False">
                             <dxr:RibbonPageGroup Caption="数据显示">
                                 <dxb:BarButtonItem x:Name="barButtonItem10" Content="原始帧显示" LargeGlyph="{dx:DXImage Image=Grid_32x32.png}" >

@@ -82,6 +82,25 @@ namespace CardWorkbench.ViewModels.CommonTools
                                     //通道名称加入设备描述
                                     deviceDescrptionBuilder.Append(XmlParserUtil.getNodeAttributeValue(channelNode, "name"));
                                     deviceDescrptionBuilder.Append(",");
+                                    //查询通道状态
+                                    if (channelNode.HasChildNodes)
+                                    {
+                                        foreach (XmlNode statusNode in channelNode.ChildNodes)
+                                        {
+                                            if ("ChannelStatus".Equals(statusNode.Name) && statusNode.HasChildNodes)
+                                            {
+                                                ChannelStatus channelStatus = new ChannelStatus();
+                                                foreach (XmlNode statusItem in statusNode.ChildNodes)
+                                                {
+                                                    if ("bRun".Equals(statusItem.Name))
+                                                    {
+                                                        channelStatus.bRun = int.Parse(statusItem.InnerText); //通道是否允许
+                                                    }
+                                                }
+                                                channel.channelStatus = channelStatus; //设置通道状态
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             else if ("Simulator".Equals(node.Name))

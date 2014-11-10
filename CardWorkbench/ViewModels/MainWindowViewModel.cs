@@ -47,9 +47,12 @@ namespace CardWorkbench.ViewModels
       //Ribbon标签栏及其组件名称
       public static readonly string RIBBONCONTROL_NAME = "ribbonControl";
       public static readonly string RIBBONPAGE_TOOLS_NAME = "toolsRibbonPage";  
-      //工具panel名称、标题 
+      //原始帧panel名称、标题 
       public static readonly string PANEL_FRAMEDUMP_NAME = "frameDumpPanel";
       public static readonly string PANEL_FRAMEDUMP_CAPTION = "原始帧显示";
+      //配置通道panel名称、标题 
+      public static readonly string PANEL_CONFIG_CHANNEL_NAME = "configChannelPanel";
+      public static readonly string PANEL_CONFIG_CHANNEL_CAPTION = "通道配置";
       //自定义控件panel和document panel名称
       public static readonly string PANEL_CUSTOMCONTROL_NAME = "mainControl";    
       public static readonly string DOCUMENTPANEL_WORKSTATE_NAME = "document1"; 
@@ -61,9 +64,12 @@ namespace CardWorkbench.ViewModels
       public static readonly string NAVBARITEM_CHANNEL_NAME_PREFIX = "channelNavItem"; //通道菜单项名称前缀  
       public static readonly string NAVBARITEM_SIMULATOR_NAME_PREFIX = "simulatorNavItem"; //模拟器菜单项名称前缀  
       public static readonly string NAVBARGROUP_IMAGE_URI_PATH = "pack://application:,,,/Images/hardware_32.png"; //设备菜单组图标资源路径
-      public static readonly string NAVBARITEM_CHANNEL_IMAGE_URI_PATH = "pack://application:,,,/Images/2/02.png"; //通道菜单项图标资源路径
-      public static readonly string NAVBARITEM_SIMULATOR_IMAGE_URI_PATH = "pack://application:,,,/Images/2/03.png"; //模拟器菜单项图标资源路径
-
+      public static readonly string NAVBARITEM_CHANNEL_OFF_URI_PATH = "pack://application:,,,/Images/channel_off.png"; //通道菜单项状态"关闭"图标资源路径
+      public static readonly string NAVBARITEM_CHANNEL_ON_URI_PATH = "pack://application:,,,/Images/channel_on.png"; //通道菜单项状态"运行"图标资源路径
+      public static readonly string LABEL_NAVBARITEM_ON = " (运行)";    //菜单项文本状态"运行"
+      public static readonly string LABEL_NAVBARITEM_OFF = " (停止)";   //菜单项文本状态"停止"
+      public static readonly string NAVBARITEM_SIMULATOR_OFF_URI_PATH = "pack://application:,,,/Images/simulator_off.png"; //模拟器菜单项状态"关闭"图标资源路径
+      public static readonly string NAVBARITEM_SIMULATOR_ON_URI_PATH = "pack://application:,,,/Images/simulator_on.png"; //模拟器菜单项状态"关闭"图标资源路径
 
 
       //注册服务声明
@@ -224,8 +230,12 @@ namespace CardWorkbench.ViewModels
               NavBarItem channelItem = new NavBarItem();
               string itemID = channel.channelID;
               string itemName = NAVBARITEM_CHANNEL_NAME_PREFIX + channel.channelID; //通道item名称
+              string navbarItem_channel_image_uri_path = channel.channelStatus == null ?    //菜单项图标名称
+                  NAVBARITEM_CHANNEL_OFF_URI_PATH : (channel.channelStatus.bRun == 1 ?
+                  NAVBARITEM_CHANNEL_ON_URI_PATH : NAVBARITEM_CHANNEL_OFF_URI_PATH);
+              
               //设置菜单项属性
-              setNavBarItemProp(channelItem, itemID, itemName, NAVBARITEM_CHANNEL_IMAGE_URI_PATH, 
+              setNavBarItemProp(channelItem, itemID, itemName, navbarItem_channel_image_uri_path, 
                   channel.channelName, cardMenuViewModel.cardMenuItemClickCommand, menuNavBarControl);
               return channelItem;
       }
@@ -241,10 +251,12 @@ namespace CardWorkbench.ViewModels
       private NavBarItem buildSimulatorNavBarItem(Device device, Simulator simulator, CardMenuConfigViewModel cardMenuViewModel, NavBarControl menuNavBarControl)
       {
           NavBarItem simulatorItem = new NavBarItem();
-          string itemID = device.simulator.simulatorID;
+          //string itemID = device.simulator.simulatorID;
+          string itemID = device.deviceID; //此处模拟器id暂默认位设备id
           string itemName = NAVBARITEM_SIMULATOR_NAME_PREFIX + device.simulator.simulatorID; //模拟器item名称
           //设置菜单项属性
-          setNavBarItemProp(simulatorItem, itemID, itemName, NAVBARITEM_SIMULATOR_IMAGE_URI_PATH, 
+          string navbarItem_simulator_image_uri_path = NAVBARITEM_SIMULATOR_OFF_URI_PATH;  //TODO 根据状态设置显示图标
+          setNavBarItemProp(simulatorItem, itemID, itemName, navbarItem_simulator_image_uri_path, 
               device.simulator.simulatorName, cardMenuViewModel.cardMenuItemClickCommand, menuNavBarControl);
           return simulatorItem;
       }
@@ -263,9 +275,9 @@ namespace CardWorkbench.ViewModels
           item.Name = item_Name;
           item.Command = item_Bind_Command;
           item.CommandParameter = command_Paramter;
-          StackPanel StackPanel = new StackPanel();
-          StackPanel.Orientation = Orientation.Horizontal;
-          StackPanel.HorizontalAlignment = HorizontalAlignment.Center;
+          StackPanel stackPanel = new StackPanel();
+          stackPanel.Orientation = Orientation.Horizontal;
+          stackPanel.HorizontalAlignment = HorizontalAlignment.Left;
           Image image = new Image();
           BitmapImage imageSource = new BitmapImage(new Uri(item_image_path));
           image.Source = imageSource;
@@ -273,9 +285,20 @@ namespace CardWorkbench.ViewModels
           itemLabel.VerticalAlignment = VerticalAlignment.Center;
           itemLabel.Margin = new Thickness(5, 0, 0, 0);
           itemLabel.Content = item_label;
-          StackPanel.Children.Add(image);
-          StackPanel.Children.Add(itemLabel);
-          item.Content = StackPanel;
+          stackPanel.Children.Add(image);
+          stackPanel.Children.Add(itemLabel);
+          //显示菜单项状态文本
+          if (NAVBARITEM_CHANNEL_ON_URI_PATH.Equals(item_image_path) || NAVBARITEM_SIMULATOR_ON_URI_PATH.Equals(item_image_path))
+          {
+              //stackPanel.ToolTip = TOOLTIP_NAVBARITEM_CHANNEL_ON;
+              itemLabel.Content += LABEL_NAVBARITEM_ON;
+          }
+          else if (NAVBARITEM_CHANNEL_OFF_URI_PATH.Equals(item_image_path) || NAVBARITEM_SIMULATOR_OFF_URI_PATH.Equals(item_image_path))
+          {
+              //stackPanel.ToolTip = TOOLTIP_NAVBARITEM_CHANNEL_OFF;
+              itemLabel.Content += LABEL_NAVBARITEM_OFF;
+          }
+          item.Content = stackPanel;
       }
 
 
@@ -307,6 +330,20 @@ namespace CardWorkbench.ViewModels
               //}
           }
       }
+
+      /// <summary>
+      /// ”通道配置“ 按钮Command
+      /// </summary>
+      public ICommand configChannelCommand
+      {
+          get { return new DelegateCommand<DockLayoutManager>(onConfigChannelClick, x => { return true; }); }
+      }
+
+      private void onConfigChannelClick(DockLayoutManager dockManager)
+      {
+          UIControlHelper.createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_CONFIG_CHANNEL_NAME, PANEL_CONFIG_CHANNEL_CAPTION, new FrameSyncUC());
+      }
+
 
       /// <summary>
       /// ”原始帧显示“ 按钮Command

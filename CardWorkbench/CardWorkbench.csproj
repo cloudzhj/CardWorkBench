@@ -157,6 +157,7 @@
     <Compile Include="DXSplashScreen\SplashScreenView.xaml.cs" />
     <Compile Include="Models\CalibrateType.cs" />
     <Compile Include="Models\Channel.cs" />
+    <Compile Include="Models\ChannelStatus.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Param.cs" />
     <Compile Include="Models\paramSortType.cs" />
@@ -318,6 +319,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\hardware_32.png" />
+    <Resource Include="Images\simulator_off.png" />
+    <Resource Include="Images\simulator_on.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\2\01.png" />
@@ -370,6 +373,8 @@
     <Content Include="DLL\DevExpress.Xpf.Ribbon.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Themes.Office2013DarkGray.v14.1.dll" />
     <Content Include="DLL\Microsoft.Expression.Drawing.dll" />
+    <Resource Include="Images\channel_off.png" />
+    <Resource Include="Images\channel_on.png" />
     <Resource Include="Images\record_32.png" />
     <Resource Include="Images\play\recordFlash.png" />
     <Resource Include="Images\play\record.png" />

@@ -32,6 +32,11 @@ namespace CardWorkbench.Utils
             devicelist = list;
         }
 
+        /// <summary>
+        /// 根据ID查找设备
+        /// </summary>
+        /// <param name="deviceID">设备ID</param>
+        /// <returns>设备对象</returns>
         public static Device getDeviceByID(string deviceID)
         {
             if (devicelist != null)
@@ -47,6 +52,11 @@ namespace CardWorkbench.Utils
             return null;
         }
 
+        /// <summary>
+        /// 根据ID查找通道
+        /// </summary>
+        /// <param name="channelID">通道ID</param>
+        /// <returns>通道对象</returns>
         public static Channel getChannelByID(string channelID)
         {
             if (devicelist != null)
@@ -65,6 +75,25 @@ namespace CardWorkbench.Utils
             return null;
         }
 
+        /// <summary>
+        /// 根据设备ID查找模拟器
+        /// </summary>
+        /// <param name="deviceID">设备ID</param>
+        /// <returns>模拟器对象</returns>
+        public static Simulator getSimulatorByDeviceID(string deviceID) {
+            if (devicelist != null)
+            {
+                foreach (Device device in devicelist)
+                {
+                    if (deviceID.Equals(device.deviceID))
+                    {
+                        return device.simulator;
+                    }
+                }
+            }
+            return null;
+        }
+       
     }
 
 }

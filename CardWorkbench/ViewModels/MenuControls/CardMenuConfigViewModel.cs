@@ -25,10 +25,6 @@ namespace CardWorkbench.ViewModels.MenuControls
         public static readonly string DOCKLAYOUTMANAGER_NAME = "mainDockManager"; 
         //工作区document group 名称
         public static readonly string DOCUMENTGROUP_NAME = "documentContainer";
-        //通道配置dock panel名称
-        public static readonly string PANEL_CHANNELSETUP_NAME = "channelSetupPanel";
-        //通道配置dock panel标题
-        public static readonly string PANEL_CHANNELSETUP_CAPTION = "通道配置";
         //Ribbon标签栏及其组件名称
         public static readonly string RIBBONCONTROL_NAME = "ribbonControl";
         public static readonly string RIBBONPAGE_TOOLS_NAME = "toolsRibbonPage";  //监控设置页
@@ -36,6 +32,8 @@ namespace CardWorkbench.ViewModels.MenuControls
         public static readonly string RIBBONPAGEGROUP_CHANNEL_DATA_HANDLE_NAME = "channelDataHandleRibbonGroup"; //数据处理设置组
         public static readonly string BAREDITITEM_CHANNEL_NAME = "channelNameEditItem"; //通道显示编辑框名称
         public static readonly string RIBBONPAGE_PLAYBACK_NAME = "playBackRibbonPage"; //回放设置页
+        public static readonly string RIBBONPAGE_CONFIG_SIMULATOR_NAME = "simulatorRibbonPage"; //模拟器设置页
+
 
         #region 硬件设置对话框命令绑定
 
@@ -56,7 +54,7 @@ namespace CardWorkbench.ViewModels.MenuControls
                 {
                     FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
                     DockLayoutManager dockManager = (DockLayoutManager)LayoutHelper.FindElementByName(root, DOCKLAYOUTMANAGER_NAME);
-                    UIControlHelper.createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, PANEL_CHANNELSETUP_NAME, PANEL_CHANNELSETUP_CAPTION, new FrameSyncUC());
+                    UIControlHelper.createWorkDocumentPanel(dockManager, DOCUMENTGROUP_NAME, MainWindowViewModel.PANEL_CONFIG_CHANNEL_NAME, MainWindowViewModel.PANEL_CONFIG_CHANNEL_CAPTION, new FrameSyncUC());
                 }
                 else { 
                     //TODO 模拟器菜单项......
@@ -96,25 +94,41 @@ namespace CardWorkbench.ViewModels.MenuControls
             RibbonControl ribbonControl = (RibbonControl)LayoutHelper.FindElementByName(root, RIBBONCONTROL_NAME);
             RibbonPage channelRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_CHANNEL_NAME) as RibbonPage;
             RibbonPage playBackRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_PLAYBACK_NAME) as RibbonPage;
-
-            //开启通道和回放的设置页，并获取焦点
-            playBackRibbonPage.IsEnabled = true;
-            channelRibbonPage.IsEnabled = true;
-            if (!channelRibbonPage.IsSelected)
+            RibbonPage configSimulatorRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_CONFIG_SIMULATOR_NAME) as RibbonPage;
+           
+            NavBarItem selectItem = navBarControl.SelectedItem as NavBarItem;
+            if (selectItem.Name.Contains(MainWindowViewModel.NAVBARITEM_CHANNEL_NAME_PREFIX))    //选择项是通道item
             {
-                channelRibbonPage.IsSelected = true;
-            }
-            //如果选择项时通道item，则设置页上显示通道名称
-            NavBarItem selectChannelItem = navBarControl.SelectedItem as NavBarItem;
-            if (selectChannelItem.Name.Contains(MainWindowViewModel.NAVBARITEM_CHANNEL_NAME_PREFIX))
-            {
-                string channelID = selectChannelItem.Tag as string;
+                string channelID = selectItem.Tag as string;
                 Channel selectChannel = DevicesManager.getChannelByID(channelID);
                 if (selectChannel != null)
                 {
+                    //开启通道和回放的设置页，并获取焦点
+                    playBackRibbonPage.IsEnabled = true;
+                    channelRibbonPage.IsEnabled = true;
+                    if (!channelRibbonPage.IsSelected)
+                    {
+                        channelRibbonPage.IsSelected = true;
+                    }
                     RibbonPageGroup channelSetupRibbonPageGroup = ribbonControl.FindName(RIBBONPAGEGROUP_CHANNEL_DATA_HANDLE_NAME) as RibbonPageGroup;
                     BarEditItem taskBarEditItem = channelSetupRibbonPageGroup.FindName(BAREDITITEM_CHANNEL_NAME) as BarEditItem;
-                    taskBarEditItem.EditValue = selectChannel.channelName;
+                    taskBarEditItem.EditValue = selectChannel.channelName;  //设置页上显示通道名称
+                }
+                
+            }
+            else if (selectItem.Name.Contains(MainWindowViewModel.NAVBARITEM_SIMULATOR_NAME_PREFIX)) //选择项是模拟器item
+            {
+                string simulatorID = selectItem.Tag as string;
+                Simulator selectSimulaotr = DevicesManager.getSimulatorByDeviceID(simulatorID);
+                if (selectSimulaotr != null)
+                {
+                    //开启模拟器设置页，并获取焦点
+                    configSimulatorRibbonPage.IsEnabled = true;
+                    channelRibbonPage.IsEnabled = false;
+                    if (!configSimulatorRibbonPage.IsSelected)
+                    {
+                        configSimulatorRibbonPage.IsSelected = true;
+                    }
                 }
             }
            
