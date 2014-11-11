@@ -199,8 +199,8 @@ namespace CardWorkbench.ViewModels
           RibbonPage ribbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_TOOLS_NAME) as RibbonPage;
           ribbonPage.IsEnabled = true;
 
-          DeviceStatusManageThread thread_worker = new DeviceStatusManageThread(menuNavBarControl);  //启动获取通道状态线程
-
+          //DeviceStatusManageThread thread_worker = new DeviceStatusManageThread(menuNavBarControl);  //启动获取通道状态线程
+          DeviceStatusManageThread.initDeviceStatusManageThread(menuNavBarControl); //启动获取通道状态线程
       }
 
       /// <summary>

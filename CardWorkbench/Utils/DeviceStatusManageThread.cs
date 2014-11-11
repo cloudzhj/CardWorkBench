@@ -16,8 +16,16 @@ namespace CardWorkbench.Utils
     {
         private DispatcherTimer timer = new DispatcherTimer();
         private NavBarControl menuNavBarControl;
+        private static DeviceStatusManageThread deviceStatusManageThread;
 
-        public DeviceStatusManageThread(NavBarControl menuNavBarControl)
+        public static void initDeviceStatusManageThread(NavBarControl menuNavBarControl){
+            if (deviceStatusManageThread == null)
+	        {
+		       deviceStatusManageThread = new DeviceStatusManageThread(menuNavBarControl);
+	        }
+        }
+
+        private DeviceStatusManageThread(NavBarControl menuNavBarControl)
             {
                 this.menuNavBarControl = menuNavBarControl;
 
