@@ -3,6 +3,8 @@ using CardWorkbench.Utils;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Grid;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -38,14 +40,89 @@ namespace CardWorkbench.ViewModels.CommonTools
         {
             FrameworkElement root = LayoutHelper.GetTopLevelVisual(e.Source as DependencyObject);
             grid = LayoutHelper.FindElementByName(root, GRID_HARDWARERECOGNITION_NAME) as GridControl;
-            grid.ItemsSource = findDevice();
+            //grid.ItemsSource = findDeviceByXml();
+            grid.ItemsSource = findDeviceByJson();
+        }
+
+        private IList<Device> findDeviceByJson() {
+            List<Device> hardwareList = new List<Device>();
+            string json = @"{
+                            'device': [
+                                {
+                                    'deviceID': 1,
+                                    'deviceModel': '1626P',
+                                    'channelList': [
+                                        {
+                                            'channelID': 1,
+                                            'channelName': '通道1'
+                                        },
+                                        {
+                                            'channelID': 2,
+                                            'channelName': '通道2'
+                                        }
+                                    ],
+                                    'simulator': {
+                                        'simulatorID': 1,
+                                        'simulatorName': '模拟器'
+                                    }
+                                },
+                                { 
+                                    'deviceID': 2,
+                                    'deviceModel': '1000P',
+                                    'channelList': [
+                                        {
+                                            'channelID': 1,
+                                            'channelName': '通道1'
+                                        },
+                                        {
+                                            'channelID': 2,
+                                            'channelName': '通道2'
+                                        },
+                                        {
+                                            'channelID': 3,
+                                            'channelName': '通道3'
+                                        },
+                                        {
+                                            'channelID': 4,
+                                            'channelName': '通道4'
+                                        }
+                                    ],
+                                    'simulator': null
+                                }
+                            ]
+                        }";
+            var str = JObject.Parse(json).SelectToken("device").ToString();
+            hardwareList = JsonConvert.DeserializeObject<List<Device>>(str);
+            //设置设备描述
+            if (hardwareList != null)
+            {
+                foreach (Device device in hardwareList)
+                {
+                    StringBuilder deviceDescrptionBuilder = new StringBuilder();
+                    if (device.channelList != null)
+                    {
+                        foreach (Channel channel in device.channelList)
+                        {
+                            deviceDescrptionBuilder.Append(channel.channelName);
+                            deviceDescrptionBuilder.Append(",");
+                        }
+                    }
+                    if (device.simulator != null)
+                    {
+                         deviceDescrptionBuilder.Append(device.simulator.simulatorName);
+                         deviceDescrptionBuilder.Append(",");
+                    }
+                    device.deviceDescription = deviceDescrptionBuilder.ToString(0, deviceDescrptionBuilder.Length - 1);
+                }
+            }
+            return hardwareList;
         }
 
         /// <summary>
         /// 从xml查找设备清单
         /// </summary>
         /// <returns>返回设备清单列表</returns>
-        private static IList<Device> findDevice()
+        private static IList<Device> findDeviceByXml()
         {
             List<Device> hardwareList = new List<Device>();
             ////////// TODO: 以下xml查询代码还可以优化 ///////////
@@ -62,7 +139,7 @@ namespace CardWorkbench.ViewModels.CommonTools
                     StringBuilder deviceDescrptionBuilder = new StringBuilder();
                     device.deviceID = deviceID;
                     device.deviceModel = deviceModel;
-                    
+
                     //获得设备是否含通道或模拟器
                     if (deviceNode.HasChildNodes)
                     {
@@ -131,7 +208,7 @@ namespace CardWorkbench.ViewModels.CommonTools
                     Console.WriteLine(e.Message);
                 throw e;
             }
-            
+
             return hardwareList;
         }
 

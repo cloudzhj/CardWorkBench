@@ -95,12 +95,16 @@ namespace CardWorkbench.ViewModels.MenuControls
             RibbonPage channelRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_CHANNEL_NAME) as RibbonPage;
             RibbonPage playBackRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_PLAYBACK_NAME) as RibbonPage;
             RibbonPage configSimulatorRibbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_CONFIG_SIMULATOR_NAME) as RibbonPage;
-           
-            NavBarItem selectItem = navBarControl.SelectedItem as NavBarItem;
+            NavBarItem selectItem = navBarControl.SelectedItem as NavBarItem;   //当前选中的NavBarItem
             if (selectItem.Name.Contains(MainWindowViewModel.NAVBARITEM_CHANNEL_NAME_PREFIX))    //选择项是通道item
             {
-                string channelID = selectItem.Tag as string;
-                Channel selectChannel = DevicesManager.getChannelByID(channelID);
+                string itemID = selectItem.Tag as string;
+                string[] idStr = itemID.Split(new char[]{'-'});
+                Channel selectChannel = null;
+                if (idStr != null && idStr.Length > 1)
+                {
+                    selectChannel = DevicesManager.getChannelByID(idStr[0], idStr[1]);
+                }
                 if (selectChannel != null)
                 {
                     //开启通道和回放的设置页，并获取焦点

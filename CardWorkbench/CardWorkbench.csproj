@@ -166,6 +166,7 @@
     <Compile Include="Models\Param.cs" />
     <Compile Include="Models\paramSortType.cs" />
     <Compile Include="Models\Simulator.cs" />
+    <Compile Include="Utils\DeviceStatusManageThread.cs" />
     <Compile Include="Utils\DevicesManager.cs" />
     <Compile Include="Utils\NavBarDragDropHelper.cs" />
     <Compile Include="Utils\SelectionHelper.cs" />
@@ -321,7 +322,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="test\hardware.json" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\hardware_32.png" />
@@ -712,7 +712,9 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="test\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

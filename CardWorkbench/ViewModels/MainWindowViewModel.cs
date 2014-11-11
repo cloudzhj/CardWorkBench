@@ -62,11 +62,13 @@ namespace CardWorkbench.ViewModels
       public static readonly string NAVBARCONTROL_MENU_NAME = "menuNavcontrol";  //菜单控件名称
       public static readonly string NAVBARGROUP_DEVICE_NAME_PREFIX = "deviceNavBar"; //设备菜单组名称前缀
       public static readonly string NAVBARITEM_CHANNEL_NAME_PREFIX = "channelNavItem"; //通道菜单项名称前缀  
-      public static readonly string NAVBARITEM_SIMULATOR_NAME_PREFIX = "simulatorNavItem"; //模拟器菜单项名称前缀  
+      public static readonly string NAVBARITEM_SIMULATOR_NAME_PREFIX = "simulatorNavItem"; //模拟器菜单项名称前缀
+      public static readonly string NAVBARITEM_STACKPANEL_NAME_SUBFIX = "stackPanel"; //通道菜单项下stackPanel的名称后缀 
       public static readonly string NAVBARGROUP_IMAGE_URI_PATH = "pack://application:,,,/Images/hardware_32.png"; //设备菜单组图标资源路径
       public static readonly string NAVBARITEM_CHANNEL_OFF_URI_PATH = "pack://application:,,,/Images/channel_off.png"; //通道菜单项状态"关闭"图标资源路径
       public static readonly string NAVBARITEM_CHANNEL_ON_URI_PATH = "pack://application:,,,/Images/channel_on.png"; //通道菜单项状态"运行"图标资源路径
-      public static readonly string LABEL_NAVBARITEM_ON = " (运行)";    //菜单项文本状态"运行"
+      public static readonly int CHANNELSTATUS_BRUN_ON = 1; //通道“运行”状态
+      public static readonly string LABEL_NAVBARITEM_ON = " (运行中)";    //菜单项文本状态"运行"
       public static readonly string LABEL_NAVBARITEM_OFF = " (停止)";   //菜单项文本状态"停止"
       public static readonly string NAVBARITEM_SIMULATOR_OFF_URI_PATH = "pack://application:,,,/Images/simulator_off.png"; //模拟器菜单项状态"关闭"图标资源路径
       public static readonly string NAVBARITEM_SIMULATOR_ON_URI_PATH = "pack://application:,,,/Images/simulator_on.png"; //模拟器菜单项状态"关闭"图标资源路径
@@ -154,19 +156,19 @@ namespace CardWorkbench.ViewModels
           if (devicelist != null)
           {
               CardMenuConfigViewModel cardMenuViewModel = new CardMenuConfigViewModel();  //绑定命令所在的viewmodel
-              IList<Device> curentDevicesList = DevicesManager.getCurrentDeviceListInstance();  //查看当前的设备清单列表
-              if (curentDevicesList != null)
+              IList<Device> currentDevicesList = DevicesManager.getCurrentDeviceListInstance();  //查看当前的设备清单列表
+              if (currentDevicesList != null)
               {
-                  curentDevicesList.Clear();
+                  currentDevicesList.Clear();
               }
               else 
               {
-                  curentDevicesList = new List<Device>();  
+                  currentDevicesList = new List<Device>();  
               }
               foreach (var obj in devicelist)
               {
                   Device device = obj as Device;
-                  curentDevicesList.Add(device);
+                  currentDevicesList.Add(device);
 
                   //1.构建设备菜单组
                   NavBarGroup deviceGroup = buildDeviceNavBarGroup(device);
@@ -188,7 +190,7 @@ namespace CardWorkbench.ViewModels
 
                   menuNavBarControl.Groups.Add(deviceGroup);    //设置设备菜单组到菜单控件
               }
-              DevicesManager.setCurrentDeviceList(curentDevicesList);  //设置到全局变量
+              DevicesManager.setCurrentDeviceList(currentDevicesList);  //设置到全局变量
           }
           cardMenuPanel.Content = cardMenu; //添加到页面
           FrameworkElement root = LayoutHelper.GetRoot(cardMenuPanel);
@@ -196,6 +198,9 @@ namespace CardWorkbench.ViewModels
           RibbonControl ribbonControl = (RibbonControl)LayoutHelper.FindElementByName(root, RIBBONCONTROL_NAME);
           RibbonPage ribbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_TOOLS_NAME) as RibbonPage;
           ribbonPage.IsEnabled = true;
+
+          DeviceStatusManageThread thread_worker = new DeviceStatusManageThread(menuNavBarControl);  //启动获取通道状态线程
+
       }
 
       /// <summary>
@@ -228,10 +233,10 @@ namespace CardWorkbench.ViewModels
       private NavBarItem buildChannelNavBarItem(Device device, Channel channel, CardMenuConfigViewModel cardMenuViewModel, NavBarControl menuNavBarControl)
       {
               NavBarItem channelItem = new NavBarItem();
-              string itemID = channel.channelID;
-              string itemName = NAVBARITEM_CHANNEL_NAME_PREFIX + channel.channelID; //通道item名称
+              string itemID = device.deviceID + "-" + channel.channelID;
+              string itemName = NAVBARITEM_CHANNEL_NAME_PREFIX + device.deviceID + channel.channelID; //通道item名称
               string navbarItem_channel_image_uri_path = channel.channelStatus == null ?    //菜单项图标名称
-                  NAVBARITEM_CHANNEL_OFF_URI_PATH : (channel.channelStatus.bRun == 1 ?
+                  NAVBARITEM_CHANNEL_OFF_URI_PATH : (channel.channelStatus.bRun == CHANNELSTATUS_BRUN_ON ?
                   NAVBARITEM_CHANNEL_ON_URI_PATH : NAVBARITEM_CHANNEL_OFF_URI_PATH);
               
               //设置菜单项属性
@@ -276,6 +281,7 @@ namespace CardWorkbench.ViewModels
           item.Command = item_Bind_Command;
           item.CommandParameter = command_Paramter;
           StackPanel stackPanel = new StackPanel();
+          stackPanel.Name = item_Name + NAVBARITEM_STACKPANEL_NAME_SUBFIX;
           stackPanel.Orientation = Orientation.Horizontal;
           stackPanel.HorizontalAlignment = HorizontalAlignment.Left;
           Image image = new Image();

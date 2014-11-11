@@ -55,19 +55,23 @@ namespace CardWorkbench.Utils
         /// <summary>
         /// 根据ID查找通道
         /// </summary>
+        /// <param name="deviceID">设备ID</param>
         /// <param name="channelID">通道ID</param>
         /// <returns>通道对象</returns>
-        public static Channel getChannelByID(string channelID)
+        public static Channel getChannelByID(string deviceID, string channelID)
         {
             if (devicelist != null)
             {
                 foreach (Device device in devicelist)
                 {
-                    foreach (Channel channel in device.channelList)
+                    if (deviceID.Equals(device.deviceID))
                     {
-                        if (channelID.Equals(channel.channelID))
+                        foreach (Channel channel in device.channelList)
                         {
-                            return channel;
+                            if (channelID.Equals(channel.channelID))
+                            {
+                                return channel;
+                            }
                         }
                     }
                 }
