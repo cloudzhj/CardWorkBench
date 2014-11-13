@@ -70,6 +70,9 @@ namespace CardWorkbench.ViewModels
       public static readonly int CHANNELSTATUS_BRUN_ON = 1; //通道“运行”状态
       public static readonly string LABEL_NAVBARITEM_ON = " (运行中)";    //菜单项文本状态"运行"
       public static readonly string LABEL_NAVBARITEM_OFF = " (停止)";   //菜单项文本状态"停止"
+      public static readonly string LABEL_NAVBARITEM_SIMULATOR_RUNA = " (运行A模式)";   //模拟器菜单项文本状态"RUNA"
+      public static readonly string LABEL_NAVBARITEM_SIMULATOR_RUNB = " (运行B模式)";   //模拟器菜单项文本状态"RUNB"
+      public static readonly string LABEL_NAVBARITEM_SIMULATOR_INSERTFRAME = " (运行插入帧模式)";   //模拟器菜单项文本状态"INSERTFRAME"
       public static readonly string NAVBARITEM_SIMULATOR_OFF_URI_PATH = "pack://application:,,,/Images/simulator_off.png"; //模拟器菜单项状态"关闭"图标资源路径
       public static readonly string NAVBARITEM_SIMULATOR_ON_URI_PATH = "pack://application:,,,/Images/simulator_on.png"; //模拟器菜单项状态"关闭"图标资源路径
 
@@ -199,8 +202,7 @@ namespace CardWorkbench.ViewModels
           RibbonPage ribbonPage = ribbonControl.Manager.FindName(RIBBONPAGE_TOOLS_NAME) as RibbonPage;
           ribbonPage.IsEnabled = true;
 
-          //DeviceStatusManageThread thread_worker = new DeviceStatusManageThread(menuNavBarControl);  //启动获取通道状态线程
-          DeviceStatusManageThread.initDeviceStatusManageThread(menuNavBarControl); //启动获取通道状态线程
+          DeviceStatusManageThread.initDeviceStatusManageThread(menuNavBarControl); //启动获取设备状态线程
       }
 
       /// <summary>

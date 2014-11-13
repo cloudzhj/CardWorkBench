@@ -1,4 +1,5 @@
 ﻿using CardWorkbench.Models;
+using CardWorkbench.test;
 using CardWorkbench.Utils;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core.Native;
@@ -46,51 +47,21 @@ namespace CardWorkbench.ViewModels.CommonTools
 
         private IList<Device> findDeviceByJson() {
             List<Device> hardwareList = new List<Device>();
-            string json = @"{
-                            'device': [
-                                {
-                                    'deviceID': 1,
-                                    'deviceModel': '1626P',
-                                    'channelList': [
-                                        {
-                                            'channelID': 1,
-                                            'channelName': '通道1'
-                                        },
-                                        {
-                                            'channelID': 2,
-                                            'channelName': '通道2'
-                                        }
-                                    ],
-                                    'simulator': {
-                                        'simulatorID': 1,
-                                        'simulatorName': '模拟器'
-                                    }
-                                },
-                                { 
-                                    'deviceID': 2,
-                                    'deviceModel': '1000P',
-                                    'channelList': [
-                                        {
-                                            'channelID': 1,
-                                            'channelName': '通道1'
-                                        },
-                                        {
-                                            'channelID': 2,
-                                            'channelName': '通道2'
-                                        },
-                                        {
-                                            'channelID': 3,
-                                            'channelName': '通道3'
-                                        },
-                                        {
-                                            'channelID': 4,
-                                            'channelName': '通道4'
-                                        }
-                                    ],
-                                    'simulator': null
-                                }
-                            ]
-                        }";
+            string json = "";
+
+            //try
+            //{
+            //    Acro.ACRO1626P acro1626P = new Acro.ACRO1626P();
+            //    json = acro1626P.scanDevice();
+            //}
+            //catch (System.ApplicationException ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //    return null;
+            //}
+
+            json = DeviceScanSimTest.simDeviceJsonStr();
+
             var str = JObject.Parse(json).SelectToken("device").ToString();
             hardwareList = JsonConvert.DeserializeObject<List<Device>>(str);
             //设置设备描述
@@ -122,6 +93,7 @@ namespace CardWorkbench.ViewModels.CommonTools
         /// 从xml查找设备清单
         /// </summary>
         /// <returns>返回设备清单列表</returns>
+        /**
         private static IList<Device> findDeviceByXml()
         {
             List<Device> hardwareList = new List<Device>();
@@ -211,6 +183,7 @@ namespace CardWorkbench.ViewModels.CommonTools
 
             return hardwareList;
         }
+         */
 
     }
 }

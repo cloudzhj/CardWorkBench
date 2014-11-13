@@ -14,7 +14,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <ExpressionBlendVersion>12.0.41002.1</ExpressionBlendVersion>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>D:\testPackage\</PublishUrl>
     <Install>true</Install>
@@ -44,7 +45,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -52,6 +53,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>DB613C36B4CB63F2C8A5589AB55E75FDB3AE7EC9</ManifestCertificateThumbprint>
@@ -154,6 +157,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AcroInterface\ACRO1626P.cs" />
+    <Compile Include="AcroInterface\libacro1626pPINVOKE.cs" />
     <Compile Include="Converters\DialogSizeConverter.cs" />
     <Compile Include="DXSplashScreen\MainSplashScreen.xaml.cs">
       <DependentUpon>MainSplashScreen.xaml</DependentUpon>
@@ -161,11 +166,13 @@
     <Compile Include="DXSplashScreen\SplashScreenView.xaml.cs" />
     <Compile Include="Models\CalibrateType.cs" />
     <Compile Include="Models\Channel.cs" />
+    <Compile Include="Models\SimulatorStatus.cs" />
     <Compile Include="Models\ChannelStatus.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Param.cs" />
     <Compile Include="Models\paramSortType.cs" />
     <Compile Include="Models\Simulator.cs" />
+    <Compile Include="test\DeviceScanSimTest.cs" />
     <Compile Include="Utils\DeviceStatusManageThread.cs" />
     <Compile Include="Utils\DevicesManager.cs" />
     <Compile Include="Utils\NavBarDragDropHelper.cs" />
@@ -372,12 +379,14 @@
     <Content Include="DLL\DevExpress.Xpf.Gauges.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Grid.v14.1.Core.dll" />
     <Content Include="DLL\DevExpress.Xpf.Grid.v14.1.dll" />
+    <Content Include="DLL\DevExpress.Xpf.Grid.v14.1.Extensions.dll" />
     <Content Include="DLL\DevExpress.Xpf.Layout.v14.1.Core.dll" />
     <Content Include="DLL\DevExpress.Xpf.LayoutControl.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.NavBar.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Printing.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Ribbon.v14.1.dll" />
     <Content Include="DLL\DevExpress.Xpf.Themes.Office2013DarkGray.v14.1.dll" />
+    <Content Include="DLL\libacro1626p.dll" />
     <Content Include="DLL\Microsoft.Expression.Drawing.dll" />
     <Resource Include="Images\channel_off.png" />
     <Resource Include="Images\channel_on.png" />
@@ -712,9 +721,7 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="test\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

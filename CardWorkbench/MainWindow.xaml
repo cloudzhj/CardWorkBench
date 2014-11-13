@@ -269,10 +269,12 @@
                                         <TextBlock></TextBlock>
                                     </StackPanel>
                                 </dxdo:LayoutPanel>-->
-                                <dxdo:LayoutPanel Name="findPanel" Caption="日志" >
+                                <dxdo:LayoutPanel Name="logPanel" Caption="日志" >
                                     <!--CaptionImage="/DockingDemo;component/Images/Find_16x16.png"-->
-                                    <StackPanel Background="White" x:Name="findList">
-                                        <TextBlock>Matching lines: 0    Matching files: 0    Total files searched: 61</TextBlock>
+                                    <StackPanel Background="White" x:Name="logStackPanel">
+                                        <TextBlock>
+                                            xxxxx
+                                        </TextBlock>
                                     </StackPanel>
                                 </dxdo:LayoutPanel>
                             </dxdo:AutoHideGroup>

@@ -43,6 +43,8 @@ namespace CardWorkbench.Models
 
         //帧同步状态
         [JsonConverter(typeof(StringEnumConverter))]
-        public enum MCFS_SYNC_STATUS { Search, Verify, Lock };
+        public MCFSSYNCSTATUS MCFS_SYNC_STATUS { get; set; }
+
+        public enum MCFSSYNCSTATUS { SEARCH, VERIFY, LOCK };
     }
 }

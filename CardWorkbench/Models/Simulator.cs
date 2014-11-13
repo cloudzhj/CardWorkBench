@@ -19,5 +19,8 @@ namespace CardWorkbench.Models
         //模拟器名称
         [JsonProperty("simulatorName")]
         public string simulatorName { get; set; }
+
+        //模拟器状态
+        public SimulatorStatus simulatorStatus { get; set; }
     }
 }
