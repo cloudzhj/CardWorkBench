@@ -34,7 +34,7 @@
                 </DataTemplate>
             </dx:DialogService.ViewTemplate>
             <dx:DialogService.DialogStyle>
-                <Style TargetType="dx:DXDialogWindow">
+                <Style  TargetType="dx:DXDialogWindow">
                     <!-- 不设置dialog宽高，会自动调整窗口大小
                     <Setter Property="Width" Value="640" />
                     <Setter Property="Height" Value="480" />
